@@ -15,8 +15,23 @@ Game::Game(int w, int h, char *n) : gameWindow(sf::VideoMode(w, h), n),
                                     isRunning(true)
 {
 }
+void Game::setWindowSize(int width,int height){
+    sf::Vector2u size;
+    size.x = width;
+    size.y = height;
+    gameWindow.setSize(size);
+}
+void Game::setWindowTitle(char *title){
+    gameWindow.setTitle(title);
+}
+void Game::setFrameRate(float seconds)
+{
+    timePerFrame = sf::seconds(1.f/seconds);
+}
 
-// TODO : improve the timestep loop with panic check, bells and whistles, etc ...
+// TODO : Re-evaluate loop
+// TODO : Panic check
+// TODO : interpolation
 void Game::run()
 {
     sf::Clock clock;
@@ -24,7 +39,15 @@ void Game::run()
     while (isRunning)
     {
         processEvents();
-        timeSinceLastUpdate += clock.restart();
+        sf::Time dt = clock.restart();
+        // * simple panic check which caps the difference to one second
+        // * refactor it to actually handle a panic to revert to a determinable state instead of clamping
+        // * need to test the effect of clamping vs panic handling
+        if(dt.asSeconds() > 1.f)
+        {
+            dt = sf::seconds(1.f);
+        }
+        timeSinceLastUpdate += dt;
         while (timeSinceLastUpdate > timePerFrame)
         {
             timeSinceLastUpdate -= timePerFrame;
