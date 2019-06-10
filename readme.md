@@ -27,9 +27,7 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
 - [ ] Game System
 - [ ] Resource Manager
   - [ ] Textures
-  - [ ] Fonts
 - [ ] Input Manager
-- [ ] Text display System
 
 
 

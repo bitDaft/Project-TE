@@ -1,4 +1,4 @@
-#include <Game.hpp>
+#include "Game.hpp"
 
 #define DEFAULT_FRAME_RATE (1.f / 120.f)
 #define DEFAULT_SCREEN_WIDTH 640
