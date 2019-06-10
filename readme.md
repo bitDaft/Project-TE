@@ -24,7 +24,7 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
 ## Requirements 
 
 
-- [ ] Game System
+- [x] Game System
 - [ ] Resource Manager
   - [ ] Textures
 - [ ] Input Manager
