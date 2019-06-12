@@ -5,45 +5,52 @@
 #define DEFAULT_SCREEN_HEIGHT 480
 #define DEFAULT_GAME_NAME ("Application 1")
 
+// Default constructor
 Game::Game() : gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
                timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
                isRunning(true)
 {
 }
+// Constructor
 Game::Game(int w, int h, char *n) : gameWindow(sf::VideoMode(w, h), n),
                                     timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
                                     isRunning(true)
 {
 }
-void Game::setWindowSize(int width,int height){
+
+void Game::setWindowSize(int width, int height)
+{
     sf::Vector2u size;
     size.x = width;
     size.y = height;
     gameWindow.setSize(size);
 }
-void Game::setWindowTitle(char *title){
+
+void Game::setWindowTitle(char *title)
+{
     gameWindow.setTitle(title);
 }
+
 void Game::setFrameRate(float seconds)
 {
-    timePerFrame = sf::seconds(1.f/seconds);
+    timePerFrame = sf::seconds(1.f / seconds);
 }
 
-// TODO : Re-evaluate loop
-// TODO : Panic check
-// TODO : interpolation
 void Game::run()
 {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    // todo: Re-evaluate loop
+    // todo: Panic check
+    // todo: interpolation
     while (isRunning)
     {
         processEvents();
         sf::Time dt = clock.restart();
-        // * simple panic check which caps the difference to one second
-        // * refactor it to actually handle a panic to revert to a determinable state instead of clamping
-        // * need to test the effect of clamping vs panic handling
-        if(dt.asSeconds() > 1.f)
+        // ^simple panic check which caps the difference to 1 second
+        // ^refactor it to actually handle a panic to revert to a determinable state instead of clamping
+        // ^need to test the effect of clamping vs panic handling
+        if (dt.asSeconds() > 1.f)
         {
             dt = sf::seconds(1.f);
         }
@@ -54,7 +61,10 @@ void Game::run()
             processEvents();
             update(timePerFrame);
         }
-        render();
+        // todo: calculate the interpolation from the remaning time and pass it onto render so as to obtain the intermediary state
+        // ?Instead of sending remaning time, why not send an interpolation ration between [0,1]
+        sf::Time remaining_time = sf::Time::Zero; // replace with the calculated time
+        render(remaining_time);
     }
 }
 
@@ -80,11 +90,11 @@ void Game::processEvents()
     }
 }
 
-void Game::update(sf::Time deltaTime)
+void Game::update(sf::Time dt)
 {
 }
 
-void Game::render()
+void Game::render(sf::Time dt)
 {
     gameWindow.clear();
     gameWindow.display();
