@@ -12,7 +12,7 @@ public:
     // Setup the game "engine" dependant stuff like the window and its options
 
     Game();
-    Game(int wndWidth, int wndHeight, char *wndName);
+    Game(const int wndWidth, const int wndHeight, const char *wndName);
 
     // Utility fuctions
 
@@ -22,19 +22,19 @@ public:
      * @param height the new height of the window
      * @return void
      */
-    void setWindowSize(int width, int height);
+    void setWindowSize(const int width, const int height);
     /**
      * Sets the title of the window 
      * @param title the new title of the window
      * @return void
      */
-    void setWindowTitle(char *title);
+    void setWindowTitle(const char *title);
     /**
      * Sets the framerate of the game loop 
      * @param seconds the new frame rate in seconds
      * @return void
      */
-    void setFrameRate(float seconds);
+    void setFrameRate(const float seconds);
 
     /**
      * Starts the game loop 
@@ -64,13 +64,13 @@ private:
      * @param sf::Time The step time need to update the game state by
      * @return void
      */
-    void update(sf::Time);
+    void update(const sf::Time);
     /**
      * The display function of the game 
      * @param sf::Time The remaining delta time to render an interpolated state
      * @return void
      */
-    void render(sf::Time);
+    void render(const sf::Time);
 
 private:
     sf::RenderWindow gameWindow;
