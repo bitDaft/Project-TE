@@ -6,15 +6,17 @@
 #define DEFAULT_GAME_NAME ("Application 1")
 
 // Default constructor
-Game::Game() : gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
-               timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-               isRunning(true)
+Game::Game()
+    : gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
+      timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
+      isRunning(true), player(), textureManager(), handles()
 {
 }
 // Constructor
-Game::Game(const int w, const  int h, const char *n) : gameWindow(sf::VideoMode(w, h), n),
-                                    timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-                                    isRunning(true)
+Game::Game(const int w, const int h, const char *n)
+    : gameWindow(sf::VideoMode(w, h), n),
+      timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
+      isRunning(true), player(), textureManager(), handles()
 {
 }
 
@@ -40,6 +42,7 @@ void Game::run()
 {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    init();
     // todo: Re-evaluate loop
     // todo: Panic check
     // todo: interpolation
@@ -90,12 +93,23 @@ void Game::processEvents()
     }
 }
 
+void Game::init()
+{
+    unsigned int playerTexture = textureManager.loadTexture("assets/player.png");
+    handles.insert(std::make_pair(RESOURCE::PLAYER, playerTexture));
+    player.setTexture(textureManager.getTexture(playerTexture));
+    // -player.setPosition(100.f, 100.f);
+    // -player.setScale(2.f, 2.f);
+}
+
 void Game::update(const sf::Time dt)
 {
 }
 
 void Game::render(const sf::Time dt)
 {
+    // there will be calculation here to determine the intermediary positions
     gameWindow.clear();
+    gameWindow.draw(player);
     gameWindow.display();
 }

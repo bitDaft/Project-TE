@@ -2,6 +2,15 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
+#include <map>
+#include "ResourceManager.hpp"
+
+
+enum class RESOURCE {
+    PLAYER
+};
+
+
 /** 
  * An instance of the game
  * ^ The game class will have to be inherited to create a new actual game
@@ -77,6 +86,9 @@ private:
     sf::RenderWindow gameWindow;
     sf::Time timePerFrame;
     bool isRunning;
+    sf::Sprite player;
+    ResourceManager textureManager;
+    std::map<RESOURCE,unsigned int> handles;
 };
 
 #endif
