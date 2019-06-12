@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_HPP
+#define GAME_HPP
 
 #include <SFML/Graphics.hpp>
 /** 
@@ -77,3 +78,5 @@ private:
     sf::Time timePerFrame;
     bool isRunning;
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RESOURCEMANAGER_HPP
+#define RESOURCEMANAGER_HPP
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -20,3 +21,4 @@ private:
     std::unordered_map<unsigned int, texPtr> _resourceMap;
     static unsigned int id;
 };
+#endif
