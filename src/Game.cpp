@@ -12,13 +12,13 @@ Game::Game() : gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEI
 {
 }
 // Constructor
-Game::Game(int w, int h, char *n) : gameWindow(sf::VideoMode(w, h), n),
+Game::Game(const int w, const  int h, const char *n) : gameWindow(sf::VideoMode(w, h), n),
                                     timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
                                     isRunning(true)
 {
 }
 
-void Game::setWindowSize(int width, int height)
+void Game::setWindowSize(const int width, const int height)
 {
     sf::Vector2u size;
     size.x = width;
@@ -26,12 +26,12 @@ void Game::setWindowSize(int width, int height)
     gameWindow.setSize(size);
 }
 
-void Game::setWindowTitle(char *title)
+void Game::setWindowTitle(const char *title)
 {
     gameWindow.setTitle(title);
 }
 
-void Game::setFrameRate(float seconds)
+void Game::setFrameRate(const float seconds)
 {
     timePerFrame = sf::seconds(1.f / seconds);
 }
@@ -90,11 +90,11 @@ void Game::processEvents()
     }
 }
 
-void Game::update(sf::Time dt)
+void Game::update(const sf::Time dt)
 {
 }
 
-void Game::render(sf::Time dt)
+void Game::render(const sf::Time dt)
 {
     gameWindow.clear();
     gameWindow.display();
