@@ -6,7 +6,7 @@
 #include "ResourceManager.hpp"
 
 
-enum class RESOURCE {
+enum class TEXTURE {
     PLAYER
 };
 
@@ -88,7 +88,7 @@ private:
     bool isRunning;
     sf::Sprite player;
     ResourceManager textureManager;
-    std::map<RESOURCE,unsigned int> handles;
+    std::map<TEXTURE,unsigned int> handles;
 };
 
 #endif

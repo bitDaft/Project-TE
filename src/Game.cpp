@@ -96,10 +96,8 @@ void Game::processEvents()
 void Game::init()
 {
     unsigned int playerTexture = textureManager.loadTexture("assets/player.png");
-    handles.insert(std::make_pair(RESOURCE::PLAYER, playerTexture));
+    handles.insert(std::make_pair(TEXTURE::PLAYER, playerTexture));
     player.setTexture(textureManager.getTexture(playerTexture));
-    // -player.setPosition(100.f, 100.f);
-    // -player.setScale(2.f, 2.f);
 }
 
 void Game::update(const sf::Time dt)
