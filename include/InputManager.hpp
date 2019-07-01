@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 2:17:35 am
+ * Last Modified: Tuesday July 2nd 2019 2:45:35 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -13,18 +13,19 @@
 #define INPUTMANAGER_HPP
 
 #include "ActionMapper.hpp"
-#include <stack>
+#include <vector>
 #include <SFML/Window/Event.hpp>
+#include <Entity.hpp>
 
 class InputManager : private sf::NonCopyable
 {
 public:
-  InputManager();
+  InputManager(Entity *);
   ~InputManager();
 
   void setActionMapper(ActionMapper *);
   void processInputsRealtime();
-  void processInputsEvent(sf::Event &);
+  void processInputsEvent(sf::Event::KeyEvent &);
   // template <auto T>
   // void bindActionToReaction(unsigned int action)
   // {
@@ -43,8 +44,7 @@ private:
   // it has a actionmapper obj
   // it contains a stack
   ActionMapper *_actionMapper;
-  std::stack<ActionMapper> _itemList;
-
+  std::vector<std::shared_ptr<Entity>> _itemList;
 };
 
 #endif

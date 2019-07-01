@@ -4,14 +4,13 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 2:02:38 am
+ * Last Modified: Tuesday July 2nd 2019 2:38:07 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
  */
 
 #include "ReactionMapper.hpp"
-#include <iostream>
 
 ReactionMapper::ReactionMapper(sf::RenderWindow &w, void *o) : wind(w), objThis(o) {}
 ReactionMapper::~ReactionMapper() {}
