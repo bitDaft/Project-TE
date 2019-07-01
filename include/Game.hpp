@@ -1,3 +1,15 @@
+/*
+ * File: Game.hpp
+ * Project: Project-TE
+ * Created Date: Sunday June 9th 2019
+ * Author: bitDaft
+ * -----
+ * Last Modified: Friday June 28th 2019 12:14:16 pm
+ * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * -----
+ * Copyright (c) 2019 bitDaft coorp.
+ */
+
 #ifndef GAME_HPP
 #define GAME_HPP
 
@@ -5,11 +17,10 @@
 #include <map>
 #include "ResourceManager.hpp"
 
-
-enum class TEXTURE {
+enum class TEXTURE
+{
     PLAYER
 };
-
 
 /** 
  * An instance of the game
@@ -88,7 +99,7 @@ private:
     bool isRunning;
     sf::Sprite player;
     ResourceManager textureManager;
-    std::map<TEXTURE,unsigned int> handles;
+    std::map<TEXTURE, unsigned int> handles;
 };
 
 #endif
