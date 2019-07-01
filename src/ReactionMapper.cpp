@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday July 1st 2019 6:03:44 pm
+ * Last Modified: Tuesday July 2nd 2019 1:53:17 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -13,7 +13,7 @@
 #include "ReactionMapper.hpp"
 #include <iostream>
 
-ReactionMapper::ReactionMapper(sf::RenderWindow &w) : wind(w) {}
+ReactionMapper::ReactionMapper(sf::RenderWindow &w, void *o) : wind(w), objThis(o) {}
 ReactionMapper::~ReactionMapper() {}
 
 // void ReactionMapper::bindActionToReaction(unsigned int action, void (*callback)(sf::RenderWindow &, sf::Event &))
