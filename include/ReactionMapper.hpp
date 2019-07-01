@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 1:56:38 am
+ * Last Modified: Tuesday July 2nd 2019 2:02:40 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -37,8 +37,6 @@ class ReactionMapper : private sf::NonCopyable
 public:
   ReactionMapper(sf::RenderWindow &, void *);
   ~ReactionMapper();
-
-  // ^No idea what a input callback function is supposed to do though
 
   template <auto T>
   void bindActionToReaction(unsigned int action)
