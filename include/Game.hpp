@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday June 28th 2019 12:14:16 pm
+ * Last Modified: Tuesday July 2nd 2019 2:38:07 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -15,6 +15,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
+#include <Entity.hpp>
+#include <InputManager.hpp>
 #include "ResourceManager.hpp"
 
 enum class TEXTURE
@@ -27,7 +29,7 @@ enum class TEXTURE
  * ^ The game class will have to be inherited to create a new actual game
  * ^ Currently it does not behave as such and the logic is written directly in the class files
 */
-class Game : private sf::NonCopyable
+class Game : private sf::NonCopyable, private Entity
 {
 public:
     // Setup the game "engine" dependant stuff like the window and its options
@@ -100,6 +102,7 @@ private:
     sf::Sprite player;
     ResourceManager textureManager;
     std::map<TEXTURE, unsigned int> handles;
+    InputManager inpMan;
 };
 
 #endif

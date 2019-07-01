@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday June 28th 2019 12:05:43 pm
+ * Last Modified: Tuesday July 2nd 2019 2:38:07 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -21,7 +21,7 @@
 Game::Game()
     : gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-      isRunning(true), player(), textureManager(), handles()
+      isRunning(true), player(), textureManager(), handles(), inpMan(this)
 {
     gameWindow.setKeyRepeatEnabled(false);
 }
@@ -29,7 +29,7 @@ Game::Game()
 Game::Game(const int w, const int h, const char *n)
     : gameWindow(sf::VideoMode(w, h), n),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-      isRunning(true), player(), textureManager(), handles()
+      isRunning(true), player(), textureManager(), handles(), inpMan(this)
 {
     gameWindow.setKeyRepeatEnabled(false);
 }
