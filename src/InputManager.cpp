@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 9:51:30 am
+ * Last Modified: Wednesday July 3rd 2019 2:01:58 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -12,7 +12,7 @@
 
 #include "InputManager.hpp"
 
-InputManager::InputManager(Entity *game) : _actionMapper(0), _itemList()
+InputManager::InputManager(Entity *game, ActionMapper *aMap) : _itemList(), _actionMapper(aMap)
 {
   gameEntity = game;
 }
@@ -37,13 +37,20 @@ void InputManager::popEntity()
 void InputManager::processInputsRealtime() {}
 void InputManager::processInputsEvent(sf::Event &e)
 {
-  unsigned int t = _actionMapper->getBoundAction(e.key.code);
-  for (auto entity : _itemList)
+  int action = _actionMapper->getBoundAction(e.key.code, e.type);
+  if (action == -1)
+    return;
+  bool passThrough = true;
+  for (std::vector<Entity *>::reverse_iterator it = _itemList.rbegin(); it != _itemList.rend(); ++it)
   {
-    if (!(entity->_reactionMapper->executeCallback(t, e)))
+    if (!((*it)->_reactionMapper->executeCallback(action, e)))
     {
+      passThrough = false;
       break;
     }
   }
-  gameEntity->_reactionMapper->executeCallback(t, e);
+  if (passThrough)
+  {
+    gameEntity->_reactionMapper->executeCallback(action, e);
+  }
 }

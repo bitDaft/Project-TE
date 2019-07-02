@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 9:23:16 am
+ * Last Modified: Wednesday July 3rd 2019 2:38:37 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -17,14 +17,12 @@
 #include <stack>
 #include <SFML/Window/Event.hpp>
 
-class Entity 
+class Entity
 {
 public:
-  ReactionMapper *_reactionMapper;
-  Entity();
+  Entity(void *);
   ~Entity();
-
-private:
+  ReactionMapper *_reactionMapper;
 };
 
 #endif

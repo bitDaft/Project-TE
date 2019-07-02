@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 8:36:38 am
+ * Last Modified: Wednesday July 3rd 2019 2:31:43 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -12,27 +12,25 @@
 
 #include "ReactionMapper.hpp"
 
-ReactionMapper::ReactionMapper(sf::RenderWindow &w, void *o) : wind(w), objThis(o) {}
+ReactionMapper::ReactionMapper(void *obj) : objThis(obj) {}
 ReactionMapper::~ReactionMapper() {}
-
-void ReactionMapper::bindActionToReaction(unsigned int action, delegate callback)
-{
-  _reactionMap[action] = callback;
-}
 
 bool ReactionMapper::executeCallback(unsigned int action, sf::Event &ev)
 {
   std::map<unsigned int, delegate>::iterator iter = _reactionMap.find(action);
   if (iter != _reactionMap.end())
   {
-    return (iter->second(wind, ev));
+    return (iter->second(ev));
   }
-  return true;
+  else
+  {
+    return true;
+  }
 }
 
-void ReactionMapper::clearBinding(unsigned int key)
+void ReactionMapper::clearBinding(unsigned int action)
 {
-  _reactionMap.erase(key);
+  _reactionMap.erase(action);
 }
 
 void ReactionMapper::clearAllBinding()

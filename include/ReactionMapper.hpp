@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 8:36:38 am
+ * Last Modified: Wednesday July 3rd 2019 2:31:43 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -15,8 +15,6 @@
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <map>
 #include "Delegate.hpp"
@@ -34,7 +32,7 @@ struct point_to_mem<T C::*>
 class ReactionMapper : private sf::NonCopyable
 {
 public:
-  ReactionMapper(sf::RenderWindow &, void *);
+  ReactionMapper(void *);
   ~ReactionMapper();
 
   template <auto T>
@@ -44,16 +42,14 @@ public:
     className *tthis = static_cast<className *>(objThis);
     _reactionMap[action] = delegate::from_method<className, T>(tthis);
   }
-  void bindActionToReaction(unsigned int action, delegate callback);
   bool executeCallback(unsigned int action, sf::Event &event);
 
-  void clearBinding(unsigned int key);
+  void clearBinding(unsigned int action);
 
   void clearAllBinding();
 
 private:
   std::map<unsigned int, delegate> _reactionMap;
-  sf::RenderWindow &wind;
   void *objThis;
 };
 
