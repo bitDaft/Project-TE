@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 9:51:30 am
+ * Last Modified: Tuesday July 2nd 2019 3:21:09 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -23,7 +23,10 @@ void InputManager::setActionMapper(ActionMapper *aMap)
 }
 void InputManager::pushEntity(Entity *e)
 {
-  _itemList.push_back(e);
+  if (e->_reactionMapper)
+  {
+    _itemList.push_back(e);
+  }
 }
 void InputManager::replaceEntity(Entity *e)
 {
@@ -37,13 +40,18 @@ void InputManager::popEntity()
 void InputManager::processInputsRealtime() {}
 void InputManager::processInputsEvent(sf::Event &e)
 {
-  unsigned int t = _actionMapper->getBoundAction(e.key.code);
-  for (auto entity : _itemList)
+  unsigned int action = _actionMapper->getBoundAction(e.key.code,e.type);
+  bool passThrough = true;
+  for (std::vector<Entity *>::reverse_iterator it = _itemList.rbegin(); it != _itemList.rend(); ++it)
   {
-    if (!(entity->_reactionMapper->executeCallback(t, e)))
+    if (!((*it)->_reactionMapper->executeCallback(action, e)))
     {
+      passThrough = false;
       break;
     }
   }
-  gameEntity->_reactionMapper->executeCallback(t, e);
+  if (passThrough)
+  {
+    gameEntity->_reactionMapper->executeCallback(action, e);
+  }
 }

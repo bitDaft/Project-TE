@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 9:56:33 am
+ * Last Modified: Tuesday July 2nd 2019 3:13:02 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -18,6 +18,12 @@
 #define DEFAULT_SCREEN_HEIGHT 480
 #define DEFAULT_GAME_NAME ("Application 1")
 
+bool Game::quit(sf::RenderWindow &, sf::Event &)
+{
+    isRunning = false;
+    gameWindow.close();
+    return false;
+}
 bool Game::moveu(sf::RenderWindow &, sf::Event &)
 {
     player.move({0.f, -1.f});
@@ -136,18 +142,13 @@ void Game::processEvents()
             gameWindow.close();
             break;
         case sf::Event::KeyPressed:
-            if (event.key.code == sf::Keyboard::Escape)
-            {
-                isRunning = false;
-                gameWindow.close();
-            }
-            else
-            {
-                _inputManager.processInputsEvent(event);
-            }
-
-            break;
         case sf::Event::KeyReleased:
+            // case sf::Event::MouseButtonPressed:
+            // case sf::Event::MouseButtonReleased:
+            // case sf::Event::MouseMoved:
+            // case sf::Event::MouseWheelScrolled:
+            // case sf::Event::MouseWheelMoved:
+            _inputManager.processInputsEvent(event);
             break;
 
         default:
@@ -161,14 +162,19 @@ void Game::init()
     unsigned int playerTexture = textureManager.loadTexture("assets/player.png");
     handles.insert(std::make_pair(TEXTURE::PLAYER, playerTexture));
     player.setTexture(textureManager.getTexture(playerTexture));
-    _aMapper.bindInputToAction(sf::Keyboard::Down, 1);
-    _aMapper.bindInputToAction(sf::Keyboard::Up, 2);
-    _aMapper.bindInputToAction(sf::Keyboard::Left, 3);
-    _aMapper.bindInputToAction(sf::Keyboard::Right, 4);
+    _aMapper.bindInputToAction(sf::Keyboard::Down, sf::Event::KeyPressed, 1);
+    _aMapper.bindInputToAction(sf::Keyboard::Down, sf::Event::KeyReleased, 6);
+    _aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyPressed, 2);
+    _aMapper.bindInputToAction(sf::Keyboard::Left, sf::Event::KeyPressed, 3);
+    _aMapper.bindInputToAction(sf::Keyboard::Right, sf::Event::KeyPressed, 4);
+    _aMapper.bindInputToAction(sf::Keyboard::Escape, sf::Event::KeyPressed, 5);
+    // TODO: move evetn type to bining section for multiple binds
     _reactionMapper->bindActionToReaction<moved>(1);
+    _reactionMapper->bindActionToReaction<mover>(6);
     _reactionMapper->bindActionToReaction<moveu>(2);
     _reactionMapper->bindActionToReaction<movel>(3);
     _reactionMapper->bindActionToReaction<mover>(4);
+    _reactionMapper->bindActionToReaction<quit>(5);
 }
 
 void Game::update(const sf::Time dt)

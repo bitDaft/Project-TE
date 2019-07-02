@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 9:55:33 am
+ * Last Modified: Tuesday July 2nd 2019 12:21:44 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -76,6 +76,7 @@ public:
     bool moved(sf::RenderWindow &, sf::Event &);
     bool movel(sf::RenderWindow &, sf::Event &);
     bool mover(sf::RenderWindow &, sf::Event &);
+    bool quit(sf::RenderWindow &, sf::Event &);
 
 private:
     // todo: These functions to be made virtual so as to be overridden
