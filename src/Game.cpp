@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 5:06:52 pm
+ * Last Modified: Tuesday July 2nd 2019 5:26:36 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -22,21 +22,19 @@
 Game::Game()
     : gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-      isRunning(true), textureManager(), _aMapper(), _rMapper(gameWindow, this), _inputManager(this)
+      isRunning(true), textureManager(), _aMapper(), _rMapper(gameWindow, this), _inputManager(this, &_aMapper)
 {
     _reactionMapper = &_rMapper;
     gameWindow.setKeyRepeatEnabled(false);
-    _inputManager.setActionMapper(&_aMapper);
 }
 // Constructor
 Game::Game(const int w, const int h, const char *n)
     : gameWindow(sf::VideoMode(w, h), n),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-      isRunning(true), textureManager(), _aMapper(), _rMapper(gameWindow, this), _inputManager(this)
+      isRunning(true), textureManager(), _aMapper(), _rMapper(gameWindow, this), _inputManager(this, &_aMapper)
 {
     _reactionMapper = &_rMapper;
     gameWindow.setKeyRepeatEnabled(false);
-    _inputManager.setActionMapper(&_aMapper);
 }
 
 void Game::setWindowSize(const int width, const int height)
