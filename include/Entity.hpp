@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 2:48:59 am
+ * Last Modified: Tuesday July 2nd 2019 9:23:16 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -17,10 +17,10 @@
 #include <stack>
 #include <SFML/Window/Event.hpp>
 
-class Entity : private sf::NonCopyable
+class Entity 
 {
 public:
-  ReactionMapper *react;
+  ReactionMapper *_reactionMapper;
   Entity();
   ~Entity();
 
