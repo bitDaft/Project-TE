@@ -2,6 +2,7 @@
     "files.associations": {
         "unordered_map": "cpp",
         "xtree": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "utility": "cpp"
     }
 }

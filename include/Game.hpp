@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday June 28th 2019 12:14:16 pm
+ * Last Modified: Tuesday July 2nd 2019 9:55:33 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -15,6 +15,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
+#include "Entity.hpp"
+#include "InputManager.hpp"
+#include "ActionMapper.hpp"
 #include "ResourceManager.hpp"
 
 enum class TEXTURE
@@ -27,7 +30,7 @@ enum class TEXTURE
  * ^ The game class will have to be inherited to create a new actual game
  * ^ Currently it does not behave as such and the logic is written directly in the class files
 */
-class Game : private sf::NonCopyable
+class Game : private Entity, private sf::NonCopyable
 {
 public:
     // Setup the game "engine" dependant stuff like the window and its options
@@ -69,6 +72,10 @@ public:
      * ? Shouldn't this function also be made overridable
      */
     void init();
+    bool moveu(sf::RenderWindow &, sf::Event &);
+    bool moved(sf::RenderWindow &, sf::Event &);
+    bool movel(sf::RenderWindow &, sf::Event &);
+    bool mover(sf::RenderWindow &, sf::Event &);
 
 private:
     // todo: These functions to be made virtual so as to be overridden
@@ -100,6 +107,9 @@ private:
     sf::Sprite player;
     ResourceManager textureManager;
     std::map<TEXTURE, unsigned int> handles;
+    InputManager _inputManager;
+    ActionMapper _aMapper;
+    ReactionMapper _rMapper;
 };
 
 #endif
