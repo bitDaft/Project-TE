@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 5:06:52 pm
+ * Last Modified: Wednesday July 3rd 2019 1:18:39 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -30,6 +30,7 @@ class Game : public Entity, private sf::NonCopyable
 public:
     // Setup the game "engine" dependant stuff like the window and its options
 
+    ~Game();
     Game();
     Game(const int wndWidth, const int wndHeight, const char *wndName);
 
@@ -66,7 +67,7 @@ public:
      * Initializes the game to a known base state
      * ? Shouldn't this function also be made overridable
      */
-    bool quit(sf::RenderWindow &, sf::Event &);
+    bool quit(sf::Event &);
 
 private:
     virtual void init() = 0;
@@ -94,14 +95,13 @@ private:
     void render(const sf::Time);
 
 private:
-    sf::RenderWindow gameWindow;
     sf::Time timePerFrame;
     bool isRunning;
 
 protected:
+    sf::RenderWindow gameWindow;
     ResourceManager textureManager;
     ActionMapper _aMapper;
-    ReactionMapper _rMapper;
     InputManager _inputManager;
 };
 

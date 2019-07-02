@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 5:26:36 pm
+ * Last Modified: Wednesday July 3rd 2019 2:04:46 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -19,21 +19,22 @@
 #define DEFAULT_GAME_NAME ("Application 1")
 
 // Default constructor
-Game::Game()
-    : gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
-      timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-      isRunning(true), textureManager(), _aMapper(), _rMapper(gameWindow, this), _inputManager(this, &_aMapper)
+Game::~Game()
 {
-    _reactionMapper = &_rMapper;
+}
+Game::Game()
+    : Entity(this), gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
+      timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
+      isRunning(true), textureManager(), _aMapper(), _inputManager(this, &_aMapper)
+{
     gameWindow.setKeyRepeatEnabled(false);
 }
 // Constructor
 Game::Game(const int w, const int h, const char *n)
-    : gameWindow(sf::VideoMode(w, h), n),
+    : Entity(this), gameWindow(sf::VideoMode(w, h), n),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-      isRunning(true), textureManager(), _aMapper(), _rMapper(gameWindow, this), _inputManager(this, &_aMapper)
+      isRunning(true), textureManager(), _aMapper(), _inputManager(this, &_aMapper)
 {
-    _reactionMapper = &_rMapper;
     gameWindow.setKeyRepeatEnabled(false);
 }
 
@@ -129,7 +130,7 @@ void Game::processEvents()
         }
     }
 }
-bool Game::quit(sf::RenderWindow &, sf::Event &)
+bool Game::quit(sf::Event &)
 {
     isRunning = false;
     gameWindow.close();

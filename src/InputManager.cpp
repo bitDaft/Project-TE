@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 5:26:36 pm
+ * Last Modified: Wednesday July 3rd 2019 2:01:58 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -23,10 +23,7 @@ void InputManager::setActionMapper(ActionMapper *aMap)
 }
 void InputManager::pushEntity(Entity *e)
 {
-  if (e->_reactionMapper)
-  {
-    _itemList.push_back(e);
-  }
+  _itemList.push_back(e);
 }
 void InputManager::replaceEntity(Entity *e)
 {

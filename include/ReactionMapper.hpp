@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 2:23:36 pm
+ * Last Modified: Wednesday July 3rd 2019 2:31:43 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -32,7 +32,7 @@ struct point_to_mem<T C::*>
 class ReactionMapper : private sf::NonCopyable
 {
 public:
-  ReactionMapper(sf::RenderWindow &, void *);
+  ReactionMapper(void *);
   ~ReactionMapper();
 
   template <auto T>
@@ -44,13 +44,12 @@ public:
   }
   bool executeCallback(unsigned int action, sf::Event &event);
 
-  void clearBinding(unsigned int key);
+  void clearBinding(unsigned int action);
 
   void clearAllBinding();
 
 private:
   std::map<unsigned int, delegate> _reactionMap;
-  sf::RenderWindow &wind;
   void *objThis;
 };
 
