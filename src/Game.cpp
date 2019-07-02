@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 3:13:02 pm
+ * Last Modified: Tuesday July 2nd 2019 5:06:52 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -18,37 +18,11 @@
 #define DEFAULT_SCREEN_HEIGHT 480
 #define DEFAULT_GAME_NAME ("Application 1")
 
-bool Game::quit(sf::RenderWindow &, sf::Event &)
-{
-    isRunning = false;
-    gameWindow.close();
-    return false;
-}
-bool Game::moveu(sf::RenderWindow &, sf::Event &)
-{
-    player.move({0.f, -1.f});
-    return false;
-}
-bool Game::moved(sf::RenderWindow &, sf::Event &)
-{
-    player.move({0.f, 1.f});
-    return false;
-}
-bool Game::movel(sf::RenderWindow &, sf::Event &)
-{
-    player.move({-1.f, 0.f});
-    return false;
-}
-bool Game::mover(sf::RenderWindow &, sf::Event &)
-{
-    player.move({1.f, 0.f});
-    return false;
-}
 // Default constructor
 Game::Game()
     : gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-      isRunning(true), player(), textureManager(), handles(), _inputManager(this), _aMapper(), _rMapper(gameWindow, this)
+      isRunning(true), textureManager(), _aMapper(), _rMapper(gameWindow, this), _inputManager(this)
 {
     _reactionMapper = &_rMapper;
     gameWindow.setKeyRepeatEnabled(false);
@@ -58,7 +32,7 @@ Game::Game()
 Game::Game(const int w, const int h, const char *n)
     : gameWindow(sf::VideoMode(w, h), n),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-      isRunning(true), player(), textureManager(), handles(), _inputManager(this), _aMapper(), _rMapper(gameWindow, this)
+      isRunning(true), textureManager(), _aMapper(), _rMapper(gameWindow, this), _inputManager(this)
 {
     _reactionMapper = &_rMapper;
     gameWindow.setKeyRepeatEnabled(false);
@@ -110,7 +84,8 @@ void Game::run()
         if (time.asSeconds() > 1.f)
         {
             fps = 0.25 * looper + 0.75 * fps;
-            setWindowTitle(std::to_string(int(fps)).c_str());
+            // setWindowTitle(std::to_string(int(fps)).c_str());
+            std::cout << "FPS : " << fps << "\n";
             looper = 0;
             time -= sf::seconds(1.f);
         }
@@ -156,35 +131,17 @@ void Game::processEvents()
         }
     }
 }
-
-void Game::init()
+bool Game::quit(sf::RenderWindow &, sf::Event &)
 {
-    unsigned int playerTexture = textureManager.loadTexture("assets/player.png");
-    handles.insert(std::make_pair(TEXTURE::PLAYER, playerTexture));
-    player.setTexture(textureManager.getTexture(playerTexture));
-    _aMapper.bindInputToAction(sf::Keyboard::Down, sf::Event::KeyPressed, 1);
-    _aMapper.bindInputToAction(sf::Keyboard::Down, sf::Event::KeyReleased, 6);
-    _aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyPressed, 2);
-    _aMapper.bindInputToAction(sf::Keyboard::Left, sf::Event::KeyPressed, 3);
-    _aMapper.bindInputToAction(sf::Keyboard::Right, sf::Event::KeyPressed, 4);
-    _aMapper.bindInputToAction(sf::Keyboard::Escape, sf::Event::KeyPressed, 5);
-    // TODO: move evetn type to bining section for multiple binds
-    _reactionMapper->bindActionToReaction<moved>(1);
-    _reactionMapper->bindActionToReaction<mover>(6);
-    _reactionMapper->bindActionToReaction<moveu>(2);
-    _reactionMapper->bindActionToReaction<movel>(3);
-    _reactionMapper->bindActionToReaction<mover>(4);
-    _reactionMapper->bindActionToReaction<quit>(5);
-}
-
-void Game::update(const sf::Time dt)
-{
+    isRunning = false;
+    gameWindow.close();
+    return false;
 }
 
 void Game::render(const sf::Time dt)
 {
     // there will be calculation here to determine the intermediary positions
     gameWindow.clear();
-    gameWindow.draw(player);
+    draw(gameWindow);
     gameWindow.display();
 }
