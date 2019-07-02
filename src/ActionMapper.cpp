@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 3:16:02 pm
+ * Last Modified: Tuesday July 2nd 2019 4:26:50 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -25,7 +25,7 @@ void ActionMapper::bindInputToAction(sf::Mouse::Button button, sf::Event::EventT
   _actionMapMouse[{button, type}] = action;
 }
 
-unsigned int ActionMapper::getBoundAction(sf::Keyboard::Key key, sf::Event::EventType type)
+int ActionMapper::getBoundAction(sf::Keyboard::Key key, sf::Event::EventType type)
 {
 
   std::map<std::pair<sf::Keyboard::Key, sf::Event::EventType>, unsigned int>::iterator iter = _actionMapKeyboard.find({key, type});
@@ -33,17 +33,17 @@ unsigned int ActionMapper::getBoundAction(sf::Keyboard::Key key, sf::Event::Even
   {
     return iter->second;
   }
-  return 0;
+  return -1;
 }
 
-unsigned int ActionMapper::getBoundAction(sf::Mouse::Button button, sf::Event::EventType type)
+int ActionMapper::getBoundAction(sf::Mouse::Button button, sf::Event::EventType type)
 {
   std::map<std::pair<sf::Mouse::Button, sf::Event::EventType>, unsigned int>::iterator iter = _actionMapMouse.find({button, type});
   if (iter != _actionMapMouse.end())
   {
     return iter->second;
   }
-  return 0;
+  return -1;
 }
 
 void ActionMapper::clearBinding(sf::Keyboard::Key key, sf::Event::EventType type)

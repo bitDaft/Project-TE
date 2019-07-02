@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 3:16:02 pm
+ * Last Modified: Tuesday July 2nd 2019 4:26:45 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -37,8 +37,8 @@ public:
   void bindInputToAction(sf::Keyboard::Key key, sf::Event::EventType type, unsigned int action);
   void bindInputToAction(sf::Mouse::Button button, sf::Event::EventType type, unsigned int action);
 
-  unsigned int getBoundAction(sf::Keyboard::Key key, sf::Event::EventType type);
-  unsigned int getBoundAction(sf::Mouse::Button button, sf::Event::EventType type);
+  int getBoundAction(sf::Keyboard::Key key, sf::Event::EventType type);
+  int getBoundAction(sf::Mouse::Button button, sf::Event::EventType type);
 
   void clearBinding(sf::Keyboard::Key key, sf::Event::EventType type);
   void clearBinding(sf::Mouse::Button button,sf::Event::EventType type);
