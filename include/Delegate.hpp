@@ -4,7 +4,7 @@
  * Created Date: Monday July 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday July 1st 2019 8:00:42 pm
+ * Last Modified: Tuesday July 2nd 2019 8:36:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -30,7 +30,7 @@ public:
     delegate.stub_func = &method_stub<T, TMethod>;
     return delegate;
   }
-  template <class T, void (T::*TMethod)(sf::RenderWindow &, sf::Event &)>
+  template <class T, bool (T::*TMethod)(sf::RenderWindow &, sf::Event &)>
   // template <class T, T TMethod>
   static delegate from_method(T *object_ptr)
   {
@@ -40,7 +40,7 @@ public:
     return delegate;
   }
 
-  void operator()(sf::RenderWindow &wind, sf::Event &ev) const
+  bool operator()(sf::RenderWindow &wind, sf::Event &ev) const
   {
     return (*stub_func)(obj_type, wind, ev);
   }
@@ -56,14 +56,14 @@ public:
   }
 
 private:
-  typedef void (*stub_func_type)(void *obj_ptr, sf::RenderWindow &, sf::Event &);
+  typedef bool (*stub_func_type)(void *obj_ptr, sf::RenderWindow &, sf::Event &);
 
   void *obj_type;
   stub_func_type stub_func;
 
-  template <class T, void (T::*TMethod)(sf::RenderWindow &, sf::Event &)>
+  template <class T, bool (T::*TMethod)(sf::RenderWindow &, sf::Event &)>
   // template <class T, T TMethod>
-  static void method_stub(void *object_ptr, sf::RenderWindow &wind, sf::Event &ev)
+  static bool method_stub(void *object_ptr, sf::RenderWindow &wind, sf::Event &ev)
   {
     T *p = static_cast<T *>(object_ptr);
     return (p->*TMethod)(wind, ev);
