@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 2:38:07 am
+ * Last Modified: Tuesday July 2nd 2019 8:36:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -20,13 +20,14 @@ void ReactionMapper::bindActionToReaction(unsigned int action, delegate callback
   _reactionMap[action] = callback;
 }
 
-void ReactionMapper::executeCallback(unsigned int action, sf::Event &ev)
+bool ReactionMapper::executeCallback(unsigned int action, sf::Event &ev)
 {
   std::map<unsigned int, delegate>::iterator iter = _reactionMap.find(action);
   if (iter != _reactionMap.end())
   {
-    iter->second(wind, ev);
+    return (iter->second(wind, ev));
   }
+  return true;
 }
 
 void ReactionMapper::clearBinding(unsigned int key)

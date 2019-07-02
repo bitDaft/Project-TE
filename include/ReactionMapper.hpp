@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 2:17:35 am
+ * Last Modified: Tuesday July 2nd 2019 8:36:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -45,7 +45,7 @@ public:
     _reactionMap[action] = delegate::from_method<className, T>(tthis);
   }
   void bindActionToReaction(unsigned int action, delegate callback);
-  void executeCallback(unsigned int action, sf::Event &event);
+  bool executeCallback(unsigned int action, sf::Event &event);
 
   void clearBinding(unsigned int key);
 
