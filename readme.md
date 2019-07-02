@@ -10,13 +10,14 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
 
     Currently it is just a rough outline of what comes to my mind.
 
-- [ ] Game Manager
-- [ ] State Manager
-- [ ] Resource Manager
-- [ ] Input Manager
-- [ ] Scene Manager
-- [ ] Entity Manager
-- [ ] Component Manager
+- Game Manager
+- State Manager
+- Resource Manager
+- Input Manager
+- Scene Manager
+- Entity Manager
+- Component Manager
+- Animation System
 
 # **Phase 1**
     Goal is to create a character that can be controlled by input.
@@ -24,9 +25,9 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
 ## Requirements 
 
 
-- [ ] Game System
-- [ ] Resource Manager
-  - [ ] Textures
+- [x] Game System
+- [x] Resource Manager
+  - [x] Textures
 - [ ] Input Manager
 
 
