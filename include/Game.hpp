@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 9:55:33 am
+ * Last Modified: Tuesday July 2nd 2019 5:06:52 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -20,17 +20,12 @@
 #include "ActionMapper.hpp"
 #include "ResourceManager.hpp"
 
-enum class TEXTURE
-{
-    PLAYER
-};
-
 /** 
  * An instance of the game
  * ^ The game class will have to be inherited to create a new actual game
  * ^ Currently it does not behave as such and the logic is written directly in the class files
 */
-class Game : private Entity, private sf::NonCopyable
+class Game : public Entity, private sf::NonCopyable
 {
 public:
     // Setup the game "engine" dependant stuff like the window and its options
@@ -71,13 +66,11 @@ public:
      * Initializes the game to a known base state
      * ? Shouldn't this function also be made overridable
      */
-    void init();
-    bool moveu(sf::RenderWindow &, sf::Event &);
-    bool moved(sf::RenderWindow &, sf::Event &);
-    bool movel(sf::RenderWindow &, sf::Event &);
-    bool mover(sf::RenderWindow &, sf::Event &);
+    bool quit(sf::RenderWindow &, sf::Event &);
 
 private:
+    virtual void init() = 0;
+    virtual void draw(sf::RenderWindow &) = 0;
     // todo: These functions to be made virtual so as to be overridden
     // ^Not needed as of now as the game logic is directly written in the class
 
@@ -92,7 +85,7 @@ private:
      * @param sf::Time The step time need to update the game state by
      * @return void
      */
-    void update(const sf::Time);
+    virtual void update(const sf::Time) = 0;
     /**
      * The display function of the game 
      * @param sf::Time The remaining delta time to render an interpolated state
@@ -104,12 +97,12 @@ private:
     sf::RenderWindow gameWindow;
     sf::Time timePerFrame;
     bool isRunning;
-    sf::Sprite player;
+
+protected:
     ResourceManager textureManager;
-    std::map<TEXTURE, unsigned int> handles;
-    InputManager _inputManager;
     ActionMapper _aMapper;
     ReactionMapper _rMapper;
+    InputManager _inputManager;
 };
 
 #endif

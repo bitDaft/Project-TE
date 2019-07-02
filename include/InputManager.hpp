@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 9:51:30 am
+ * Last Modified: Tuesday July 2nd 2019 3:21:09 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -35,6 +35,7 @@ private:
   ActionMapper *_actionMapper;
   std::vector<Entity *> _itemList;
   Entity *gameEntity;
+
 };
 
 #endif

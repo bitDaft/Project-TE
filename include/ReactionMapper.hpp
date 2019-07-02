@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 8:36:38 am
+ * Last Modified: Tuesday July 2nd 2019 2:23:36 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -15,8 +15,6 @@
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <map>
 #include "Delegate.hpp"
@@ -44,7 +42,6 @@ public:
     className *tthis = static_cast<className *>(objThis);
     _reactionMap[action] = delegate::from_method<className, T>(tthis);
   }
-  void bindActionToReaction(unsigned int action, delegate callback);
   bool executeCallback(unsigned int action, sf::Event &event);
 
   void clearBinding(unsigned int key);
