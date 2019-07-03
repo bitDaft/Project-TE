@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 2:04:46 am
+ * Last Modified: Wednesday July 3rd 2019 12:49:53 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -23,17 +23,25 @@ Game::~Game()
 {
 }
 Game::Game()
-    : Entity(this), gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
+    : Entity(this),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-      isRunning(true), textureManager(), _aMapper(), _inputManager(this, &_aMapper)
+      isRunning(true),
+      gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
+      textureManager(),
+      _aMapper(),
+      _inputManager(this, &_aMapper)
 {
     gameWindow.setKeyRepeatEnabled(false);
 }
 // Constructor
 Game::Game(const int w, const int h, const char *n)
-    : Entity(this), gameWindow(sf::VideoMode(w, h), n),
+    : Entity(this),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
-      isRunning(true), textureManager(), _aMapper(), _inputManager(this, &_aMapper)
+      isRunning(true),
+      gameWindow(sf::VideoMode(w, h), n),
+      textureManager(),
+      _aMapper(),
+      _inputManager(this, &_aMapper)
 {
     gameWindow.setKeyRepeatEnabled(false);
 }
@@ -83,8 +91,7 @@ void Game::run()
         if (time.asSeconds() > 1.f)
         {
             fps = 0.25 * looper + 0.75 * fps;
-            // setWindowTitle(std::to_string(int(fps)).c_str());
-            std::cout << "FPS : " << fps << "\n";
+            // std::cout << "FPS : " << fps << "\n";
             looper = 0;
             time -= sf::seconds(1.f);
         }
@@ -97,7 +104,7 @@ void Game::run()
             processEvents();
             update(timePerFrame);
         }
-        // todo: calculate the interpolation from the remaning time and pass it onto render so as to obtain the intermediary state
+        // TODO: calculate the interpolation from the remaning time and pass it onto render so as to obtain the intermediary state
         // ?Instead of sending remaning time, why not send an interpolation ration between [0,1]
         sf::Time remaining_time = sf::Time::Zero; // !replace with the calculated time
         render(remaining_time);
@@ -117,11 +124,11 @@ void Game::processEvents()
             break;
         case sf::Event::KeyPressed:
         case sf::Event::KeyReleased:
-            // case sf::Event::MouseButtonPressed:
-            // case sf::Event::MouseButtonReleased:
-            // case sf::Event::MouseMoved:
-            // case sf::Event::MouseWheelScrolled:
-            // case sf::Event::MouseWheelMoved:
+        case sf::Event::MouseButtonPressed:
+        case sf::Event::MouseButtonReleased:
+        case sf::Event::MouseMoved:
+        case sf::Event::MouseWheelScrolled:
+        case sf::Event::MouseWheelMoved:
             _inputManager.processInputsEvent(event);
             break;
 
