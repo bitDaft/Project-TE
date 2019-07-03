@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 2:31:43 am
+ * Last Modified: Wednesday July 3rd 2019 1:37:24 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -16,7 +16,7 @@
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <map>
+#include <unordered_map>
 #include "Delegate.hpp"
 
 template <typename T>
@@ -49,7 +49,7 @@ public:
   void clearAllBinding();
 
 private:
-  std::map<unsigned int, delegate> _reactionMap;
+  std::unordered_map<unsigned int, delegate> _reactionMap;
   void *objThis;
 };
 

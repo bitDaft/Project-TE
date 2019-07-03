@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 1:18:39 am
+ * Last Modified: Wednesday July 3rd 2019 2:12:29 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -100,7 +100,6 @@ private:
 
 protected:
     sf::RenderWindow gameWindow;
-    ResourceManager textureManager;
     ActionMapper _aMapper;
     InputManager _inputManager;
 };

@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 11:48:50 am
+ * Last Modified: Wednesday July 3rd 2019 2:12:29 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -162,8 +162,8 @@ public:
 
 	void init()
 	{
-		const unsigned int playerHandle = textureManager.loadTexture("assets/player.png");
-		pl.settexture(textureManager.getTexture(playerHandle));
+		const unsigned int playerHandle = ResourceManager::loadTexture("assets/player.png");
+		pl.settexture(ResourceManager::getTexture(playerHandle));
 
 		// TODO: change it so that diff key same action when pressed twice does not trigger twice
 

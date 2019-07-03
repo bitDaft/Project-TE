@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 12:49:53 pm
+ * Last Modified: Wednesday July 3rd 2019 2:12:29 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -27,7 +27,6 @@ Game::Game()
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
       isRunning(true),
       gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
-      textureManager(),
       _aMapper(),
       _inputManager(this, &_aMapper)
 {
@@ -39,7 +38,6 @@ Game::Game(const int w, const int h, const char *n)
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
       isRunning(true),
       gameWindow(sf::VideoMode(w, h), n),
-      textureManager(),
       _aMapper(),
       _inputManager(this, &_aMapper)
 {

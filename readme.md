@@ -47,21 +47,21 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
   - The *Resource manager* can load textures and returns a handle.
     - The obtained handle can be passed to a function in resource manager to obtain the mapped texture.
 ### ISSUES
-  - Using multiple resource manger/texture manager objects makes no sense to me, therefore we just use a single instance. Using one instance to access functions seems very redunctant, as we will have to pass the object around to load and retrieve resources/textures. 
-    - >Thus we can have the function of the resource manager be static so as to able to use it without a instance of the class. This will allow us to load and query for resources from anywhere in the game. All we will have to pass around are the handles ,***IFF*** the need arises to load a resource in one entity and access it in another.
-  - Currently Resource manger does have an unload function to unload loaded resources.
-    - >Add an unload function for resources, to be able to unload resources when not needed anymore and reduce memory used.
-  - Action Mapper currently does not load mappings from a file instead have to be coded
-    - >Change Action mapper to load from a file of action = input mapping
-  - Change Action mapper from map to unordered_map as the insertion/binding only occurs at the beginning and the rest is all access calls
-    - >Change map to unorderd_map for Action mapper
-  - Action mapper maps action like mouse move and mouce scroll which have no mouse buttons by giving them a button value which will not be used otherwise. Currently the given values are hardcoded.
-    - >Change the hardcoded values into Defines so as to not deal with magic numbers
-  - Input manager realtime check of actions is currently declared but not defined
-    - >Define realtime check for input actions
-    - >Or do we actually need realtime check, is event based system enough.
-  - Reaction mapper uses a map to store mappings
-    - >Change it to unordered_map
+  - ~~Using multiple resource manger/texture manager objects makes no sense to me, therefore we just use a single instance. Using one instance to access functions seems very redunctant, as we will have to pass the object around to load and retrieve resources/textures.~~
+    - >~~Thus we can have the function of the resource manager be static so as to able to use it without a instance of the class. This will allow us to load and query for resources from anywhere in the game. All we will have to pass around are the handles ,***IFF*** the need arises to load a resource in one entity and access it in another.~~
+  - ~~Currently Resource manger does have an unload function to unload loaded resources.~~
+    - >~~Add an unload function for resources, to be able to unload resources when not needed anymore and reduce memory used.~~
+  - Action Mapper currently does not load mappings from a file instead have to be coded.
+    - >Change Action mapper to load from a file of action = input mapping.
+  - ~~Change Action mapper from map to unordered_map as the insertion/binding only occurs at the beginning and the rest is all access calls.~~
+    - >~~Change map to unorderd_map for Action mapper.~~
+  - ~~Action mapper maps action like mouse move and mouce scroll which have no mouse buttons by giving them a button value which will not be used otherwise. Currently the given values are hardcoded.~~
+    - >~~Change the hardcoded values into Defines so as to not deal with magic numbers.~~
+  - ~~Input manager realtime check of actions is currently declared but not defined.~~
+    - >~~Define realtime check for input actions.~~
+    - >~~Or do we actually need realtime check, is event based system enough.~~
+  - ~~Reaction mapper uses a map to store mappings.~~
+    - >~~Change it to unordered_map~~
   - ***DOCUMENTATION***
 
 
