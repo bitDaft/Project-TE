@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 10:33:30 am
+ * Last Modified: Wednesday July 3rd 2019 11:38:14 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -46,6 +46,9 @@ void InputManager::processInputsEvent(sf::Event &e)
   case sf::Event::MouseButtonPressed:
   case sf::Event::MouseButtonReleased:
     action = _actionMapper->getBoundAction(e.mouseButton.button, e.type);
+    break;
+  case sf::Event::MouseMoved:
+    action = _actionMapper->getBoundAction(sf::Mouse::Button(999), e.type);
     break;
 
   default:

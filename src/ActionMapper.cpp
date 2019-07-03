@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 11:13:59 am
+ * Last Modified: Wednesday July 3rd 2019 11:36:40 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -23,6 +23,13 @@ void ActionMapper::bindInputToAction(sf::Keyboard::Key key, sf::Event::EventType
 void ActionMapper::bindInputToAction(sf::Mouse::Button button, sf::Event::EventType type, unsigned int action)
 {
   _actionMapMouse[{button, type}] = action;
+}
+void ActionMapper::bindInputToAction(sf::Event::EventType type, unsigned int action)
+{
+  if (type == sf::Event::MouseMoved)
+  {
+    bindInputToAction(sf::Mouse::Button(999), type, action);
+  }
 }
 
 int ActionMapper::getBoundAction(sf::Keyboard::Key key, sf::Event::EventType type)

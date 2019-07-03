@@ -6,8 +6,7 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
 
 # Overall System Goal
     
-    The below given goals are likely to change over the course of its development.
-
+    The below given goals are likely to change over the course of its development.  
     Currently it is just a rough outline of what comes to my mind.
 
 - Game Manager
@@ -19,16 +18,17 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
 - Component Manager
 - Animation System
 
-# **Phase 1**
-    Goal is to create a character that can be controlled by input.
+# **Phase 1**  
+- [x] Goal is to create a character that can be controlled by input.
 
-## Requirements 
-
+## Requirements  
 
 - [x] Game System
 - [x] Resource Manager
   - [x] Textures
-- [ ] Input Manager
+- [x] Input Manager
+  - [x] Multiple keys to same action
+  - [x] Action to callback with Entity state
 
 
 

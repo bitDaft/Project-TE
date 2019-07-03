@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 11:03:12 am
+ * Last Modified: Wednesday July 3rd 2019 11:36:15 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -126,7 +126,7 @@ void Game::processEvents()
         case sf::Event::KeyReleased:
         case sf::Event::MouseButtonPressed:
         case sf::Event::MouseButtonReleased:
-            // case sf::Event::MouseMoved:
+        case sf::Event::MouseMoved:
             // case sf::Event::MouseWheelScrolled:
             // case sf::Event::MouseWheelMoved:
             _inputManager.processInputsEvent(event);
