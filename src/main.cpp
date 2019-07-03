@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 2:12:29 pm
+ * Last Modified: Wednesday July 3rd 2019 2:39:05 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -38,7 +38,7 @@ enum Actions
 	QUIT
 };
 
-class TestPlayer : public Entity
+class TestPlayer : public InputHandler
 {
 private:
 	sf::Sprite player;
@@ -89,7 +89,7 @@ private:
 public:
 	sf::Vector2f plVelocity;
 	~TestPlayer() {}
-	TestPlayer() : Entity(this), playerMoveSpeed(50.f), plVelocity(0, 0)
+	TestPlayer() : InputHandler(this), playerMoveSpeed(50.f), plVelocity(0, 0)
 	{
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<moveUpR>(Actions::UP_RELEASE);

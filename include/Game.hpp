@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 2:12:29 pm
+ * Last Modified: Wednesday July 3rd 2019 2:39:00 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -15,7 +15,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
-#include "Entity.hpp"
+#include "InputHandler.hpp"
 #include "InputManager.hpp"
 #include "ActionMapper.hpp"
 #include "ResourceManager.hpp"
@@ -25,7 +25,7 @@
  * ^ The game class will have to be inherited to create a new actual game
  * ^ Currently it does not behave as such and the logic is written directly in the class files
 */
-class Game : public Entity, private sf::NonCopyable
+class Game : public InputHandler, private sf::NonCopyable
 {
 public:
     // Setup the game "engine" dependant stuff like the window and its options

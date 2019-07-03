@@ -47,7 +47,7 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
   - The *Resource manager* can load textures and returns a handle.
     - The obtained handle can be passed to a function in resource manager to obtain the mapped texture.
 ### ISSUES
-  - ~~Using multiple resource manger/texture manager objects makes no sense to me, therefore we just use a single instance. Using one instance to access functions seems very redunctant, as we will have to pass the object around to load and retrieve resources/textures.~~
+  - ~~Using multiple resource manager/texture manager objects makes no sense to me, therefore we just use a single instance. Using one instance to access functions seems very redunctant, as we will have to pass the object around to load and retrieve resources/textures.~~
     - >~~Thus we can have the function of the resource manager be static so as to able to use it without a instance of the class. This will allow us to load and query for resources from anywhere in the game. All we will have to pass around are the handles ,***IFF*** the need arises to load a resource in one entity and access it in another.~~
   - ~~Currently Resource manger does have an unload function to unload loaded resources.~~
     - >~~Add an unload function for resources, to be able to unload resources when not needed anymore and reduce memory used.~~

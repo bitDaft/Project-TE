@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday July 2nd 2019 5:26:36 pm
+ * Last Modified: Wednesday July 3rd 2019 2:38:59 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -15,26 +15,26 @@
 #include "ActionMapper.hpp"
 #include <vector>
 #include <SFML/Window/Event.hpp>
-#include <Entity.hpp>
+#include "InputHandler.hpp"
 
 class InputManager : private sf::NonCopyable
 {
 public:
-  InputManager(Entity *, ActionMapper *);
+  InputManager(InputHandler *, ActionMapper *);
   ~InputManager();
 
   void setActionMapper(ActionMapper *);
   void processInputsRealtime();
   void processInputsEvent(sf::Event &);
 
-  void pushEntity(Entity *);
-  void replaceEntity(Entity *);
+  void pushEntity(InputHandler *);
+  void replaceEntity(InputHandler *);
   void popEntity();
 
 private:
   ActionMapper *_actionMapper;
-  std::vector<Entity *> _itemList;
-  Entity *gameEntity;
+  std::vector<InputHandler *> _itemList;
+  InputHandler *gameEntity;
 };
 
 #endif
