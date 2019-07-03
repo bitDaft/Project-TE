@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 2:38:59 pm
+ * Last Modified: Wednesday July 3rd 2019 3:13:20 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -33,7 +33,6 @@ void InputManager::popEntity()
 {
   _itemList.pop_back();
 }
-void InputManager::processInputsRealtime() {}
 void InputManager::processInputsEvent(sf::Event &e)
 {
   int action = -1;

@@ -62,7 +62,7 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
     - >~~Or do we actually need realtime check, is event based system enough.~~
   - ~~Reaction mapper uses a map to store mappings.~~
     - >~~Change it to unordered_map~~
-  - ***DOCUMENTATION***
+  - ~~***DOCUMENTATION***~~
 
 
 
