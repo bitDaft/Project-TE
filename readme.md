@@ -41,8 +41,8 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
     - The Reaction manager is initailised in the entity objects.
     - One instance of an input manager is assumed for every game although more may be created manually.
     - It requires a base object for mapping which is usually the game object itself, It is so that the it has the least priority.
-    - More object which are instances of/or (usually)inherited from Entity object can be pushed in to a stack of object in order of priority which try to execute callback for the action in order.
-    - Usually the number of Entities that will be pushed is minimum as the number of entities that react to input may not be many.
+    - More object which are instances of/or (usually)inherited from InputHandler object can be pushed in to a stack of object in order of priority which try to execute callback for the action in order.
+    - Usually the number of InputHandlers that will be pushed is minimum as the number of InputHandlers that react to input may not be many.
     - Thus mapping and traversal of the stack will be fast due to the low count.
   - The *Resource manager* can load textures and returns a handle.
     - The obtained handle can be passed to a function in resource manager to obtain the mapped texture.
