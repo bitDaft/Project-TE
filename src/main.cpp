@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 2:31:43 am
+ * Last Modified: Wednesday July 3rd 2019 11:14:42 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -15,6 +15,16 @@
 
 enum Actions
 {
+	MOUSE_LEFT,
+	MOUSE_LEFT_RELEASE,
+	MOUSE_RIGHT,
+	MOUSE_RIGHT_RELEASE,
+	MOUSE_MIDDLE,
+	MOUSE_MIDDLE_RELEASE,
+	MOUSE_X1,
+	MOUSE_X1_RELEASE,
+	MOUSE_X2,
+	MOUSE_X2_RELEASE,
 	UP,
 	DOWN,
 	LEFT,
@@ -76,8 +86,8 @@ private:
 
 public:
 	sf::Vector2f plVelocity;
-	~TestPlayer() { }
-	TestPlayer(sf::RenderWindow &win) : Entity(this), plVelocity(0, 0), playerMoveSpeed(50.f)
+	~TestPlayer() {}
+	TestPlayer() : Entity(this), playerMoveSpeed(50.f), plVelocity(0, 0)
 	{
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<moveUpR>(Actions::UP_RELEASE);
@@ -112,8 +122,29 @@ class Test : public Game
 private:
 	TestPlayer pl;
 
+	bool mld(sf::Event &)
+	{
+		std::cout << "Pressed left\n";
+		return false;
+	}
+	bool mlu(sf::Event &)
+	{
+		std::cout << "Released left\n";
+		return false;
+	}
+	bool mrd(sf::Event &)
+	{
+		std::cout << "Pressed right\n";
+		return false;
+	}
+	bool mru(sf::Event &)
+	{
+		std::cout << "Released right\n";
+		return false;
+	}
+
 public:
-	Test(const int wndWidth, const int wndHeight, const char *wndName) : Game(wndWidth, wndHeight, wndName), pl(gameWindow)
+	Test(const int wndWidth, const int wndHeight, const char *wndName) : Game(wndWidth, wndHeight, wndName), pl()
 	{
 	}
 
@@ -121,19 +152,45 @@ public:
 	{
 		const unsigned int playerHandle = textureManager.loadTexture("assets/player.png");
 		pl.settexture(textureManager.getTexture(playerHandle));
+
+		// TODO: change it so that diff key same action when pressed twice does not trigger twice
+
 		_aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyPressed, Actions::UP);
-		_aMapper.bindInputToAction(sf::Keyboard::Down, sf::Event::KeyPressed, Actions::DOWN);
-		_aMapper.bindInputToAction(sf::Keyboard::Left, sf::Event::KeyPressed, Actions::LEFT);
-		_aMapper.bindInputToAction(sf::Keyboard::Right, sf::Event::KeyPressed, Actions::RIGHT);
 		_aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyReleased, Actions::UP_RELEASE);
+		_aMapper.bindInputToAction(sf::Keyboard::Down, sf::Event::KeyPressed, Actions::DOWN);
 		_aMapper.bindInputToAction(sf::Keyboard::Down, sf::Event::KeyReleased, Actions::DOWN_RELEASE);
+		_aMapper.bindInputToAction(sf::Keyboard::Left, sf::Event::KeyPressed, Actions::LEFT);
 		_aMapper.bindInputToAction(sf::Keyboard::Left, sf::Event::KeyReleased, Actions::LEFT_RELEASE);
+		_aMapper.bindInputToAction(sf::Keyboard::Right, sf::Event::KeyPressed, Actions::RIGHT);
 		_aMapper.bindInputToAction(sf::Keyboard::Right, sf::Event::KeyReleased, Actions::RIGHT_RELEASE);
 		_aMapper.bindInputToAction(sf::Keyboard::Escape, sf::Event::KeyPressed, Actions::QUIT);
+		_aMapper.bindInputToAction(sf::Keyboard::W, sf::Event::KeyPressed, Actions::UP);
+		_aMapper.bindInputToAction(sf::Keyboard::W, sf::Event::KeyReleased, Actions::UP_RELEASE);
+		_aMapper.bindInputToAction(sf::Keyboard::S, sf::Event::KeyPressed, Actions::DOWN);
+		_aMapper.bindInputToAction(sf::Keyboard::S, sf::Event::KeyReleased, Actions::DOWN_RELEASE);
+		_aMapper.bindInputToAction(sf::Keyboard::A, sf::Event::KeyPressed, Actions::LEFT);
+		_aMapper.bindInputToAction(sf::Keyboard::A, sf::Event::KeyReleased, Actions::LEFT_RELEASE);
+		_aMapper.bindInputToAction(sf::Keyboard::D, sf::Event::KeyPressed, Actions::RIGHT);
+		_aMapper.bindInputToAction(sf::Keyboard::D, sf::Event::KeyReleased, Actions::RIGHT_RELEASE);
+
+		_aMapper.bindInputToAction(sf::Mouse::Button::Left, sf::Event::MouseButtonPressed, Actions::MOUSE_LEFT);
+		_aMapper.bindInputToAction(sf::Mouse::Button::Left, sf::Event::MouseButtonReleased, Actions::MOUSE_LEFT_RELEASE);
+		_aMapper.bindInputToAction(sf::Mouse::Button::Right, sf::Event::MouseButtonPressed, Actions::MOUSE_RIGHT);
+		_aMapper.bindInputToAction(sf::Mouse::Button::Right, sf::Event::MouseButtonReleased, Actions::MOUSE_RIGHT_RELEASE);
+		_aMapper.bindInputToAction(sf::Mouse::Button::Middle, sf::Event::MouseButtonPressed, Actions::MOUSE_MIDDLE);
+		_aMapper.bindInputToAction(sf::Mouse::Button::Middle, sf::Event::MouseButtonReleased, Actions::MOUSE_MIDDLE_RELEASE);
+		_aMapper.bindInputToAction(sf::Mouse::Button::XButton1, sf::Event::MouseButtonPressed, Actions::MOUSE_X1);
+		_aMapper.bindInputToAction(sf::Mouse::Button::XButton1, sf::Event::MouseButtonReleased, Actions::MOUSE_X1_RELEASE);
+		_aMapper.bindInputToAction(sf::Mouse::Button::XButton2, sf::Event::MouseButtonPressed, Actions::MOUSE_X2);
+		_aMapper.bindInputToAction(sf::Mouse::Button::XButton2, sf::Event::MouseButtonReleased, Actions::MOUSE_X2_RELEASE);
+
+		_reactionMapper->bindActionToReaction<mld>(Actions::MOUSE_LEFT);
+		_reactionMapper->bindActionToReaction<mlu>(Actions::MOUSE_LEFT_RELEASE);
+		_reactionMapper->bindActionToReaction<mrd>(Actions::MOUSE_RIGHT);
+		_reactionMapper->bindActionToReaction<mru>(Actions::MOUSE_RIGHT_RELEASE);
+		_reactionMapper->bindActionToReaction<quit>(Actions::QUIT);
 
 		_inputManager.pushEntity(&pl);
-
-		_reactionMapper->bindActionToReaction<quit>(Actions::QUIT);
 	}
 	void update(const sf::Time t)
 	{
