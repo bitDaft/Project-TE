@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 11:40:28 am
+ * Last Modified: Wednesday July 3rd 2019 11:48:50 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -26,6 +26,7 @@ enum Actions
 	MOUSE_X2,
 	MOUSE_X2_RELEASE,
 	MOUSE_MOVED,
+	MOUSE_SCROLL,
 	UP,
 	DOWN,
 	LEFT,
@@ -148,6 +149,11 @@ private:
 		std::cout << "Moving : " << e.mouseMove.x << " " << e.mouseMove.y << "\n";
 		return false;
 	}
+	bool ms(sf::Event &e)
+	{
+		std::cout << "Scrolling : " << e.mouseWheelScroll.delta << "\n";
+		return false;
+	}
 
 public:
 	Test(const int wndWidth, const int wndHeight, const char *wndName) : Game(wndWidth, wndHeight, wndName), pl()
@@ -190,12 +196,14 @@ public:
 		_aMapper.bindInputToAction(sf::Mouse::Button::XButton2, sf::Event::MouseButtonPressed, Actions::MOUSE_X2);
 		_aMapper.bindInputToAction(sf::Mouse::Button::XButton2, sf::Event::MouseButtonReleased, Actions::MOUSE_X2_RELEASE);
 		_aMapper.bindInputToAction(sf::Event::MouseMoved, Actions::MOUSE_MOVED);
+		_aMapper.bindInputToAction(sf::Event::MouseWheelScrolled, Actions::MOUSE_SCROLL);
 
 		_reactionMapper->bindActionToReaction<mld>(Actions::MOUSE_LEFT);
 		_reactionMapper->bindActionToReaction<mlu>(Actions::MOUSE_LEFT_RELEASE);
 		_reactionMapper->bindActionToReaction<mrd>(Actions::MOUSE_RIGHT);
 		_reactionMapper->bindActionToReaction<mru>(Actions::MOUSE_RIGHT_RELEASE);
 		_reactionMapper->bindActionToReaction<mm>(Actions::MOUSE_MOVED);
+		_reactionMapper->bindActionToReaction<ms>(Actions::MOUSE_SCROLL);
 		_reactionMapper->bindActionToReaction<quit>(Actions::QUIT);
 
 		_inputManager.pushEntity(&pl);
