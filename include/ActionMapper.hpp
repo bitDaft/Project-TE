@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 11:35:33 am
+ * Last Modified: Wednesday July 3rd 2019 1:22:57 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -47,7 +47,7 @@ public:
   void clearAllBinding();
 
 private:
-  // ?Change from map to unordered map as the insertion or such operations ate only
+  // ?Change from map to unordered map as the insertion or such operations are only
   // ?Done at the begining or very rarely, once the control scheme has been set ,
   // ?The frequency of change in key bindings is very low
   // ?So lookup time can be prioritzed to be faster at the cost of memory

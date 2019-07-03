@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 11:44:46 am
+ * Last Modified: Wednesday July 3rd 2019 12:49:53 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -104,7 +104,7 @@ void Game::run()
             processEvents();
             update(timePerFrame);
         }
-        // todo: calculate the interpolation from the remaning time and pass it onto render so as to obtain the intermediary state
+        // TODO: calculate the interpolation from the remaning time and pass it onto render so as to obtain the intermediary state
         // ?Instead of sending remaning time, why not send an interpolation ration between [0,1]
         sf::Time remaining_time = sf::Time::Zero; // !replace with the calculated time
         render(remaining_time);
