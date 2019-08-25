@@ -1,7 +1,10 @@
 
 /include/SFML/*
-/lib/*/*
+# /lib/*/*
 /bin/*/*
 /obj
 !/bin/*/assets
 /.vscode
+*.o
+*.a
+*.gch

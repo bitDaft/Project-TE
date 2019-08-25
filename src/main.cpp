@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 2:39:05 pm
+ * Last Modified: Sunday August 25th 2019 12:26:23 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -208,7 +208,7 @@ public:
 
 		_inputManager.pushEntity(&pl);
 	}
-	void update(const sf::Time t)
+	void update(const sf::Time &t)
 	{
 		if (pl.getPosition().x < 0 || pl.getPosition().x > 480)
 			pl.plVelocity.x = -pl.plVelocity.x;
@@ -216,9 +216,12 @@ public:
 			pl.plVelocity.y = -pl.plVelocity.y;
 		pl.move(pl.plVelocity * t.asSeconds());
 	}
-	void draw(sf::RenderWindow &win)
+	void draw( const sf::Time &t)
 	{
-		win.draw(pl.getSprite());
+		gameWindow.draw(pl.getSprite());
+	}
+	void end()
+	{
 	}
 };
 
