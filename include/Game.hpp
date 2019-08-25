@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 3:26:28 pm
+ * Last Modified: Sunday August 25th 2019 12:21:42 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -57,6 +57,12 @@ public:
      * @return void
      */
     void setFrameRate(const float seconds);
+    /**
+     * Gets the current frame rate 
+     * @param 
+     * @return void
+     */
+    float getFPS();
 
     /**
      * Starts the game loop 
@@ -66,11 +72,12 @@ public:
     void run();
 
     /**
-     * A helper function which can be bound to an input to close the game
-     * @param sf::Event & The event that occured
+     * Helper functions which can be bound to an input or called from inheriting class to close the game
+     * @param sf::Event & The event that occured || void
      * @return bool whether to continue the daisy chain or stop
      */
     bool quit(sf::Event &);
+    void quitForce();
 
 private:
     /** 
@@ -84,7 +91,7 @@ private:
      * @param sf::RenderWindow & A reference to the window onto which it should be drawn
      * @return void
      */
-    virtual void draw(sf::RenderWindow &) = 0;
+    virtual void draw(const sf::Time &) = 0;
     /**
      * The event handler of the game loop 
      * @param 
@@ -96,17 +103,24 @@ private:
      * @param sf::Time The step time need to update the game state by
      * @return void
      */
-    virtual void update(const sf::Time) = 0;
+    virtual void update(const sf::Time &) = 0;
+    /**
+     * Called after exit from the Game loop
+     * @param 
+     * @return void
+     */
+    virtual void end() = 0;
     /**
      * The display function of the game 
      * @param sf::Time The remaining delta time to render an interpolated state
      * @return void
      */
-    void render(const sf::Time);
+    void render(const sf::Time &);
 
 private:
     sf::Time timePerFrame;
     bool isRunning;
+    float fps;
 
 protected:
     sf::RenderWindow gameWindow;

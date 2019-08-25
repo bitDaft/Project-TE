@@ -4,14 +4,13 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 2:39:00 pm
+ * Last Modified: Sunday August 25th 2019 12:21:42 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
  */
 
 #include "Game.hpp"
-#include <iostream>
 
 #define DEFAULT_FRAME_RATE (1.f / 120.f)
 #define DEFAULT_SCREEN_WIDTH 640
@@ -26,6 +25,7 @@ Game::Game()
     : InputHandler(this),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
       isRunning(true),
+      fps(0),
       gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
       _aMapper(),
       _inputManager(this, &_aMapper)
@@ -37,6 +37,7 @@ Game::Game(const int w, const int h, const char *n)
     : InputHandler(this),
       timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
       isRunning(true),
+      fps(0),
       gameWindow(sf::VideoMode(w, h), n),
       _aMapper(),
       _inputManager(this, &_aMapper)
@@ -71,7 +72,6 @@ void Game::run()
     // todo: Panic check
     // todo: interpolation
     int looper = 0;
-    float fps = 60;
     sf::Time time = sf::Time::Zero;
     while (isRunning)
     {
@@ -89,14 +89,13 @@ void Game::run()
         if (time.asSeconds() > 1.f)
         {
             fps = 0.25 * looper + 0.75 * fps;
-            // std::cout << "FPS : " << fps << "\n";
             looper = 0;
             time -= sf::seconds(1.f);
         }
         looper++;
         time += dt;
         timeSinceLastUpdate += dt;
-        while (timeSinceLastUpdate > timePerFrame)
+        while (timeSinceLastUpdate > timePerFrame && isRunning)
         {
             timeSinceLastUpdate -= timePerFrame;
             processEvents();
@@ -105,8 +104,10 @@ void Game::run()
         // TODO: calculate the interpolation from the remaning time and pass it onto render so as to obtain the intermediary state
         // ?Instead of sending remaning time, why not send an interpolation ration between [0,1]
         sf::Time remaining_time = sf::Time::Zero; // !replace with the calculated time
-        render(remaining_time);
+        if (isRunning)
+            render(remaining_time);
     }
+    end();
 }
 
 void Game::processEvents()
@@ -141,11 +142,20 @@ bool Game::quit(sf::Event &)
     gameWindow.close();
     return false;
 }
+void Game::quitForce()
+{
+    isRunning = false;
+    gameWindow.close();
+}
 
-void Game::render(const sf::Time dt)
+void Game::render(const sf::Time &dt)
 {
     // there will be calculation here to determine the intermediary positions
     gameWindow.clear();
-    draw(gameWindow);
+    draw(dt);
     gameWindow.display();
+}
+float Game::getFPS()
+{
+    return fps;
 }

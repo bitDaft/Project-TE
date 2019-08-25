@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday July 3rd 2019 3:13:20 pm
+ * Last Modified: Sunday August 25th 2019 12:21:42 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -26,7 +26,8 @@ void InputManager::pushEntity(InputHandler *e)
 }
 void InputManager::replaceEntity(InputHandler *e)
 {
-  popEntity();
+  if (_itemList.size())
+    popEntity();
   pushEntity(e);
 }
 void InputManager::popEntity()
@@ -74,4 +75,8 @@ void InputManager::processInputsEvent(sf::Event &e)
   {
     gameEntity->_reactionMapper->executeCallback(action, e);
   }
+}
+void InputManager::clearEntity()
+{
+  _itemList.clear();
 }
