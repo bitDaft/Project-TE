@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:26:23 pm
+ * Last Modified: Sunday August 25th 2019 1:51:15 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -158,15 +158,6 @@ private:
 public:
 	Test(const int wndWidth, const int wndHeight, const char *wndName) : Game(wndWidth, wndHeight, wndName), pl()
 	{
-	}
-
-	void init()
-	{
-		const unsigned int playerHandle = ResourceManager::loadTexture("assets/player.png");
-		pl.settexture(ResourceManager::getTexture(playerHandle));
-
-		// TODO: change it so that diff key same action when pressed twice does not trigger twice
-
 		_aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyPressed, Actions::UP);
 		_aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyReleased, Actions::UP_RELEASE);
 		_aMapper.bindInputToAction(sf::Keyboard::Down, sf::Event::KeyPressed, Actions::DOWN);
@@ -197,6 +188,14 @@ public:
 		_aMapper.bindInputToAction(sf::Mouse::Button::XButton2, sf::Event::MouseButtonReleased, Actions::MOUSE_X2_RELEASE);
 		_aMapper.bindInputToAction(sf::Event::MouseMoved, Actions::MOUSE_MOVED);
 		_aMapper.bindInputToAction(sf::Event::MouseWheelScrolled, Actions::MOUSE_SCROLL);
+	}
+
+	void init()
+	{
+		const unsigned int playerHandle = ResourceManager::loadTexture("assets/player.png");
+		pl.settexture(ResourceManager::getTexture(playerHandle));
+
+		// TODO: change it so that diff key same action when pressed twice does not trigger twice
 
 		_reactionMapper->bindActionToReaction<mld>(Actions::MOUSE_LEFT);
 		_reactionMapper->bindActionToReaction<mlu>(Actions::MOUSE_LEFT_RELEASE);
@@ -216,7 +215,7 @@ public:
 			pl.plVelocity.y = -pl.plVelocity.y;
 		pl.move(pl.plVelocity * t.asSeconds());
 	}
-	void draw( const sf::Time &t)
+	void draw(const sf::Time &t)
 	{
 		gameWindow.draw(pl.getSprite());
 	}
