@@ -18,7 +18,6 @@ OBJS				:= $(addprefix $(OBJ)/, $(notdir $(SRCS:.cpp=.o)))
 
 ifeq ($(COMPILE_ENV),debug)
 LIBRARIES	:= -lsfml-audio-d -lsfml-graphics-d -lsfml-window-d -lsfml-main-d -lsfml-system-d
-MODE_FLAG	:= 
 C_FLAGS		+= -og
 else
 LIBRARIES	:= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-main -lsfml-system
@@ -38,6 +37,7 @@ clean:
 	$(RM) "$(BIN)\$(EXECUTABLE)"
 	$(RM) "$(BIN)\$(LIBEXEC)"
 	$(RM) "$(OBJ)\*.o"
+	$(RM) "$(INCLUDE)\*.gch"
 
 run: all
 	./$(BIN)/$(EXECUTABLE)
@@ -48,5 +48,6 @@ lib: $(OBJS)
 $(BIN)/$(EXECUTABLE):	$(OBJS)
 	$(CC) $^ -o $@ -L$(LIB) $(LIBRARIES)
 
-$(OBJ)/%.o: $(SRC)/%.cpp
+$(OBJ)/%.o: $(SRC)/%.cpp $(INCLUDE)/*
 	$(CC) -c $(C_FLAGS) -I$(INCLUDE) $< -o $@ $(MODE_FLAG) 
+# -L$(LIB) $(LIBRARIES)
