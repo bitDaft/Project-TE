@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:21:42 pm
+ * Last Modified: Monday August 26th 2019 3:15:39 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -12,9 +12,9 @@
 
 #include "InputHandler.hpp"
 
-InputHandler::InputHandler(void * obj)
+InputHandler::InputHandler()
 {
-  _reactionMapper = new ReactionMapper(obj);
+  _reactionMapper = new ReactionMapper(this);
 }
 InputHandler::~InputHandler() {
   delete _reactionMapper;

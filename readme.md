@@ -47,10 +47,14 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
   - The *Resource manager* can load textures and returns a handle.
     - The obtained handle can be passed to a function in resource manager to obtain the mapped texture.
 ### ISSUES
-  - Mapping two or more keys to an action will and activating those keys will trigger it multiple times.
-    - >Make it so that multiple presses to same action is triggered only once
-  - Action Mapper currently does not load mappings from a file instead have to be coded.
+  - ~~Mapping two or more keys to an action will and activating those keys will trigger it multiple times.~~
+    - >~~Make it so that multiple presses to same action is triggered only once~~
+    - >~~Should it be handled within the game instead?~~
+    - >~~Leaving it as is for now since it doesnt make sense~~
+  - Action Mapper currently does not load mappings from a file instead have to be coded manually.
     - >Change Action mapper to load from a file of action = input mapping.
+    - >Add function to allow editing of file and reloading of controls.
+    - >make current function to map keys to action private.
   - ~~Using multiple resource manager/texture manager objects makes no sense to me, therefore we just use a single instance. Using one instance to access functions seems very redunctant, as we will have to pass the object around to load and retrieve resources/textures.~~
     - >~~Thus we can have the function of the resource manager be static so as to able to use it without a instance of the class. This will allow us to load and query for resources from anywhere in the game. All we will have to pass around are the handles ,***IFF*** the need arises to load a resource in one entity and access it in another.~~
   - ~~Currently Resource manger does have an unload function to unload loaded resources.~~
@@ -64,7 +68,7 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
     - >~~Or do we actually need realtime check, is event based system enough.~~
   - ~~Reaction mapper uses a map to store mappings.~~
     - >~~Change it to unordered_map~~
-  - ~~***DOCUMENTATION***~~
+  - ~~*** "Self" DOCUMENTATION***~~
 
 
 

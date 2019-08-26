@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:21:42 pm
+ * Last Modified: Monday August 26th 2019 3:16:49 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -48,16 +48,16 @@ public:
    * @param void* The object whose member function are going to be callback functions 
    */
   ReactionMapper(void *);
-  ~ReactionMapper();
+  virtual ~ReactionMapper();
 
   /**
-   * Templated function with recieves the function and the pointer to the executing object
+   * Templated function which recieves the function and the pointer to the executing object
    * @template T The callback member function 
    * @param unsigned int The action to which the callback is bound 
    * @return void
    */
-  template <auto T>
-  void bindActionToReaction(unsigned int action)
+  template <auto T>                              // ^C++17 feature, using auto in template
+  void bindActionToReaction(unsigned int action) // ?Move it into an inline file
   {
     using className = typename point_to_mem<decltype(T)>::class_type;
     className *tthis = static_cast<className *>(objThis);

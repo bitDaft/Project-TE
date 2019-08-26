@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:21:42 pm
+ * Last Modified: Monday August 26th 2019 3:49:39 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -22,8 +22,7 @@ Game::~Game()
 {
 }
 Game::Game()
-    : InputHandler(this),
-      timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
+    : timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
       isRunning(true),
       fps(0),
       gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
@@ -34,8 +33,7 @@ Game::Game()
 }
 // Constructor
 Game::Game(const int w, const int h, const char *n)
-    : InputHandler(this),
-      timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
+    : timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
       isRunning(true),
       fps(0),
       gameWindow(sf::VideoMode(w, h), n),
@@ -68,9 +66,9 @@ void Game::run()
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     init();
-    // todo: Re-evaluate loop
-    // todo: Panic check
-    // todo: interpolation
+    // TODO: Re-evaluate loop
+    // TODO: Panic check
+    // TODO: interpolation
     int looper = 0;
     sf::Time time = sf::Time::Zero;
     while (isRunning)
@@ -150,7 +148,7 @@ void Game::quitForce()
 
 void Game::render(const sf::Time &dt)
 {
-    // there will be calculation here to determine the intermediary positions
+    // ?there will be calculation here to determine the intermediary positions
     gameWindow.clear();
     draw(dt);
     gameWindow.display();
