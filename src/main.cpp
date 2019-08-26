@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 1:51:15 pm
+ * Last Modified: Monday August 26th 2019 3:49:39 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -13,6 +13,8 @@
 #include <iostream>
 #include "Game.hpp"
 
+// ?maybe move this into lib since we can fix every input event with input actions
+// ?It may be inefficient but coder will not have to do crap.. just link callback to action
 enum Actions
 {
 	MOUSE_LEFT,
@@ -89,7 +91,7 @@ private:
 public:
 	sf::Vector2f plVelocity;
 	~TestPlayer() {}
-	TestPlayer() : InputHandler(this), playerMoveSpeed(50.f), plVelocity(0, 0)
+	TestPlayer() : playerMoveSpeed(50.f), plVelocity(0, 0)
 	{
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<moveUpR>(Actions::UP_RELEASE);
