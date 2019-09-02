@@ -4,13 +4,14 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday August 26th 2019 3:49:39 pm
+ * Last Modified: Monday September 2nd 2019 6:22:55 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
  */
 
 #include "Game.hpp"
+#include <iostream>
 
 #define DEFAULT_FRAME_RATE (1.f / 120.f)
 #define DEFAULT_SCREEN_WIDTH 640
@@ -110,10 +111,10 @@ void Game::run()
 
 void Game::processEvents()
 {
-    sf::Event event;
+    Event *event;
     while (gameWindow.pollEvent(event))
     {
-        switch (event.type)
+        switch (event->type)
         {
         case sf::Event::Closed:
             isRunning = false;
@@ -126,12 +127,15 @@ void Game::processEvents()
         case sf::Event::MouseMoved:
         case sf::Event::MouseWheelScrolled:
         case sf::Event::MouseWheelMoved:
-            _inputManager.processInputsEvent(event);
+        {
+            sf::Event *e = event->getData();
+            _inputManager.processInputsEvent(*e);
             break;
-
+        }
         default:
             break;
         }
+        event->clear();
     }
 }
 bool Game::quit(sf::Event &)

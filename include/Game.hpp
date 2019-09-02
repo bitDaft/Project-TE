@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:21:42 pm
+ * Last Modified: Monday September 2nd 2019 6:29:12 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -21,6 +21,9 @@
 #include "InputManager.hpp"
 #include "ActionMapper.hpp"
 #include "ResourceManager.hpp"
+#include "CEvent.hpp"
+
+#include "RWindow.hpp"
 
 /** 
  * An instance of the game
@@ -123,7 +126,7 @@ private:
     float fps;
 
 protected:
-    sf::RenderWindow gameWindow;
+    RWindow gameWindow;
     ActionMapper _aMapper;
     InputManager _inputManager;
 };
