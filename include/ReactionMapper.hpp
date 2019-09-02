@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday August 26th 2019 3:16:49 pm
+ * Last Modified: Friday August 30th 2019 10:06:54 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -21,21 +21,7 @@
 
 #include "Delegate.hpp"
 
-/**
- * A templated class used for member function trait extraction
- */
-template <typename T>
-struct point_to_mem;
-
-/**
- * A templated class used for member function trait extraction
- */
-template <class C, typename T>
-struct point_to_mem<T C::*>
-{
-  using member_type = T;
-  using class_type = C;
-};
+#include "T_traits.hpp"
 
 /**
  * Holds the callback functions to each Action that has been mapped
