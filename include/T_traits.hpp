@@ -4,7 +4,7 @@
  * Created Date: Friday August 30th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday August 30th 2019 10:06:54 am
+ * Last Modified: Sunday September 1st 2019 11:07:21 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -33,12 +33,14 @@ template <typename T>
 struct is_pointer
 {
   static const bool value = false;
+  using class_type = T;
 };
 
 template <typename T>
 struct is_pointer<T *>
 {
   static const bool value = true;
+  using class_type = T;
 };
 
 #endif
