@@ -70,6 +70,27 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
     - >~~Change it to unordered_map~~
   - ~~*** "Self" DOCUMENTATION***~~
 
+# **Phase 2**
+- [ ] Goal is to allow custom events.
 
+### REQUIREMENTS
+- [ ] Custom Events and Event Handler
 
+### NOTES
+  - This Custom Event Handler will be able to directly integrate into the built-in event queue of SFML
+  - This will allow us to not having to manage events and simply define them, trigger them, and process them without worrying about
+    underlying queue mechanics.
+  - There should be a ***Custom event class*** which is extended from ***SFML Event*** which will allow these events to interface with SFML
+  event queue.
+  - A method to inject these custom events into the SFML event queue. Learn the current method used by SFML to push events into queue
+  and see if the API is public; if not, extend the event handler to allow adding to the queue.
+  - These events will be available for processing in the normal event queue for SFML events and can be redirected to custom user handling function.
 
+  - After checking the built in Event System used by SFML, can conclude we are unable to push events manually.
+  - Thus a custom event queue will have to be made.
+  - The Custom Event System should allow defining of custom events, triggering of custom events and polling of custom events for processing.
+  - Our Custom Events will inherit from sf::Event so that we can hold both types of events in a single queue.
+  - Our Custom window will inherit from sf::RenderWindow so we can use it same as existing window with new polling functionality.
+  - Custom window will allow the triggering of custom inputs.
+  - Custom window will be responsible for managing Event queue.
+  - When a custom event is triggered, empty out SFML queue into custom queue and push custom event to it to preserve order of triggered events. 
