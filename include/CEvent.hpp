@@ -4,7 +4,7 @@
  * Created Date: Wednesday August 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday August 30th 2019 9:55:16 am
+ * Last Modified: Monday September 2nd 2019 5:47:05 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -14,31 +14,47 @@
 #define CEVENT_HPP
 
 #include <SFML/Window/Event.hpp>
-#include <unordered_map>
 
-// ?template it so it can be initialized with the enum values given from user
-template <typename event_key, typename objType = void *>
-class CEvent : public sf::Event
+template <typename dataType>
+class CEVENT;
+class Event
+{
+private:
+public:
+  Event() {}
+  Event(sf::Event::EventType);
+  virtual ~Event();
+  sf::Event::EventType type;
+  virtual void clear() = 0;
+  template <class data_type>
+  operator data_type *();
+  Event &getData();
+};
+
+template <typename derived>
+class EventProxy : public Event
 {
 public:
-  // !this should copy over the original value of the event type if not a custom eventso as to not break
-  // ?should we though.. nope dont think so
-  // !since the original is not enum class we can simply continue using unsigned int
-  // !the custom enum list will have to intialise the first value to sf::Event::Count + 1
-  CEvent(event_key, objType = NULL);
-  virtual ~CEvent();
+  EventProxy(sf::Event::EventType);
+  virtual ~EventProxy();
+  void clear();
+};
 
-  objType operator->();
+template <typename dataType>
+class CEVENT : public EventProxy<CEVENT<dataType>>
+{
+public:
+  CEVENT();
+  CEVENT(sf::Event::EventType, dataType *);
+  virtual ~CEVENT();
 
-  // ^we need a way to create new event type keys
-  // ?part of custom window
-  // ^need a way to associate arbitrary data with event type
-  // ^need to override the interface of base sf::Event
-  // ^since the base Event does not have any method and allows direct access to
-  event_key type;
+  dataType *getData();
+  void clearT();
+
+  sf::Event::EventType type;
 
 private:
-  objType data;
+  dataType *data;
 };
 
 #include "CEvent.inl"

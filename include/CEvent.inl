@@ -4,35 +4,70 @@
  * Created Date: Thursday August 29th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday August 30th 2019 10:07:13 am
+ * Last Modified: Monday September 2nd 2019 5:38:12 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
  */
+
 #include "CEvent.hpp"
-#include <iostream>
 
-#include "T_traits.hpp"
-
-template <typename event_key, typename objType>
-CEvent<event_key, objType>::CEvent(event_key k, objType d)
-    : sf::Event(), type(k), data(d)
+template <typename dataType>
+CEVENT<dataType>::CEVENT() : EventProxy<CEVENT<dataType>>((sf::Event::EventType)(-1)),
+                             type((sf::Event::EventType)(-1)),
+                             data(NULL)
 {
 }
 
-template <typename event_key, typename objType>
-CEvent<event_key, objType>::~CEvent()
+template <typename dataType>
+CEVENT<dataType>::CEVENT(sf::Event::EventType t, dataType *d) : EventProxy<CEVENT<dataType>>(t),
+                                                                type(t),
+                                                                data(d)
 {
-  // if (is_pointer<objType>::value)
-  // {
-  //   delete reinterpret_cast<objType>(data);
-  // }
-  std::cout << "\n ispointer : " << is_pointer<objType>::value;
-  // type = 0;
 }
 
-template <typename event_key, typename objType>
-objType CEvent<event_key, objType>::operator->()
+template <typename dataType>
+CEVENT<dataType>::~CEVENT()
+{
+  type = (sf::Event::EventType)(-1);
+  data = NULL;
+}
+
+template <typename dataType>
+dataType *CEVENT<dataType>::getData()
 {
   return data;
 }
+
+template <typename dataType>
+void CEVENT<dataType>::clearT()
+{
+  delete data;
+}
+
+template <typename derived>
+EventProxy<derived>::EventProxy(sf::Event::EventType v) : Event(v)
+{
+}
+
+template <typename derived>
+EventProxy<derived>::~EventProxy()
+{
+}
+
+template <typename derived>
+void EventProxy<derived>::clear()
+{
+  derived *p = dynamic_cast<derived *>(this);
+  p->clearT();
+}
+
+template <class data_type>
+Event::operator data_type *()
+{
+  CEVENT<data_type> *e = static_cast<CEVENT<data_type> *>(this);
+  if (!e)
+    return nullptr;
+  return e->getData();
+}
+
