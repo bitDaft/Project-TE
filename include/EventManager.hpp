@@ -4,7 +4,7 @@
  * Created Date: Thursday August 29th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday September 2nd 2019 6:07:04 pm
+ * Last Modified: Wednesday September 4th 2019 1:17:08 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -18,7 +18,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/NonCopyable.hpp>
 
-#include "CEvent.hpp"
+#include "Event.hpp"
 
 class EventManager : public sf::NonCopyable
 {
@@ -27,12 +27,15 @@ public:
   ~EventManager();
 
 protected:
-  template <typename tt>
-  void pushEvent(sf::Event::EventType, tt *);
+  template <typename data_type>
+  void pushEvent(int, data_type *);
 
   bool popEvent(Event *&);
 
 private:
+  // class EventManagerImpl;
+  // EventManagerImpl *impl;
+
   std::queue<Event *> c_events;
 };
 
