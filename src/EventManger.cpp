@@ -4,22 +4,22 @@
  * Created Date: Thursday August 29th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday September 2nd 2019 5:49:44 pm
+ * Last Modified: Wednesday September 4th 2019 11:52:37 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
  */
 
 #include "EventManager.hpp"
-#include "CEvent.hpp"
-#include "test.hpp"
-#include <iostream>
+#include "EventManagerImpl.hpp"
 
 EventManager::EventManager()
+// : impl(new EventManagerImpl())
 {
 }
 EventManager::~EventManager()
 {
+  // delete impl;
 }
 bool EventManager::popEvent(Event *&e)
 {

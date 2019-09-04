@@ -4,17 +4,17 @@
  * Created Date: Friday August 30th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday September 2nd 2019 6:07:04 pm
+ * Last Modified: Wednesday September 4th 2019 1:17:08 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
  */
 
 #include "EventManager.hpp"
+#include "CEvent.hpp"
 
 template <typename data_type>
-void EventManager::pushEvent(sf::Event::EventType t, data_type *data)
+void EventManager::pushEvent(int t, data_type *data)
 {
-  CEVENT<data_type> *ce = new CEVENT<data_type>(t, data);
-  c_events.push(ce);
+  c_events.emplace(new CEVENT<data_type>(t, data));
 }

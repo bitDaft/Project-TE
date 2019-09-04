@@ -4,14 +4,14 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday September 2nd 2019 6:22:55 pm
+ * Last Modified: Thursday September 5th 2019 1:42:10 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
  */
+#include <iostream>
 
 #include "Game.hpp"
-#include <iostream>
 
 #define DEFAULT_FRAME_RATE (1.f / 120.f)
 #define DEFAULT_SCREEN_WIDTH 640
@@ -19,6 +19,7 @@
 #define DEFAULT_GAME_NAME ("Application 1")
 
 // Default constructor
+
 Game::~Game()
 {
 }
@@ -94,7 +95,7 @@ void Game::run()
         looper++;
         time += dt;
         timeSinceLastUpdate += dt;
-        while (timeSinceLastUpdate > timePerFrame && isRunning)
+        while ((timeSinceLastUpdate > timePerFrame) && isRunning)
         {
             timeSinceLastUpdate -= timePerFrame;
             processEvents();
@@ -112,7 +113,8 @@ void Game::run()
 void Game::processEvents()
 {
     Event *event;
-    while (gameWindow.pollEvent(event))
+    int eventsPerLoop = 25;
+    while (gameWindow.pollEvent(event) && (eventsPerLoop-- > 0))
     {
         switch (event->type)
         {
@@ -128,11 +130,16 @@ void Game::processEvents()
         case sf::Event::MouseWheelScrolled:
         case sf::Event::MouseWheelMoved:
         {
-            sf::Event *e = event->getData();
-            _inputManager.processInputsEvent(*e);
+            sf::Event e;
+            if (!event->getData(e))
+            {
+                break;
+            }
+            _inputManager.processInputsEvent(e);
             break;
         }
         default:
+            processCustomEvents(*event);
             break;
         }
         event->clear();

@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday September 2nd 2019 6:29:12 pm
+ * Last Modified: Thursday September 5th 2019 1:42:40 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -21,7 +21,6 @@
 #include "InputManager.hpp"
 #include "ActionMapper.hpp"
 #include "ResourceManager.hpp"
-#include "CEvent.hpp"
 
 #include "RWindow.hpp"
 
@@ -101,6 +100,7 @@ private:
      * @return void
      */
     void processEvents();
+    virtual void processCustomEvents(Event &) = 0;
     /**
      * The update funtion of the game loop which is overriden called for updating the game
      * @param sf::Time The step time need to update the game state by

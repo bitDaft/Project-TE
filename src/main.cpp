@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday September 2nd 2019 6:30:32 pm
+ * Last Modified: Thursday September 5th 2019 1:44:20 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -12,6 +12,12 @@
 
 #include <iostream>
 #include "Game.hpp"
+#include "test.hpp"
+
+enum EventType
+{
+	testNum = sf::Event::EventType::Count + 1
+};
 
 // ?maybe move this into lib since we can fix every input event with input actions
 // ?It may be inefficient but coder will not have to do crap.. just link callback to action
@@ -148,12 +154,12 @@ private:
 	}
 	bool mm(sf::Event &e)
 	{
-		std::cout << "Moving : " << e.mouseMove.x << " " << e.mouseMove.y << "\n";
+		// std::cout << "Moving : " << e.mouseMove.x << " " << e.mouseMove.y << "\n";
 		return false;
 	}
 	bool ms(sf::Event &e)
 	{
-		std::cout << "Scrolling : " << e.mouseWheelScroll.delta << "\n";
+		// std::cout << "Scrolling : " << e.mouseWheelScroll.delta << "\n";
 		return false;
 	}
 
@@ -194,6 +200,7 @@ public:
 
 	void init()
 	{
+
 		const unsigned int playerHandle = ResourceManager::loadTexture("assets/player.png");
 		pl.settexture(ResourceManager::getTexture(playerHandle));
 
@@ -208,6 +215,26 @@ public:
 		_reactionMapper->bindActionToReaction<quit>(Actions::QUIT);
 
 		_inputManager.pushEntity(&pl);
+
+		testData *t = new testData();
+		gameWindow.triggerEvent(EventType::testNum, t);
+	}
+	void processCustomEvents(Event &event)
+	{
+		switch (event.type)
+		{
+		case EventType::testNum:
+		{
+			testData e;
+			if (event.getData(e))
+			{
+				debug(e.x);
+			}
+			break;
+		}
+		default:
+			break;
+		}
 	}
 	void update(const sf::Time &t)
 	{
@@ -229,6 +256,7 @@ public:
 int main(int argc, char *argv[])
 {
 	Test testGame(480, 320, "Hello, World!");
+	// testGame.setFrameRate(1);
 	testGame.run();
 	return 0;
 }
