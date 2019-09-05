@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 1:42:40 am
+ * Last Modified: Thursday September 5th 2019 2:01:39 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -20,8 +20,6 @@
 #include "InputHandler.hpp"
 #include "InputManager.hpp"
 #include "ActionMapper.hpp"
-#include "ResourceManager.hpp"
-
 #include "RWindow.hpp"
 
 /** 

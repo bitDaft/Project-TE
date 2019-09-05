@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:19:28 pm
+ * Last Modified: Thursday September 5th 2019 1:35:28 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -12,10 +12,6 @@
 
 #ifndef ACTIONMAPPER_HPP
 #define ACTIONMAPPER_HPP
-
-#define MOUSE_MOVE_BUTTON_VALUE 999
-#define MOUSE_SCROLL_BUTTON_VALUE 998
-#define MOUSE_SCROLL_MOVE_BUTTON_VALUE 997
 
 #include <unordered_map>
 

@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:21:42 pm
+ * Last Modified: Thursday September 5th 2019 1:37:30 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -29,13 +29,9 @@ void ActionMapper::bindInputToAction(sf::Event::EventType type, unsigned int act
   switch (type)
   {
   case sf::Event::MouseMoved:
-    bindInputToAction(sf::Mouse::Button(MOUSE_MOVE_BUTTON_VALUE), type, action);
-    break;
   case sf::Event::MouseWheelMoved:
-    bindInputToAction(sf::Mouse::Button(MOUSE_SCROLL_MOVE_BUTTON_VALUE), type, action);
-    break;
   case sf::Event::MouseWheelScrolled:
-    bindInputToAction(sf::Mouse::Button(MOUSE_SCROLL_BUTTON_VALUE), type, action);
+    bindInputToAction(sf::Mouse::Button(-1), type, action);
     break;
   default:
     break;

@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday August 30th 2019 10:06:54 am
+ * Last Modified: Thursday September 5th 2019 1:35:28 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -39,11 +39,11 @@ public:
   /**
    * Templated function which recieves the function and the pointer to the executing object
    * @template T The callback member function 
-   * @param unsigned int The action to which the callback is bound 
+   * @param int The action to which the callback is bound 
    * @return void
    */
   template <auto T>                              // ^C++17 feature, using auto in template
-  void bindActionToReaction(unsigned int action) // ?Move it into an inline file
+  void bindActionToReaction(int action) // ?Move it into an inline file
   {
     using className = typename point_to_mem<decltype(T)>::class_type;
     className *tthis = static_cast<className *>(objThis);
@@ -51,18 +51,18 @@ public:
   }
   /**
    * Execute tha callback function associated with the action
-   * @param unsigned int The action to execute callback for
+   * @param int The action to execute callback for
    * @param sf::Event & The event that was generated 
    * @return bool whether to continue the daisy chain or stop
    */
-  bool executeCallback(unsigned int action, sf::Event &event);
+  bool executeCallback(int action, sf::Event &event);
 
   /**
    * Clear the callback binding related to the action
-   * @param unsigned int The action to clear the callback for
+   * @param int The action to clear the callback for
    * @return void
    */
-  void clearBinding(unsigned int action);
+  void clearBinding(int action);
 
   /**
    * Clear all callback binding 
@@ -71,7 +71,7 @@ public:
   void clearAllBinding();
 
 private:
-  std::unordered_map<unsigned int, delegate> _reactionMap;
+  std::unordered_map<int, delegate> _reactionMap;
   void *objThis;
 };
 

@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:21:42 pm
+ * Last Modified: Thursday September 5th 2019 1:37:31 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -48,13 +48,9 @@ void InputManager::processInputsEvent(sf::Event &e)
     action = _actionMapper->getBoundAction(e.mouseButton.button, e.type);
     break;
   case sf::Event::MouseMoved:
-    action = _actionMapper->getBoundAction(sf::Mouse::Button(MOUSE_MOVE_BUTTON_VALUE), e.type);
-    break;
   case sf::Event::MouseWheelMoved:
-    action = _actionMapper->getBoundAction(sf::Mouse::Button(MOUSE_SCROLL_MOVE_BUTTON_VALUE), e.type);
-    break;
   case sf::Event::MouseWheelScrolled:
-    action = _actionMapper->getBoundAction(sf::Mouse::Button(MOUSE_SCROLL_BUTTON_VALUE), e.type);
+    action = _actionMapper->getBoundAction(sf::Mouse::Button(-1), e.type);
     break;
 
   default:

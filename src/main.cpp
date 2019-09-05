@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 1:44:20 am
+ * Last Modified: Thursday September 5th 2019 2:02:38 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include "Game.hpp"
+#include "ResourceManager.hpp"
 #include "test.hpp"
 
 enum EventType

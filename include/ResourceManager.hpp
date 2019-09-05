@@ -4,7 +4,7 @@
  * Created Date: Wednesday June 12th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:21:42 pm
+ * Last Modified: Thursday September 5th 2019 2:01:39 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -22,15 +22,15 @@ public:
     ResourceManager();
     ~ResourceManager();
 
-    static sf::Texture &getTexture(const unsigned int ID);
-    static unsigned int loadTexture(const char *path);
-    static void unloadTexture(const unsigned int ID);
+    static sf::Texture &getTexture(const int ID);
+    static int loadTexture(const char *path);
+    static void unloadTexture(const int ID);
 
 private:
     typedef std::unique_ptr<sf::Texture> _texPtr;
 
     // ^Using unordered map as it provides 'near' O(1) lookup albeit memory hog
-    static std::unordered_map<unsigned int, _texPtr> _resourceMap;
-    static unsigned int _id;
+    static std::unordered_map<int, _texPtr> _resourceMap;
+    static int _id;
 };
 #endif
