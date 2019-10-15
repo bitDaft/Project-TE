@@ -4,7 +4,7 @@
  * Created Date: Thursday August 29th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 12:04:21 am
+ * Last Modified: Tuesday October 15th 2019 11:38:54 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -44,7 +44,6 @@ void CEVENT<dataType>::clearT()
   {
     delete data;
   }
-  delete this;
 }
 template <typename dataType>
 void CEVENT<dataType>::preventT()
