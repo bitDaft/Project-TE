@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 2:01:39 pm
+ * Last Modified: Tuesday October 15th 2019 11:38:54 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -85,7 +85,7 @@ private:
      * Used to setup resources and other configuration
      * @return void
      */
-    virtual void init() = 0;
+    virtual void init();
     /** 
      * An overriden draw function that is called to allow for drawing of entities
      * @param sf::RenderWindow & A reference to the window onto which it should be drawn
@@ -98,7 +98,7 @@ private:
      * @return void
      */
     void processEvents();
-    virtual void processCustomEvents(Event &) = 0;
+    virtual void processCustomEvents(Event &) ; // !need to remove. make it pure virtual. or maybe not?
     /**
      * The update funtion of the game loop which is overriden called for updating the game
      * @param sf::Time The step time need to update the game state by
@@ -110,7 +110,7 @@ private:
      * @param 
      * @return void
      */
-    virtual void end() = 0;
+    virtual void end() ;
     /**
      * The display function of the game 
      * @param sf::Time The remaining delta time to render an interpolated state

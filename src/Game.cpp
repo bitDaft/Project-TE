@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 1:42:10 am
+ * Last Modified: Tuesday October 15th 2019 11:38:54 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -109,7 +109,8 @@ void Game::run()
     }
     end();
 }
-
+void Game::init() {}
+void Game::end() {}
 void Game::processEvents()
 {
     Event *event;
@@ -144,6 +145,9 @@ void Game::processEvents()
         }
         event->clear();
     }
+}
+void Game::processCustomEvents(Event &) 
+{
 }
 bool Game::quit(sf::Event &)
 {
