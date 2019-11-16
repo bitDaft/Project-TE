@@ -1,3 +1,5 @@
+Random thoughts and musings
+
 ## Other Notes
   - current entity update system is managed manually. change it to some queue based system for auto updation.
   - animation system
@@ -44,7 +46,7 @@
   ***WHAT ARE TRIGGERS!?!111!???***  
   hmmmmmm.. let me see  
   
-  physics sytem
+  physics system
   animation system
 
 ## new insights into state system
@@ -60,6 +62,13 @@
   - similarly for their execution
   - we can have simple flags dictating whether to be drawable and updatable
   - this allows to control drawing and updation of each screen. so states becomes screens for all
-  - each of these draw functions can simple return an image which will be rendered once for efficiendy.
+  - each of these draw functions can simple return an image which will be rendered once for efficiency.
   - it also allows us to do postfx and shader stuff later on.
   - the issue lies in the design of this system and how to merge it with current system in place.
+  - Game will have a state machine, basically screens, each screen transitions to different state.
+  - we can use a stack. but we need to traverse from bottom to top for all of it
+  - Game generates an sf::Image. goes through state stack, checks drawable flag, if true draws onto image and return image.
+  - This image is then sent to the next state till top. drawing all drawable states.
+  - Then a queue of all drawable objects is traversed. for each object through its state stack from bottom to top drawing each state that is valid
+  - this final image is then rendered to the screen . so only one render call occurs and postfx can be done on image before render.
+  - same goes for update queue and updation of game and entities.
