@@ -17,6 +17,7 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
 - Entity Manager
 - Component Manager
 - Animation System
+- Physics System
 
 # **Phase 1**
 - [x] Goal is to create a character that can be controlled by input.
