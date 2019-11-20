@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:21:42 pm
+ * Last Modified: Wednesday November 20th 2019 9:07:10 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -18,16 +18,14 @@
 #include "ActionMapper.hpp"
 #include "InputHandler.hpp"
 
-
 /**
  * The input manager which checks the mapping of action from keys and calls the respective callback functions
  */
 class InputManager : private sf::NonCopyable
 {
 public:
-  InputManager(InputHandler *, ActionMapper *);
+  InputManager(InputHandler *const, ActionMapper *);
   ~InputManager();
-
 
   /**
    * Sets the action mapper pointer to another ActionMapper object
@@ -68,7 +66,7 @@ public:
 private:
   ActionMapper *_actionMapper;
   std::vector<InputHandler *> _itemList;
-  InputHandler *gameEntity;
+  InputHandler *const gameEntity;
 };
 
 #endif

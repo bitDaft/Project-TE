@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 1:37:31 pm
+ * Last Modified: Wednesday November 20th 2019 9:07:10 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -12,7 +12,7 @@
 
 #include "InputManager.hpp"
 
-InputManager::InputManager(InputHandler *game, ActionMapper *aMap) : _actionMapper(aMap), _itemList(), gameEntity(game)
+InputManager::InputManager(InputHandler *const game, ActionMapper *aMap) : _actionMapper(aMap), _itemList(), gameEntity(game)
 {
 }
 InputManager::~InputManager() {}
