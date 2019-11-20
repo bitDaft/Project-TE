@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday October 15th 2019 11:38:54 am
+ * Last Modified: Wednesday November 20th 2019 2:31:35 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -21,6 +21,7 @@
 #include "InputManager.hpp"
 #include "ActionMapper.hpp"
 #include "RWindow.hpp"
+#include "UpdateManager.hpp"
 
 /** 
  * An instance of the game
@@ -79,6 +80,11 @@ public:
     bool quit(sf::Event &);
     void quitForce();
 
+    void startUpdation();
+    void stopUpdation();
+    void startUpdationQueue(int);
+    void stopUpdationQueue(int);
+
 private:
     /** 
      * An init function that is overriden which is executed once at the start of the game
@@ -98,19 +104,24 @@ private:
      * @return void
      */
     void processEvents();
-    virtual void processCustomEvents(Event &) ; // !need to remove. make it pure virtual. or maybe not?
+    /**
+     * The custom event handler of the game loop 
+     * @param Event & The Custom Event object reference
+     * @return void
+     */
+    virtual void processCustomEvents(Event &);
     /**
      * The update funtion of the game loop which is overriden called for updating the game
      * @param sf::Time The step time need to update the game state by
      * @return void
      */
-    virtual void update(const sf::Time &) = 0;
+    // virtual void update(const sf::Time &) = 0;
     /**
      * Called after exit from the Game loop
      * @param 
      * @return void
      */
-    virtual void end() ;
+    virtual void end();
     /**
      * The display function of the game 
      * @param sf::Time The remaining delta time to render an interpolated state
@@ -121,7 +132,9 @@ private:
 private:
     sf::Time timePerFrame;
     bool isRunning;
+    bool runUpdate;
     float fps;
+    UpdateManager *_updateManager;
 
 protected:
     RWindow gameWindow;
