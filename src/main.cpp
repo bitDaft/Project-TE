@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 2:02:38 pm
+ * Last Modified: Wednesday November 20th 2019 2:33:01 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -14,6 +14,7 @@
 #include "Game.hpp"
 #include "ResourceManager.hpp"
 #include "test.hpp"
+#include "IUpdatable.hpp"
 
 enum EventType
 {
@@ -47,7 +48,7 @@ enum Actions
 	QUIT
 };
 
-class TestPlayer : public InputHandler
+class TestPlayer : public InputHandler, private IUpdatable
 {
 private:
 	sf::Sprite player;
@@ -98,7 +99,7 @@ private:
 public:
 	sf::Vector2f plVelocity;
 	~TestPlayer() {}
-	TestPlayer() : playerMoveSpeed(50.f), plVelocity(0, 0)
+	TestPlayer() :  IUpdatable(10),playerMoveSpeed(50.f), plVelocity(0, 0)
 	{
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<moveUpR>(Actions::UP_RELEASE);
@@ -125,6 +126,14 @@ public:
 	const sf::Sprite &getSprite()
 	{
 		return player;
+	}
+	void update(const sf::Time &t)
+	{
+		if (getPosition().x < 0 || getPosition().x > 480)
+			plVelocity.x = -plVelocity.x;
+		if (getPosition().y < 0 || getPosition().y > 320)
+			plVelocity.y = -plVelocity.y;
+		move(plVelocity * t.asSeconds());
 	}
 };
 
@@ -165,7 +174,10 @@ private:
 	}
 
 public:
-	Test(const int wndWidth, const int wndHeight, const char *wndName) : Game(wndWidth, wndHeight, wndName), pl()
+	Test(const int wndWidth, const int wndHeight, const char *wndName)
+			: Game(wndWidth, wndHeight, wndName),
+
+				pl()
 	{
 		_aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyPressed, Actions::UP);
 		_aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyReleased, Actions::UP_RELEASE);
@@ -237,14 +249,6 @@ public:
 			break;
 		}
 	}
-	void update(const sf::Time &t)
-	{
-		if (pl.getPosition().x < 0 || pl.getPosition().x > 480)
-			pl.plVelocity.x = -pl.plVelocity.x;
-		if (pl.getPosition().y < 0 || pl.getPosition().y > 320)
-			pl.plVelocity.y = -pl.plVelocity.y;
-		pl.move(pl.plVelocity * t.asSeconds());
-	}
 	void draw(const sf::Time &t)
 	{
 		gameWindow.draw(pl.getSprite());
@@ -254,10 +258,10 @@ public:
 	}
 };
 
-int main(int argc, char *argv[])
+int main()
 {
-	Test testGame(480, 320, "Hello, World!");
+	Game *testGame = new Test(480, 320, "Hello, World!");
 	// testGame.setFrameRate(1);
-	testGame.run();
+	testGame->run();
 	return 0;
 }
