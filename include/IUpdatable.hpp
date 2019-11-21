@@ -4,7 +4,7 @@
  * Created Date: Monday November 18th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday November 20th 2019 11:02:17 am
+ * Last Modified: Thursday November 21st 2019 10:43:54 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -27,6 +27,10 @@ public:
 protected:
 private:
   virtual void update(const sf::Time &) = 0;
+
+private:
+  int _1;
+  int _2;
   static UpdateManager *_u;
 };
 
