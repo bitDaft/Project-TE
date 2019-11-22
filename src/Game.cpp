@@ -178,7 +178,7 @@ void Game::render(const sf::Time &dt)
     draw(dt);
     gameWindow.display();
 }
-float Game::getFPS()
+double Game::getFPS()
 {
     return fps;
 }

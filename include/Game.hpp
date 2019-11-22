@@ -63,7 +63,7 @@ public:
      * @param 
      * @return void
      */
-    float getFPS();
+    double getFPS();
 
     /**
      * Starts the game loop 
@@ -133,7 +133,7 @@ private:
     sf::Time timePerFrame;
     bool isRunning;
     bool runUpdate;
-    float fps;
+    double fps;
     UpdateManager *_updateManager;
 
 protected:
