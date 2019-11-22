@@ -18,14 +18,14 @@ OBJS				:= $(addprefix $(OBJ)/, $(notdir $(SRCS:.cpp=.o)))
 ifeq ($(COMPILE_ENV),debug)
 LIBRARIES		:= -lsfml-audio-d -lsfml-graphics-d -lsfml-window-d -lsfml-main-d -lsfml-system-d
 MODE_FLAG		:= -D_DEBUG_=1
-C_FLAGS			+= -og
+C_FLAGS			+= -og -g
 else
 LIBRARIES		:= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-main -lsfml-system
 MODE_FLAG		:= -mwindows -D_DEBUG_=0
 C_FLAGS			+= -o3
 endif
 
-MODE_FLAG 	+= -Ddebug(x)='do{if(_DEBUG_)std::cerr<<"\n"<<__FILE__<<":"<<__LINE__<<":"<<__func__<<": "<<x;}while(false)'
+MODE_FLAG 	+= -Ddebug(x)='do{if(_DEBUG_)std::cerr<<"\n"<<__FILE__<<":"<<__LINE__<<":"<<__func__<<": "<<x<<"\n";}while(false)'
 
 ifeq ($(OS),Windows_NT)
 EXECUTABLE	:= main.exe
