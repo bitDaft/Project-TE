@@ -108,6 +108,26 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
   - **TODO** - Design a game given the above criteria.
 
 # **Phase 3**
+  - [x] To be able to automatically manage updation of required entities
+  
+### REQUIREMENTS
+  - [x] Create a global updation system which will handle the updation of entities 
+    - [x] Automatically add updation required entities to the system
+    - [x] Automatically remove entities from updation upon entity deletion
+    - [x] Automatically calculate updates of entities each game loop
+
+### NOTES
+  - An updation class which contains a queue. 
+  - It should be initialised at the start.
+  - The number of queues needed can be set for priority stuff.
+  - At every game loop the updation of this is called.
+  - It will go through each queue in order and call each objects update function.
+  - Two functions toggle whether to allow or prevent updation.
+  - The game is in no updation mode at the start and will have to call function to allow updation.
+  - An interface updatable exist to allow objects to be updated which will be stored in the queue.
+  - Can the execution of specific queue be disabled. yes i think this is needed. so partial queues can run.
+   
+# **Phase 4**
   - [ ] To be able to transition between state for both game and entities
   
 ### REQUIREMENTS
