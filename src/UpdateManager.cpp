@@ -4,14 +4,13 @@
  * Created Date: Tuesday November 19th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday November 21st 2019 10:58:25 am
+ * Last Modified: Friday November 22nd 2019 10:17:01 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
  */
 
 #include "UpdateManager.hpp"
-#include <assert.h>
 #include <iostream>
 #include <algorithm>
 
@@ -34,8 +33,8 @@ void UpdateManager::addQueue(int n)
   for (int i = 0; i < n; i++)
   {
     std::vector<IUpdatable *> t;
-    t.reserve(50);
     updateList.emplace_back(t);
+    updateList.at(updateList.size() - 1).reserve(50);
     updateCheck.push_back(true);
   }
 }
@@ -47,7 +46,6 @@ void UpdateManager::intialise()
 
 int UpdateManager::pushToQueue(int pos, IUpdatable *ptr)
 {
-  assert(pos - 1 > 0);
   if (queueCount < pos)
   {
     addQueue(pos - queueCount);
@@ -70,12 +68,12 @@ void UpdateManager::update(const sf::Time &t)
     {
       if (updateCheck[i])
       {
-        totalCount += updateList[i].size();
-        for (std::vector<IUpdatable *>::iterator iit = updateList[i].begin(); iit != updateList[i].end(); ++iit)
+        totalCount += updateList.at(i).size();
+        for (std::size_t j = 0; j < updateList[i].size(); ++j)
         {
-          if (iit != nullptr)
+          if (updateList[i].at(j))
           {
-            (*iit)->callUpdate(t);
+            updateList[i][j]->callUpdate(t);
           }
           else
           {
@@ -84,7 +82,7 @@ void UpdateManager::update(const sf::Time &t)
         }
       }
     }
-    if (failCount >= (totalCount >> 2))
+    if (failCount > 10 && failCount >= (totalCount >> 2))
     {
       cleanupQueue();
     }
@@ -92,7 +90,6 @@ void UpdateManager::update(const sf::Time &t)
 }
 void UpdateManager::cleanupQueue()
 {
-  std::cout << "called cleanup\n";
   for (int i = 0; i < queueCount; i++)
   {
     updateList[i].erase(

@@ -4,7 +4,7 @@
  * Created Date: Monday November 18th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday November 21st 2019 10:43:54 am
+ * Last Modified: Friday November 22nd 2019 9:04:30 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -13,12 +13,14 @@
 #include "UpdateManager.hpp"
 #include "IUpdatable.hpp"
 #include <iostream>
+#include <assert.h>
 
 UpdateManager *IUpdatable::_u = nullptr;
 
 IUpdatable::IUpdatable(int pos)
 {
-  _1 = pos;
+  assert(pos > 0);
+  _1 = pos - 1;
   _2 = _u->pushToQueue(pos, this);
 }
 
@@ -33,7 +35,6 @@ void IUpdatable::initialize(UpdateManager *uMan)
 {
   if (!_u)
   {
-    std::cout << "Initializing";
     _u = uMan;
   }
 }
