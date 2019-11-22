@@ -1,4 +1,4 @@
-# Codename TE
+# Project TE
 
 The purpose of this project is **NOT** to develop a game but instead to develop an **Engine** in SFML while learning to make games. 
 
