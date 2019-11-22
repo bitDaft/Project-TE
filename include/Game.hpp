@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 1:42:40 am
+ * Last Modified: Wednesday November 20th 2019 2:31:35 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -20,9 +20,8 @@
 #include "InputHandler.hpp"
 #include "InputManager.hpp"
 #include "ActionMapper.hpp"
-#include "ResourceManager.hpp"
-
 #include "RWindow.hpp"
+#include "UpdateManager.hpp"
 
 /** 
  * An instance of the game
@@ -64,7 +63,7 @@ public:
      * @param 
      * @return void
      */
-    float getFPS();
+    double getFPS();
 
     /**
      * Starts the game loop 
@@ -81,13 +80,18 @@ public:
     bool quit(sf::Event &);
     void quitForce();
 
+    void startUpdation();
+    void stopUpdation();
+    void startUpdationQueue(int);
+    void stopUpdationQueue(int);
+
 private:
     /** 
      * An init function that is overriden which is executed once at the start of the game
      * Used to setup resources and other configuration
      * @return void
      */
-    virtual void init() = 0;
+    virtual void init();
     /** 
      * An overriden draw function that is called to allow for drawing of entities
      * @param sf::RenderWindow & A reference to the window onto which it should be drawn
@@ -100,19 +104,24 @@ private:
      * @return void
      */
     void processEvents();
-    virtual void processCustomEvents(Event &) = 0;
+    /**
+     * The custom event handler of the game loop 
+     * @param Event & The Custom Event object reference
+     * @return void
+     */
+    virtual void processCustomEvents(Event &);
     /**
      * The update funtion of the game loop which is overriden called for updating the game
      * @param sf::Time The step time need to update the game state by
      * @return void
      */
-    virtual void update(const sf::Time &) = 0;
+    // virtual void update(const sf::Time &) = 0;
     /**
      * Called after exit from the Game loop
      * @param 
      * @return void
      */
-    virtual void end() = 0;
+    virtual void end();
     /**
      * The display function of the game 
      * @param sf::Time The remaining delta time to render an interpolated state
@@ -123,7 +132,9 @@ private:
 private:
     sf::Time timePerFrame;
     bool isRunning;
-    float fps;
+    bool runUpdate;
+    double fps;
+    UpdateManager *_updateManager;
 
 protected:
     RWindow gameWindow;

@@ -4,15 +4,18 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 1:44:20 am
+ * Last Modified: Friday November 22nd 2019 10:15:42 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
  */
 
 #include <iostream>
+#include <vector>
 #include "Game.hpp"
+#include "ResourceManager.hpp"
 #include "test.hpp"
+#include "IUpdatable.hpp"
 
 enum EventType
 {
@@ -46,7 +49,7 @@ enum Actions
 	QUIT
 };
 
-class TestPlayer : public InputHandler
+class TestPlayer : public InputHandler, private IUpdatable
 {
 private:
 	sf::Sprite player;
@@ -96,8 +99,10 @@ private:
 
 public:
 	sf::Vector2f plVelocity;
-	~TestPlayer() {}
-	TestPlayer() : playerMoveSpeed(50.f), plVelocity(0, 0)
+	~TestPlayer()
+	{
+	}
+	TestPlayer() : IUpdatable(1), playerMoveSpeed(50.f), plVelocity(0, 0)
 	{
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<moveUpR>(Actions::UP_RELEASE);
@@ -125,12 +130,34 @@ public:
 	{
 		return player;
 	}
+	void update(const sf::Time &t)
+	{
+		if (getPosition().x < 0 || getPosition().x > 480)
+			plVelocity.x = -plVelocity.x;
+		if (getPosition().y < 0 || getPosition().y > 320)
+			plVelocity.y = -plVelocity.y;
+		move(plVelocity * t.asSeconds());
+	}
+};
+class A : IUpdatable
+{
+public:
+	A() : IUpdatable(1)
+	{
+	}
+	~A()
+	{
+	}
+	void update(const sf::Time &t)
+	{
+	}
 };
 
-class Test : public Game
+class Test : public Game, private IUpdatable
 {
 private:
 	TestPlayer pl;
+	sf::Time tt;
 
 	bool mld(sf::Event &)
 	{
@@ -164,8 +191,15 @@ private:
 	}
 
 public:
-	Test(const int wndWidth, const int wndHeight, const char *wndName) : Game(wndWidth, wndHeight, wndName), pl()
+	~Test()
 	{
+	}
+	Test(const int wndWidth, const int wndHeight, const char *wndName)
+			: Game(wndWidth, wndHeight, wndName),
+				IUpdatable(1),
+				pl()
+	{
+		tt = sf::Time::Zero;
 		_aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyPressed, Actions::UP);
 		_aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyReleased, Actions::UP_RELEASE);
 		_aMapper.bindInputToAction(sf::Keyboard::Down, sf::Event::KeyPressed, Actions::DOWN);
@@ -196,6 +230,15 @@ public:
 		_aMapper.bindInputToAction(sf::Mouse::Button::XButton2, sf::Event::MouseButtonReleased, Actions::MOUSE_X2_RELEASE);
 		_aMapper.bindInputToAction(sf::Event::MouseMoved, Actions::MOUSE_MOVED);
 		_aMapper.bindInputToAction(sf::Event::MouseWheelScrolled, Actions::MOUSE_SCROLL);
+	}
+	void update(const sf::Time &t)
+	{
+		tt += t;
+		if (tt.asSeconds() > 1)
+		{
+			tt -= sf::seconds(1.f);
+			A a;
+		}
 	}
 
 	void init()
@@ -228,21 +271,12 @@ public:
 			testData e;
 			if (event.getData(e))
 			{
-				debug(e.x);
 			}
 			break;
 		}
 		default:
 			break;
 		}
-	}
-	void update(const sf::Time &t)
-	{
-		if (pl.getPosition().x < 0 || pl.getPosition().x > 480)
-			pl.plVelocity.x = -pl.plVelocity.x;
-		if (pl.getPosition().y < 0 || pl.getPosition().y > 320)
-			pl.plVelocity.y = -pl.plVelocity.y;
-		pl.move(pl.plVelocity * t.asSeconds());
 	}
 	void draw(const sf::Time &t)
 	{
@@ -253,10 +287,9 @@ public:
 	}
 };
 
-int main(int argc, char *argv[])
+int main()
 {
-	Test testGame(480, 320, "Hello, World!");
-	// testGame.setFrameRate(1);
-	testGame.run();
+	Game *testGame = new Test(480, 320, "Hello, World!");
+	testGame->run();
 	return 0;
 }

@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:21:42 pm
+ * Last Modified: Thursday September 5th 2019 1:35:28 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -15,9 +15,9 @@
 ReactionMapper::ReactionMapper(void *obj) : objThis(obj) {}
 ReactionMapper::~ReactionMapper() {}
 
-bool ReactionMapper::executeCallback(unsigned int action, sf::Event &ev)
+bool ReactionMapper::executeCallback(int action, sf::Event &ev)
 {
-  std::unordered_map<unsigned int, delegate>::iterator iter = _reactionMap.find(action);
+  std::unordered_map<int, delegate>::iterator iter = _reactionMap.find(action);
   if (iter != _reactionMap.end())
   {
     return (iter->second(ev));
@@ -28,7 +28,7 @@ bool ReactionMapper::executeCallback(unsigned int action, sf::Event &ev)
   }
 }
 
-void ReactionMapper::clearBinding(unsigned int action)
+void ReactionMapper::clearBinding(int action)
 {
   _reactionMap.erase(action);
 }

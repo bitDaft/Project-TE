@@ -16,7 +16,6 @@
 class Event
 {
 public:
-  Event() {}
   Event(int);
   virtual ~Event();
 

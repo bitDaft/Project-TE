@@ -17,6 +17,7 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
 - Entity Manager
 - Component Manager
 - Animation System
+- Physics System
 
 # **Phase 1**
 - [x] Goal is to create a character that can be controlled by input.
@@ -28,6 +29,7 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
 - [x] Input Manager
   - [x] Multiple keys to same action
   - [x] Action to callback with Entity state
+
 ### NOTES
   - The **Game System** loads a ***Game window***, ***Texture manager***, ***Action mapper***, and ***Input manager***.
     - It contains a few utility function to modify the window and game option.
@@ -47,14 +49,14 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
   - The *Resource manager* can load textures and returns a handle.
     - The obtained handle can be passed to a function in resource manager to obtain the mapped texture.
 ### ISSUES
-  - ~~Mapping two or more keys to an action will and activating those keys will trigger it multiple times.~~
-    - >~~Make it so that multiple presses to same action is triggered only once~~
-    - >~~Should it be handled within the game instead?~~
-    - >~~Leaving it as is for now since it doesnt make sense~~
   - Action Mapper currently does not load mappings from a file instead have to be coded manually.
     - >Change Action mapper to load from a file of action = input mapping.
     - >Add function to allow editing of file and reloading of controls.
     - >make current function to map keys to action private.
+  - ~~Mapping two or more keys to an action will and activating those keys will trigger it multiple times.~~
+    - >~~Make it so that multiple presses to same action is triggered only once~~
+    - >~~Should it be handled within the game instead?~~
+    - >~~Leaving it as is for now since it doesnt make sense, if needed by dev, let them handle it.~~
   - ~~Using multiple resource manager/texture manager objects makes no sense to me, therefore we just use a single instance. Using one instance to access functions seems very redunctant, as we will have to pass the object around to load and retrieve resources/textures.~~
     - >~~Thus we can have the function of the resource manager be static so as to able to use it without a instance of the class. This will allow us to load and query for resources from anywhere in the game. All we will have to pass around are the handles ,***IFF*** the need arises to load a resource in one entity and access it in another.~~
   - ~~Currently Resource manger does have an unload function to unload loaded resources.~~
@@ -70,11 +72,16 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
     - >~~Change it to unordered_map~~
   - ~~*** "Self" DOCUMENTATION***~~
 
+#### Example game
+  - It needs to use all the features defined in this phase extensively for testing puposes.
+  - [Asteroids](https://github.com/bitDaft/Asteroids).
+  - **TODO** - Postmortem of asteroids to understand difficulty in using this engine.
+
 # **Phase 2**
-- [ ] Goal is to allow custom events.
+- [x] Goal is to allow custom events.
 
 ### REQUIREMENTS
-- [ ] Custom Events and Event Handler
+- [x] Custom Events and Event Handler
 
 ### NOTES
   - This Custom Event Handler will be able to directly integrate into the built-in event queue of SFML
@@ -94,3 +101,18 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
   - Custom window will allow the triggering of custom inputs.
   - Custom window will be responsible for managing Event queue.
   - When a custom event is triggered, empty out SFML queue into custom queue and push custom event to it to preserve order of triggered events. 
+  - **TODO** - complete the notes with the new changes to event system.
+
+#### Example Game 
+  - Need to make game with extensive use of custom event which will and will not send additional data.
+  - **TODO** - Design a game given the above criteria.
+
+# **Phase 3**
+  - [ ] To be able to transition between state for both game and entities
+  
+### REQUIREMENTS
+  - [ ] Make a finite state machine which can be used to control the behaviour of entities and game via states
+    - [ ] Add Push down automata to it to allow for state transition preservation
+
+### NOTES
+  

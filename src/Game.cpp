@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 1:42:10 am
+ * Last Modified: Wednesday November 20th 2019 2:31:35 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -27,22 +27,28 @@ Game::Game()
     : timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
       isRunning(true),
       fps(0),
+      _updateManager(new UpdateManager()),
       gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
       _aMapper(),
       _inputManager(this, &_aMapper)
 {
     gameWindow.setKeyRepeatEnabled(false);
+    runUpdate = true;
+    IUpdatable::initialize(_updateManager);
 }
 // Constructor
 Game::Game(const int w, const int h, const char *n)
     : timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
       isRunning(true),
       fps(0),
+      _updateManager(new UpdateManager()),
       gameWindow(sf::VideoMode(w, h), n),
       _aMapper(),
       _inputManager(this, &_aMapper)
 {
     gameWindow.setKeyRepeatEnabled(false);
+    runUpdate = true;
+    IUpdatable::initialize(_updateManager);
 }
 
 void Game::setWindowSize(const int width, const int height)
@@ -65,9 +71,10 @@ void Game::setFrameRate(const float seconds)
 
 void Game::run()
 {
+    init();
+    _updateManager->intialise();
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
-    init();
     // TODO: Re-evaluate loop
     // TODO: Panic check
     // TODO: interpolation
@@ -99,7 +106,10 @@ void Game::run()
         {
             timeSinceLastUpdate -= timePerFrame;
             processEvents();
-            update(timePerFrame);
+            if (runUpdate)
+            {
+                _updateManager->update(timePerFrame);
+            }
         }
         // TODO: calculate the interpolation from the remaning time and pass it onto render so as to obtain the intermediary state
         // ?Instead of sending remaning time, why not send an interpolation ration between [0,1]
@@ -109,7 +119,8 @@ void Game::run()
     }
     end();
 }
-
+void Game::init() {}
+void Game::end() {}
 void Game::processEvents()
 {
     Event *event;
@@ -145,6 +156,9 @@ void Game::processEvents()
         event->clear();
     }
 }
+void Game::processCustomEvents(Event &)
+{
+}
 bool Game::quit(sf::Event &)
 {
     isRunning = false;
@@ -164,7 +178,23 @@ void Game::render(const sf::Time &dt)
     draw(dt);
     gameWindow.display();
 }
-float Game::getFPS()
+double Game::getFPS()
 {
     return fps;
+}
+void Game::startUpdation()
+{
+    runUpdate = true;
+}
+void Game::stopUpdation()
+{
+    runUpdate = false;
+}
+void Game::stopUpdationQueue(int queue)
+{
+    _updateManager->stopQueue(queue);
+}
+void Game::startUpdationQueue(int queue)
+{
+    _updateManager->resumeQueue(queue);
 }

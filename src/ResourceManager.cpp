@@ -4,7 +4,7 @@
  * Created Date: Wednesday June 12th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday August 25th 2019 12:21:42 pm
+ * Last Modified: Thursday September 5th 2019 2:01:39 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -12,8 +12,8 @@
 
 #include "ResourceManager.hpp"
 
-unsigned int ResourceManager::_id = 1;
-std::unordered_map<unsigned int, ResourceManager::_texPtr> ResourceManager::_resourceMap;
+int ResourceManager::_id = 1;
+std::unordered_map<int, ResourceManager::_texPtr> ResourceManager::_resourceMap;
 
 ResourceManager::ResourceManager()
 {
@@ -22,7 +22,7 @@ ResourceManager::~ResourceManager()
 {
 }
 
-unsigned int ResourceManager::loadTexture(const char *path)
+int ResourceManager::loadTexture(const char *path)
 {
     _texPtr tex(new sf::Texture());
     if (tex->loadFromFile(path))
@@ -32,11 +32,11 @@ unsigned int ResourceManager::loadTexture(const char *path)
     }
     return 0;
 }
-sf::Texture &ResourceManager::getTexture(const unsigned int ID)
+sf::Texture &ResourceManager::getTexture(const int ID)
 {
     return *ResourceManager::_resourceMap.at(ID);
 }
-void ResourceManager::unloadTexture(const unsigned int ID)
+void ResourceManager::unloadTexture(const int ID)
 {
     ResourceManager::_resourceMap.erase(ID);
 }

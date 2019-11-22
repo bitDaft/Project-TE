@@ -4,7 +4,7 @@
  * Created Date: Thursday August 29th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 12:04:21 am
+ * Last Modified: Friday November 22nd 2019 9:01:54 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -21,7 +21,8 @@ CEVENT<dataType>::CEVENT() : EventProxy<CEVENT<dataType>>(-1),
 
 template <typename dataType>
 CEVENT<dataType>::CEVENT(int t, dataType *d) : EventProxy<CEVENT<dataType>>(t),
-                                               data(d)
+                                               data(d),
+                                               preventClear(false)
 {
 }
 
@@ -44,7 +45,6 @@ void CEVENT<dataType>::clearT()
   {
     delete data;
   }
-  delete this;
 }
 template <typename dataType>
 void CEVENT<dataType>::preventT()
