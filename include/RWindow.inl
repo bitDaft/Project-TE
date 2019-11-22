@@ -13,7 +13,7 @@
 #include "RWindow.hpp"
 #include "T_traits.hpp"
 
-template <class objType = void *>
+template <class objType>
 void RWindow::triggerEvent(int e, objType o)
 {
   processEvents();
