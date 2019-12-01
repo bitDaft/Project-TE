@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday November 22nd 2019 10:15:42 am
+ * Last Modified: Sunday December 1st 2019 8:59:33 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -16,10 +16,12 @@
 #include "ResourceManager.hpp"
 #include "test.hpp"
 #include "IUpdatable.hpp"
+#include "IDrawable.hpp"
 
 enum EventType
 {
-	testNum = sf::Event::EventType::Count + 1
+	testNum = sf::Event::EventType::Count + 1,
+	testNum2
 };
 
 // ?maybe move this into lib since we can fix every input event with input actions
@@ -49,7 +51,7 @@ enum Actions
 	QUIT
 };
 
-class TestPlayer : public InputHandler, private IUpdatable
+class TestPlayer : public InputHandler, private IUpdatable, private IDrawable
 {
 private:
 	sf::Sprite player;
@@ -102,7 +104,7 @@ public:
 	~TestPlayer()
 	{
 	}
-	TestPlayer() : IUpdatable(1), playerMoveSpeed(50.f), plVelocity(0, 0)
+	TestPlayer() : IUpdatable(1), IDrawable(1), playerMoveSpeed(50.f), plVelocity(0, 0)
 	{
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<moveUpR>(Actions::UP_RELEASE);
@@ -137,6 +139,10 @@ public:
 		if (getPosition().y < 0 || getPosition().y > 320)
 			plVelocity.y = -plVelocity.y;
 		move(plVelocity * t.asSeconds());
+	}
+	void draw(const sf::Time &t, sf::RenderTexture &tex)
+	{
+		tex.draw(player);
 	}
 };
 class A : IUpdatable
@@ -259,29 +265,40 @@ public:
 
 		_inputManager.pushEntity(&pl);
 
-		testData *t = new testData();
-		gameWindow.triggerEvent(EventType::testNum, t);
+		// testData *t = new testData();
+		// gameWindow.triggerEvent(EventType::testNum, t);
+		// gameWindow.triggerEvent(EventType::testNum2, new int(200));
 	}
 	void processCustomEvents(Event &event)
 	{
 		switch (event.type)
 		{
-		case EventType::testNum:
-		{
-			testData e;
-			if (event.getData(e))
-			{
-			}
-			break;
-		}
+		// case EventType::testNum:
+		// {
+		// 	testData e;
+		// 	if (event.getData(e))
+		// 	{
+		// 		debug(e.x);
+		// 	}
+		// 	break;
+		// }
+		// case EventType::testNum2:
+		// {
+		// 	int e;
+		// 	if (event.getData(e))
+		// 	{
+		// 		debug(e);
+		// 	}
+		// 	break;
+		// }
 		default:
 			break;
 		}
 	}
-	void draw(const sf::Time &t)
-	{
-		gameWindow.draw(pl.getSprite());
-	}
+	// void draw(const sf::Time &t)
+	// {
+	// 	gameWindow.draw(pl.getSprite());
+	// }
 	void end()
 	{
 	}

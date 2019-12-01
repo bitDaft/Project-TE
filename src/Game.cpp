@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday November 20th 2019 2:31:35 pm
+ * Last Modified: Sunday December 1st 2019 9:21:06 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -12,6 +12,8 @@
 #include <iostream>
 
 #include "Game.hpp"
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #define DEFAULT_FRAME_RATE (1.f / 120.f)
 #define DEFAULT_SCREEN_WIDTH 640
@@ -25,54 +27,76 @@ Game::~Game()
 }
 Game::Game()
     : timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
+      initialized(false),
       isRunning(true),
+      runUpdate(true),
+      runDraw(true),
       fps(0),
       _updateManager(new UpdateManager()),
+      _drawManager(new DrawManager()),
       gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
       _aMapper(),
       _inputManager(this, &_aMapper)
 {
-    gameWindow.setKeyRepeatEnabled(false);
-    runUpdate = true;
-    IUpdatable::initialize(_updateManager);
+    commonInit();
 }
 // Constructor
 Game::Game(const int w, const int h, const char *n)
     : timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
+      initialized(false),
       isRunning(true),
+      runUpdate(true),
+      runDraw(true),
       fps(0),
       _updateManager(new UpdateManager()),
+      _drawManager(new DrawManager()),
       gameWindow(sf::VideoMode(w, h), n),
       _aMapper(),
       _inputManager(this, &_aMapper)
 {
+    commonInit();
+}
+void Game::commonInit()
+{
     gameWindow.setKeyRepeatEnabled(false);
-    runUpdate = true;
+    startUpdation();
     IUpdatable::initialize(_updateManager);
+    IDrawable::initialize(_drawManager);
 }
 
 void Game::setWindowSize(const int width, const int height)
 {
-    sf::Vector2u size;
-    size.x = width;
-    size.y = height;
-    gameWindow.setSize(size);
+    if (initialized)
+    {
+        sf::Vector2u size;
+        size.x = width;
+        size.y = height;
+        gameWindow.setSize(size);
+    }
 }
 
 void Game::setWindowTitle(const char *title)
 {
-    gameWindow.setTitle(title);
+    if (initialized)
+    {
+        gameWindow.setTitle(title);
+    }
 }
 
 void Game::setFrameRate(const float seconds)
 {
-    timePerFrame = sf::seconds(1.f / seconds);
+    if (initialized)
+    {
+        timePerFrame = sf::seconds(1.f / seconds);
+    }
 }
 
 void Game::run()
 {
+    initialized = true;
     init();
     _updateManager->intialise();
+    _drawManager->intialise();
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     // TODO: Re-evaluate loop
@@ -114,8 +138,10 @@ void Game::run()
         // TODO: calculate the interpolation from the remaning time and pass it onto render so as to obtain the intermediary state
         // ?Instead of sending remaning time, why not send an interpolation ration between [0,1]
         sf::Time remaining_time = sf::Time::Zero; // !replace with the calculated time
-        if (isRunning)
+        if (isRunning && runDraw)
+        {
             render(remaining_time);
+        }
     }
     end();
 }
@@ -174,8 +200,13 @@ void Game::quitForce()
 void Game::render(const sf::Time &dt)
 {
     // ?there will be calculation here to determine the intermediary positions
+    sf::RenderTexture finalTexture;
+    finalTexture.create(gameWindow.getSize().x, gameWindow.getSize().y);
     gameWindow.clear();
-    draw(dt);
+    finalTexture.clear();
+    _drawManager->draw(dt, finalTexture);
+    finalTexture.display();
+    gameWindow.draw(sf::Sprite(finalTexture.getTexture()));
     gameWindow.display();
 }
 double Game::getFPS()
@@ -190,6 +221,14 @@ void Game::stopUpdation()
 {
     runUpdate = false;
 }
+void Game::startDrawing()
+{
+    runDraw = true;
+}
+void Game::stopDrawing()
+{
+    runDraw = false;
+}
 void Game::stopUpdationQueue(int queue)
 {
     _updateManager->stopQueue(queue);
@@ -197,4 +236,12 @@ void Game::stopUpdationQueue(int queue)
 void Game::startUpdationQueue(int queue)
 {
     _updateManager->resumeQueue(queue);
+}
+void Game::stopDrawingQueue(int queue)
+{
+    _drawManager->stopQueue(queue);
+}
+void Game::startDrawingQueue(int queue)
+{
+    _drawManager->resumeQueue(queue);
 }
