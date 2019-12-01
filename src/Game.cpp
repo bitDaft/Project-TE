@@ -32,9 +32,7 @@ Game::Game()
       _aMapper(),
       _inputManager(this, &_aMapper)
 {
-    gameWindow.setKeyRepeatEnabled(false);
-    runUpdate = true;
-    IUpdatable::initialize(_updateManager);
+    commonInit();
 }
 // Constructor
 Game::Game(const int w, const int h, const char *n)
@@ -46,8 +44,12 @@ Game::Game(const int w, const int h, const char *n)
       _aMapper(),
       _inputManager(this, &_aMapper)
 {
+    commonInit();
+}
+void Game::commonInit()
+{
     gameWindow.setKeyRepeatEnabled(false);
-    runUpdate = true;
+    startUpdation();
     IUpdatable::initialize(_updateManager);
 }
 

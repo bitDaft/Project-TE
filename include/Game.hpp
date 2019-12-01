@@ -129,6 +129,8 @@ private:
      */
     void render(const sf::Time &);
 
+    void commonInit();
+
 private:
     sf::Time timePerFrame;
     bool isRunning;
