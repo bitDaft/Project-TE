@@ -4,13 +4,15 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 11:48:23 am
+ * Last Modified: Sunday December 1st 2019 9:00:07 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
  */
 
 #include "DrawManager.hpp"
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
 #include <algorithm>
 
@@ -60,30 +62,39 @@ void DrawManager::removeFromQueue(int pos1, int pos2)
 {
   drawList.at(pos1).at(pos2) = nullptr;
 }
-void DrawManager::draw(const sf::Time &t)
+void DrawManager::draw(const sf::Time &t, sf::RenderTexture &finalTexture)
 {
   if (setupDone)
   {
     int failCount = 0;
     int totalCount = 0;
+    sf::RenderTexture _tex;
+    _tex.create(finalTexture.getSize().x, finalTexture.getSize().y);
     for (int i = 0; i < queueCount; i++)
     {
-      if (drawCheck[i])
+      if (drawCheck.at(i))
       {
-        totalCount += drawList.at(i).size();
+        _tex.clear(sf::Color::Transparent);
+        totalCount += drawList[i].size();
         for (std::size_t j = 0; j < drawList[i].size(); ++j)
         {
           if (drawList[i].at(j))
           {
-            drawList[i][j]->callDraw(t);
+            drawList[i][j]->callDraw(t, _tex);
           }
           else
           {
             failCount++;
           }
         }
+        // pass each queue image to the shader pipeline
+
+        _tex.display();
+        // add this image to the final image
+        finalTexture.draw(sf::Sprite(_tex.getTexture()));
       }
     }
+    // pass the final image to the shader pipeline
     if (failCount > 10 && failCount >= (totalCount >> 2))
     {
       cleanupQueue();

@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 11:48:23 am
+ * Last Modified: Sunday December 1st 2019 8:34:11 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <SFML/System/Time.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
 #include "IDrawable.hpp"
 
 class DrawManager
@@ -24,7 +25,7 @@ public:
   virtual ~DrawManager();
 
   void intialise();
-  void draw(const sf::Time &);
+  void draw(const sf::Time &,sf::RenderTexture &);
   void stopQueue(int);
   void resumeQueue(int);
 
