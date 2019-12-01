@@ -196,3 +196,163 @@ Random thoughts and musings
   - here there are other objects that are drawn if the game screen is drawn. then we need to draw the pause screen
   - so there is a hierarchy of drawing objects
   - if one object is not drawn any under it is also not drawn.
+
+  ----------------------  
+  - since the global updation system is done, we now focus on state system.
+  - updation system will have to be updated to interact with state system automatically once a state system is present on an object.
+
+  ### Drawing system new thoughts  
+  - drawing can be done in many layers.
+  - each layer can be like set of parallax, background, main, forground etc
+  - i know i should be working on state engine and drawing, but UI keeps coming to mind. :p
+  - tie drawing sytem to state system? how will it tie up the animation system?
+  - should the animation system be like updation system but single queue? just run through all objectsnd update the animation to new frame?
+  - ok i took a look at a basic animation system where the sprite class has been replacesd by animated sprite.
+  - so we an also have an animation system whic describes animation and animated sprites which referes to those animation.
+  - if so how is this going to tie in with state sytem.
+  - lets review state system with basic sprite system first.
+  - once the states draw system is called the it will update the sprtie of the object with new sprite.
+  - the enter method of a state should change the sprite.
+  - the draw method return image of sprite drawn into an image.
+  - so considering that each state can hold a pointer to an animation object which will replace the animated sprited with that animation.
+  - then each draw call of the state will just draw the animated sprite where the animation class will handle the switching of the frame.
+  - so the object can hold a animatedSprite object while the animation are handled in the state.
+  - without states the user can create multiple different animation in the object itself and pass to the sprite.
+  - how does the animation system tie in with the drawing system?
+  - how does drawing system work if there is no states system is required?
+  - #### quetions to be answered
+    - how does the animation system work independently?
+    - how does the drawing system work independently?
+    - how does the drawing system work with animation system?
+    - how does the state system work independently?
+    - how does the state system work with animation system?
+    - how does the state system work with drawing system?
+    - how does the state system work with animation and drawing system?
+    - how does the state system work with the updation system? // this is for later. we will need to update the updation system.
+    - so there are 8 questions that need to be answered.
+        
+    - ###### how does the animation system work independently?
+      - for animation there are 2 classes.
+      - animation and animatedsprite.
+      - animation stores the animation sprite sheet information.
+      - each animation specifies the texture, the length and width of the entire sprite strip, and the number of frames in it, so it can automatically calculate each rect needed for each frame instead of creating muliptle rect objects.
+      - but like that it will create a new rect object every time a new frame is needed. 
+      - hmmm.. lets just use a single rect object and simple change it's values and pass the same rect every time, so no need for multiple rect objects.
+      - this should remove the cost of creating multiple rect.
+      - so one rect, one texture, one width, one height variables needed only for an entire animation system. the only extra computation will be calaculation of different coords of the rect when switching frames. no fixed rects. less memory but more computation. how will this affect long time?
+      - once a rect has been created, it need not be swapped out. so no extra calculation, but only at animation initialization.
+      - hmmmmmm?
+      - profile and see long term. graph the effect. 
+      - instead of fixed memeory footprint for each animation, the number of rect count wil increase with higher number of frames.
+      - but this will allow for o extra calcualtion and simple passing of rect for new frame of animation.
+      - for now lets use fixed memory footprint.
+        
+    - ##### how does the drawing system work independently?
+      - havent really thought about this.
+      - it could be really similar to the updation system.
+      - so we can have a global drawing queue or multiple queues.
+      - so when an entity is marked as drawable it would be added to the desired queue
+      - then each game loop just loop the queue and draw the objects. so each layer(queue) can be drawn via painters algorithm.
+      - each of these draw functions takes in an image and it adds to that image
+      - should it add to the image of just return the image and add it manually in the engine render func..
+      - let each layer draw themselves. but we get each multiple layer and just combine everything together.
+      - should i have a priority queue instead? dunno.. each of these different queues do implement a kind of priority.
+      - removal can be done same as updation
+      - ok so thats done.. somewhat.. there are still issues
+      - this design of drawing system can have issues when pause state needed to be drawm transparently in top od game UI.
+      - so you will have to have a queue for the pause system. and another queue for game system.
+      - this shows pause has highest priority.
+      - this can be drawn like this. what about the state system interacting with the game itself.
+      - we will need to think about some layers already and have it have some kind of fixed definition.
+      - lets have 2 main queue. game -> menu.
+      - game can have its own sub layers like parallax, background, main, foreground etc.
+      - menu can have menu, settings pause etc. but most likely this will be just a single layer.
+      - but that would mean setting options and what not, are actually objects. oh fuck. now i have to think about the UI system.
+      - fuck me.
+      - lets consider they are object with the same interface
+
+    - ##### how does the drawing system work with animation system?
+      - doesn't matter.
+      - the drawing system is will call the draw function.
+      - the draw function takes an image.
+      - the animated sprite can be drawn onto it normally as you would.
+      - so it seems both of them are independent systems.
+      - the drawing system will go through all objects in its queue and call each objects draw function while passing a single image through for each queue.
+      - the draw function will draw the animatedsprite to that image at the correct position and return it.
+      - the returned image is then passed onto the next object in the queue.
+      - at the end we have a single image of that queue in order of painters algorithm for each queue.
+      - at the end of drawing loop all images for each queue is then combined in order of painters algorithm and then rendered to the screen.
+      - so this system should work properly.
+      - i think there is no need to return the image. since the image will be passed as a reference it will affect the original image.
+      - so returning it basically does nothing as the user will have no access to that image.
+      - if they wanted to post process the image, they can call the postfx func in the draw func with the image that is passed to it.
+      - ok, i think this is a viable system, that can work without state systems.
+      - now onto state system madness.
+
+    - ##### how does the state sytem work independently?
+      - at the highest level there is a single state manager class.
+      - should this class be subclassed or should it just be object composition?
+      - whatever... the statemanager manages the current state and changing of the state so that the code does not flow into the object.
+      - so it will be clean for the programmer.
+      - the object calls the update function of the state machine.
+      - the state machine then just checks the current state for that object and invokes the current states update method.
+      - the state is passed a pointer to the object of the state machine.
+      - the statemachine is given the obect pointer when initlizing. 
+      - state machine is also templated to allow for different objects to store their this pointer.
+      - the state for each object will be subclassed from a main state class and will have common function like enter, exit, update etc functions.
+      - so the object will not have to manage any state code within it and will be handled by the manager.
+
+    - ##### how does the state system work with animation system?
+      - the object will contain the animated sprite object.
+      - each state object will have to define animation object/s depending on how many are needed.
+      - each time a new state is called, in the enter function of that animation, set the animatio of the animtedsprite to the correct animation belonging to that state.
+      - this will allow the animation of the ainmated sprite to change with the change of the state.
+      - if this is the case then the state objects will have to store some stateful information which makes them not static objects.
+      - thus when switching objects we will have to delete and create new objects as required.
+      - since it contains inforformation particular to that object, when we have multiple same objects we cant reuse the state objects and will have to create independent states for all of them.
+      - but since it is animation, the animation of all objects should be the same i guess. so no need to actually create new state objects for all.
+      - all the objects have the same properties and animation, switching states will produce the same animation.
+      - so we can declare static state objects.
+      - but since the state management is handles by the state manager class how will it be handled by the object..
+      - hmmm.. lets see.
+      - instead of the states themselves creating new objects and setting the current state of the state manager. we can wrap it up in a fucntion to call to return the required object
+      - the user can then override this function the return the requested  object however he need. whether to create new objcet or send a reference to a static object.
+
+    - ##### how does the state system work with drawing system?
+      - the drawing system will loop through all the objects in the queue related to that priority or depth.
+      - it will pass a reference of an image into each object and have the object be drawn into it.
+      - at the end of the queue loop we will get an image with all the objects drawn onto the image for that depth.
+      - this is the working of the basic drawing system independently.
+      - when we have a state system the sprite od the object may change due to the state like idle, running, jump etc. each of these state will have their own sprite to be drawn.
+      - once the state is entered the sprite will be set to the relevant sprite. should we set the sprite?
+      - should there be a change in the sprite. isn't it costly to keep changing sprites like that?
+      - will have to profile it.
+      - in drawing system the loop will call each object's draw function. when there is a state we will automatically delegate it to the state's draw function.
+      - the image to be passed will also be passed to it.
+      - no need to keep changing the sprites texture as that might be costly.
+      - let each state have a sprite object defined and that sprite ca be drawn onto the image passed to the draw function.
+      - this will require more memory but there wont be any computation over head to switching the sprites texture over and over.
+      - although each state of the object will have its own sprite, neednt create multiple object since each state of every object has the same sprite static state objects can be created. 
+      - how does the drawing of a pause state with snapshot of gamestate underneath work?
+      - since each state has a different drawing, shoudn't the drawing queue or whatever be part of the state. 
+
+    - ##### how does the state system work with animation and drawing system?
+     - the state system and other system will work as described above in combination.
+    
+  - after much thinking i have decided to use a global drawing system and let the programmer manage the objects to be drawn.
+  - public functions can be used to change the priority of the functions and whether to disable enable the drawing of the object.
+  - it will integrate with the animation and the state system the same wasy as described above in the answer to the questions.
+  - once the state system is implemented, all the systems will need to be integrated into the state system as an option and not a defualt.
+  - this will allow the programmer decide whether they want to use in conjunction or separately.
+  - this should allow for flexibility.
+  - there can be 2 default queue for objects and menu.. no.. lets just allow the programmer to decide. although we can give pointers and use cases in example programs and documentation for them to follow.
+  - the drawing system is a global system which will work the same way as the updation queue.
+  - there can be multiple queue as needed.
+  - i need to fincd a way to transfer the pointer to the objects stored in the vector to be tranferred to another vector as and when required.
+  - that will allow to change the priority as needed.
+  - in the documentation i can give the idea of having a defualt disabled queue, or when they just want to disable an object they can move it onto that queue. should i move it automatically to the new queue upon deactivation?
+  - or should i let the programmer decide the change in the queue.
+  - lets see the cost of moving from vector to vector or just simply have a boolean to prevent execution.
+  - to create the system we can simply duplicate the updation system and refactor the names as needed.
+
+  *Issue* - no object other than the game can currently issue new events. change it to allow the passing of gamewindow to other objects to be able to trigger custom events as required.
