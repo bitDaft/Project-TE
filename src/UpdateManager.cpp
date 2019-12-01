@@ -4,7 +4,7 @@
  * Created Date: Tuesday November 19th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday November 22nd 2019 10:17:01 am
+ * Last Modified: Sunday December 1st 2019 12:25:49 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -30,6 +30,8 @@ UpdateManager::~UpdateManager()
 
 void UpdateManager::addQueue(int n)
 {
+  updateCheck.reserve(queueCount + n);
+  updateList.reserve(queueCount + n);
   for (int i = 0; i < n; i++)
   {
     std::vector<IUpdatable *> t;

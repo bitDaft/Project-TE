@@ -4,7 +4,7 @@
  * Created Date: Monday November 18th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday November 22nd 2019 9:04:30 am
+ * Last Modified: Sunday December 1st 2019 12:25:49 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -40,5 +40,16 @@ void IUpdatable::initialize(UpdateManager *uMan)
 }
 void IUpdatable::callUpdate(const sf::Time &t)
 {
-  update(t);
+  if (canUpdate)
+  {
+    update(t);
+  }
+}
+void IUpdatable::enableUpdate()
+{
+  canUpdate = true;
+}
+void IUpdatable::disableUpdate()
+{
+  canUpdate = false;
 }
