@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday November 27th 2019 9:58:31 am
+ * Last Modified: Sunday December 1st 2019 8:59:33 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -16,6 +16,7 @@
 #include "ResourceManager.hpp"
 #include "test.hpp"
 #include "IUpdatable.hpp"
+#include "IDrawable.hpp"
 
 enum EventType
 {
@@ -50,7 +51,7 @@ enum Actions
 	QUIT
 };
 
-class TestPlayer : public InputHandler, private IUpdatable
+class TestPlayer : public InputHandler, private IUpdatable, private IDrawable
 {
 private:
 	sf::Sprite player;
@@ -103,7 +104,7 @@ public:
 	~TestPlayer()
 	{
 	}
-	TestPlayer() : IUpdatable(1), playerMoveSpeed(50.f), plVelocity(0, 0)
+	TestPlayer() : IUpdatable(1), IDrawable(1), playerMoveSpeed(50.f), plVelocity(0, 0)
 	{
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<moveUpR>(Actions::UP_RELEASE);
@@ -138,6 +139,10 @@ public:
 		if (getPosition().y < 0 || getPosition().y > 320)
 			plVelocity.y = -plVelocity.y;
 		move(plVelocity * t.asSeconds());
+	}
+	void draw(const sf::Time &t, sf::RenderTexture &tex)
+	{
+		tex.draw(player);
 	}
 };
 class A : IUpdatable
@@ -290,10 +295,10 @@ public:
 			break;
 		}
 	}
-	void draw(const sf::Time &t)
-	{
-		gameWindow.draw(pl.getSprite());
-	}
+	// void draw(const sf::Time &t)
+	// {
+	// 	gameWindow.draw(pl.getSprite());
+	// }
 	void end()
 	{
 	}
