@@ -1,10 +1,10 @@
 /*
- * File: IUpdatable.cpp
+ * File: IDrawable.cpp
  * Project: Project-TE
- * Created Date: Monday November 18th 2019
+ * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday November 22nd 2019 9:04:30 am
+ * Last Modified: Sunday December 1st 2019 12:18:30 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -12,12 +12,11 @@
 
 #include "DrawManager.hpp"
 #include "IDrawable.hpp"
-#include <iostream>
 #include <assert.h>
 
 DrawManager *IDrawable::_u = nullptr;
 
-IDrawable::IDrawable(int pos)
+IDrawable::IDrawable(int pos) : canDraw(true)
 {
   assert(pos > 0);
   _1 = pos - 1;
@@ -40,5 +39,16 @@ void IDrawable::initialize(DrawManager *uMan)
 }
 void IDrawable::callDraw(const sf::Time &t)
 {
-  draw(t);
+  if (canDraw)
+  {
+    draw(t);
+  }
+}
+void IDrawable::enableDraw()
+{
+  canDraw = true;
+}
+void IDrawable::disableDraw()
+{
+  canDraw = false;
 }

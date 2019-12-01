@@ -1,10 +1,10 @@
 /*
- * File: UpdateManager.cpp
+ * File: DrawManager.cpp
  * Project: Project-TE
- * Created Date: Tuesday November 19th 2019
+ * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday November 22nd 2019 10:17:01 am
+ * Last Modified: Sunday December 1st 2019 11:48:23 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -30,6 +30,8 @@ DrawManager::~DrawManager()
 
 void DrawManager::addQueue(int n)
 {
+  drawCheck.reserve(queueCount + n);
+  drawList.reserve(queueCount + n);
   for (int i = 0; i < n; i++)
   {
     std::vector<IDrawable *> t;
@@ -88,6 +90,7 @@ void DrawManager::draw(const sf::Time &t)
     }
   }
 }
+
 void DrawManager::cleanupQueue()
 {
   for (int i = 0; i < queueCount; i++)

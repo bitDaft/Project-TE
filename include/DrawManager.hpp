@@ -1,10 +1,10 @@
 /*
- * File: UpdateManager.hpp
+ * File: DrawManager.hpp
  * Project: Project-TE
- * Created Date: Tuesday November 19th 2019
+ * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday November 21st 2019 10:58:25 am
+ * Last Modified: Sunday December 1st 2019 11:48:23 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -16,12 +16,6 @@
 #include <vector>
 #include <SFML/System/Time.hpp>
 #include "IDrawable.hpp"
-
-
-// effiicient use of vector
-// quick way to store lots of object and reference them
-// remember how minecraft stores their chunks in bins with hashing
-// maybe use something similar to it to find quickly and retrieve it
 
 class DrawManager
 {
@@ -40,6 +34,7 @@ public:
 private:
   void addQueue(int);
   void cleanupQueue();
+
 private:
   std::vector<bool> drawCheck;
   int queueCount;
