@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday November 20th 2019 2:31:35 pm
+ * Last Modified: Sunday December 1st 2019 9:02:32 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -22,6 +22,7 @@
 #include "ActionMapper.hpp"
 #include "RWindow.hpp"
 #include "UpdateManager.hpp"
+#include "DrawManager.hpp"
 
 /** 
  * An instance of the game
@@ -82,8 +83,12 @@ public:
 
     void startUpdation();
     void stopUpdation();
+    void startDrawing();
+    void stopDrawing();
     void startUpdationQueue(int);
     void stopUpdationQueue(int);
+    void startDrawingQueue(int);
+    void stopDrawingQueue(int);
 
 private:
     /** 
@@ -97,7 +102,7 @@ private:
      * @param sf::RenderWindow & A reference to the window onto which it should be drawn
      * @return void
      */
-    virtual void draw(const sf::Time &) = 0;
+    // virtual void draw(const sf::Time &) = 0;
     /**
      * The event handler of the game loop 
      * @param 
@@ -133,10 +138,13 @@ private:
 
 private:
     sf::Time timePerFrame;
+    bool initialized;
     bool isRunning;
     bool runUpdate;
+    bool runDraw;
     double fps;
     UpdateManager *_updateManager;
+    DrawManager *_drawManager;
 
 protected:
     RWindow gameWindow;
