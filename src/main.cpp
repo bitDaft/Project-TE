@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday November 22nd 2019 10:15:42 am
+ * Last Modified: Wednesday November 27th 2019 9:58:31 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -19,7 +19,8 @@
 
 enum EventType
 {
-	testNum = sf::Event::EventType::Count + 1
+	testNum = sf::Event::EventType::Count + 1,
+	testNum2
 };
 
 // ?maybe move this into lib since we can fix every input event with input actions
@@ -259,21 +260,32 @@ public:
 
 		_inputManager.pushEntity(&pl);
 
-		testData *t = new testData();
-		gameWindow.triggerEvent(EventType::testNum, t);
+		// testData *t = new testData();
+		// gameWindow.triggerEvent(EventType::testNum, t);
+		// gameWindow.triggerEvent(EventType::testNum2, new int(200));
 	}
 	void processCustomEvents(Event &event)
 	{
 		switch (event.type)
 		{
-		case EventType::testNum:
-		{
-			testData e;
-			if (event.getData(e))
-			{
-			}
-			break;
-		}
+		// case EventType::testNum:
+		// {
+		// 	testData e;
+		// 	if (event.getData(e))
+		// 	{
+		// 		debug(e.x);
+		// 	}
+		// 	break;
+		// }
+		// case EventType::testNum2:
+		// {
+		// 	int e;
+		// 	if (event.getData(e))
+		// 	{
+		// 		debug(e);
+		// 	}
+		// 	break;
+		// }
 		default:
 			break;
 		}
