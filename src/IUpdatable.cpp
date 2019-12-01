@@ -4,7 +4,7 @@
  * Created Date: Monday November 18th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 12:25:49 pm
+ * Last Modified: Sunday December 1st 2019 8:34:11 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -17,7 +17,7 @@
 
 UpdateManager *IUpdatable::_u = nullptr;
 
-IUpdatable::IUpdatable(int pos)
+IUpdatable::IUpdatable(int pos): canUpdate(true)
 {
   assert(pos > 0);
   _1 = pos - 1;
