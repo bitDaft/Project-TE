@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 1:35:28 pm
+ * Last Modified: Tuesday December 3rd 2019 8:22:43 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -33,7 +33,7 @@ public:
    * Constructor initialise the callback object
    * @param void* The object whose member function are going to be callback functions 
    */
-  ReactionMapper(void *);
+  explicit ReactionMapper(void *);
   virtual ~ReactionMapper();
 
   /**

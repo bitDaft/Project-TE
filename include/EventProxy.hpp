@@ -4,7 +4,7 @@
  * Created Date: Tuesday September 3rd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 12:04:21 am
+ * Last Modified: Tuesday December 3rd 2019 8:22:43 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -25,7 +25,7 @@ private:
   void prevent();
 
 public:
-  EventProxy(int);
+  explicit EventProxy(int);
   virtual ~EventProxy();
 };
 

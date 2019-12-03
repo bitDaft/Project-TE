@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 8:59:33 pm
+ * Last Modified: Tuesday December 3rd 2019 8:22:43 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -203,9 +203,10 @@ public:
 	Test(const int wndWidth, const int wndHeight, const char *wndName)
 			: Game(wndWidth, wndHeight, wndName),
 				IUpdatable(1),
-				pl()
+				pl(),
+				tt(sf::Time::Zero)
 	{
-		tt = sf::Time::Zero;
+
 		_aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyPressed, Actions::UP);
 		_aMapper.bindInputToAction(sf::Keyboard::Up, sf::Event::KeyReleased, Actions::UP_RELEASE);
 		_aMapper.bindInputToAction(sf::Keyboard::Down, sf::Event::KeyPressed, Actions::DOWN);

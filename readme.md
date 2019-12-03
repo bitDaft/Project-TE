@@ -1,5 +1,8 @@
 # Project TE
 
+[![CodeFactor](https://www.codefactor.io/repository/github/bitdaft/project-te/badge/master)](https://www.codefactor.io/repository/github/bitdaft/project-te/overview/master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/089e7bc166334fd9bc996eab81aa32c2)](https://www.codacy.com/manual/bitDaft/Project-TE?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bitDaft/Project-TE&amp;utm_campaign=Badge_Grade)
+
 The purpose of this project is **NOT** to develop a game but instead to develop an **Engine** in SFML while learning to make games. 
 
 With each additional Iteration/Phase of the Game/Project newer systems/managers will be added to the engine till we have a decent engine that can be robustly be used to develop games both simple and complex.
