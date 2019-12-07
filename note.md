@@ -356,3 +356,86 @@ Random thoughts and musings
   - to create the system we can simply duplicate the updation system and refactor the names as needed.
 
   *Issue* - no object other than the game can currently issue new events. change it to allow the passing of gamewindow to other objects to be able to trigger custom events as required.
+
+  ### Animation System
+  - we will be working on the animation system next.
+  - should there be an animation manager which will hold all the animations like the resource manager.
+  - or should we just have the animation created every time the object is created.
+  - since the texture is allocated only once, the intrects will have to be created each time we create a new object.
+  - but the animation will be the same.
+  - each animation obhect will have reference to a texture and the rects needed for each frame. should we do it like thor to allow for veriety of animation functors of functions to be added.
+  - suchglobal functions/functors can be created by the developer when the need to, as this is just a simple transition function .
+  - these functions can be manually called in the update function if the need arises.
+  - the current systems that can be animated are frames, and transformables, colors with alpha. cant think of anything else that i can think of which would want to make such an animation system. 
+  - it will be convinient but it is trivial to implement by themselves and are not usefull for me to integrate into the engine.
+  - so we will only deal with frames.and i dont want to use strings or whatever to call functions or whatever since the comparison of functions is much more heavy comparitively.
+  - so lets just leave the other animation for the programmers to implement by themselves as these are too case specific.
+  - only frame animation is generally used to a high degree.
+  - and transformables and color alpha is not used as much.
+  - although it can be used for example to create a bobbing animation, there are many parameters for the bobbing or whatever transformable which are too specific to allow for a generic class.
+  - so no other animation other than frame animation.
+  - for animation we will have a single class whose objects contain the information needed to create a frame animation.
+  - the needed variables are reference to the texture and the rects of each frame.
+  - the reason i am going with each rect of frame is since the frames can vary in sizes and positions.
+  - although position is much less varying, consider for example a person slashing their sword.
+  - the frame size will depend on how far out the sword has been drawn.
+  - same exmaple can be used for height also.
+  - thus the programmer will have to manually define these rects as needed.
+  - lets say that each object has its own animation object. so when a new object is created the same animation objectwill have to be created for it.
+  - when there are multiple such entities neing created and destroyed at a fast rate, the creation and destruction of these rects and animation objects can add to the processing needed.
+  - but this method allows for the user to have their own independant objects which can store things like animation state and how much it has progressed for each individual object.
+  - but if we have a single animation object for each animation and all objects having to refer to this object will prevent us form storing animation state related information since each object can have different positions in the animation cycle.
+  - so the user itself will have the variables needed for it.
+  - so if there is just a single animation object that every object is going to refer to we can have an animation manager, that will allow us to keep track of, load and destroy these animations as required.
+  - but if it like the resource system, the object which will need to reference the animation will need to code for it.how are different objects  going to obtain this code for referencing it?
+  - the same issue is there for resource system.
+  - currently it is the game class which is loading these resources and holding onto their handles.
+  - and when an object is created in the game class, the resource handle is passed to the object so they may initialize it.
+  - this is a stupid way.
+  - we should have a map of these handles to custom enums(never gonna use string as comparison calculation is shit slow for string).
+  - so we need a handle manager class. it will have an enum of resources. once a resource is loaded add it automatically to the handle manager.
+  - when the programmers loads a resource they can also pass in the desired handle to store the reference to.
+  - thus later on the can query the handle manager with their desired enum, and retrieve the corresponding handle and then obtain the corresponding resource from its managers
+  - is animation a resource ? can we use it the same as texture, font, sfx etc. since they are all going to be used the same way.
+  - but since the other resources are loaded as files from disk and this is created in game, lets handle it separelty for now.
+  - in fact should we have a seaparate class for font texture sfx etc?
+  - let split them all into different class. change the current resource amnager into trexture manager and have the resource class be the handle manager.
+  - is there a way to determine if a path string for loading a resource is font or texture etc?
+  - if it is we can generically pass a path and resource manager can call the respetive manager to load the resource and store the handle.
+  - or should we just make the programmer use each individual class so as to force the type of resource?
+  - if they use resource manger for loading how will the load other resources like animation and anything else that might be needed later in the future.
+  - we cant pass a file path for the animation.
+  - so let the programmer invoke each manager to load the needed resources and when adding a new resource it will automatically add the handle into the resource manager.
+  - we can have the specific managers all be friends of the resource amanger so that the programmer cannot add handles arbitrarily and mess things up.
+  - the user can only get handles, not add them. we dont need to allow the programmer to manually add these handles as errors can occur.. moreover they can be automated and it is boilerplate code so why not bake it into the engine for easier use.
+  - **so there will need to be changes to the resource manager**
+  - continuing on with the animation system
+  - there should only be a single animation object which can be referenced by all the objects.
+  - so how will the objects handle the state.
+  - there can also be an animated sprite which refers to the animation. and that object can handle the specifics.
+  - anyways since upon creation and deletion of all objects each will need their own sprite, lets make them handle it on their own. 
+  - also they should have some interface to allow changing those state variables of the animated sprite by the encompasing object.
+
+  - so lets design the animation system now.
+  - there will be an animation class.
+  - it will hold the reference to the texture.
+  - it will contain the vector of rects to the frames of the animation.
+  - we can allow a parameter to specify the count of times to show in the loop, so a rect of count 3 will show that frame 3 times while looping.
+  - this can be done by simply adding more references of the same rect to the vector.
+  - since we need that feature instead of pushing rect objects, lets push references to it. so multiple reference wont take more memory.
+  - so the programmer will have to create these rects on the heap instead of the stack.
+  - we can use pointers to these rects so that the memory management of that is automatically handled.
+  - so it will be a vector of pointer to rect objects.
+  - next it will need to store the time of the entire animation cycle.
+  - so that we can cycle through the animation in frame independant manner.
+  - but this animation class cannot contain any specific data related to objects, like the current frame or the progress of the animation.
+  - there will be a animatedsprite object, which will have a reference to the animation object.
+  - this sprite will also contain the object related information like animation progress, current frame etc.
+  - this should allow for multiple animated sprite objects to reference the same animation object.
+  - every time a object is created an animated sprite object will have to be created
+  - what is the overhead of the creation of animated sprite objects over and over.
+  - since the animation object is stored as a reference that wont be a big impact.
+  - animated sprite should hold the current frame.
+  - the current delta total time, will have to calculate the progress with the animation time.
+  - should it have a set current aniamtion frame method?
+  - anyway lets get to implementing the animation system.   
