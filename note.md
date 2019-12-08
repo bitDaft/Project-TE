@@ -439,3 +439,5 @@ Random thoughts and musings
   - the current delta total time, will have to calculate the progress with the animation time.
   - should it have a set current aniamtion frame method?
   - anyway lets get to implementing the animation system.   
+
+  - now that we have an animation system(albeit incomplete) set up, we will now focus on refactor, clean up, bug fixes, and documentation.

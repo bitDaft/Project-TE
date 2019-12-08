@@ -131,6 +131,33 @@ With each additional Iteration/Phase of the Game/Project newer systems/managers 
   - Can the execution of specific queue be disabled. yes i think this is needed. so partial queues can run.
    
 # **Phase 4**
+  - [x] To be able to have animation for sprites
+  
+### REQUIREMENTS
+  - [x] Make an animation system that will allow animation for sprites
+    - [x] Implement an animated sprite object to work with the animation system
+    - [x] Implement an animation class to hold the required animation.
+
+### NOTES
+  - Contains 2 classes which are responsible for animation.
+  - Animation class holds the texture and the rects for each frame.
+  - Animated sprite holds the reference to this animation and updates the currently shown animation rect depending on time passed.
+  - Animation is independant of the Animated sprite which allows it to be reused by many animated sprite objects.
+  - Animated sprite contains the actual logic of transition and holds other relevant data for the animation such as the current frame and the amount of time passed.
+  - Improvements to this class are needed to allow for almost same interface as sf::sprite and additional functions which will allow us to integrate with the drawing system for efficient drawing. 
+  
+# **Phase 5**
+  - [ ] Create actual resource manager class to allow for easier handling of resource handles
+  
+### REQUIREMENTS
+  - [ ] Resource manager will allow storage and retrieval of handles based on users desired constants(namely enums or unsigned ints)
+    - [ ] Create resource loaders for other resource types for fonts, music, sfx etc
+    - [ ] Integrate Animation system into this resource management system to allow it to be also queries with ease
+    - [ ] Automatically add any loaded resource with other resource loader class like textures and fonts to the resource manager map with the users desired key
+
+### NOTES
+
+# **Phase 6**
   - [ ] To be able to transition between state for both game and entities
   
 ### REQUIREMENTS
