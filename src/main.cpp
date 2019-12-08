@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 3rd 2019 8:22:43 am
+ * Last Modified: Sunday December 8th 2019 11:01:54 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -17,6 +17,8 @@
 #include "test.hpp"
 #include "IUpdatable.hpp"
 #include "IDrawable.hpp"
+#include "Animation.hpp"
+#include "AnimatedSprite.hpp"
 
 enum EventType
 {
@@ -101,10 +103,13 @@ private:
 
 public:
 	sf::Vector2f plVelocity;
+	Animation testani;
+	AnimatedSprite test;
+	sf::Sprite sheet;
 	~TestPlayer()
 	{
 	}
-	TestPlayer() : IUpdatable(1), IDrawable(1), playerMoveSpeed(50.f), plVelocity(0, 0)
+	TestPlayer() : IUpdatable(1), IDrawable(1), playerMoveSpeed(50.f), plVelocity(0, 0), testani(6)
 	{
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<moveUpR>(Actions::UP_RELEASE);
@@ -115,6 +120,16 @@ public:
 		_reactionMapper->bindActionToReaction<moveUp>(Actions::UP);
 		_reactionMapper->bindActionToReaction<moveLeft>(Actions::LEFT);
 		_reactionMapper->bindActionToReaction<moveRight>(Actions::RIGHT);
+		const unsigned int sheetHandle = ResourceManager::loadTexture("assets/sheet2.png");
+		sheet.setTexture(ResourceManager::getTexture(sheetHandle));
+		testani.setTexture(ResourceManager::getTexture(sheetHandle));
+		testani.addFrame(new sf::IntRect(32, 0, 32, 32));
+		testani.addFrame(new sf::IntRect(64, 0, 32, 32));
+		testani.addFrame(new sf::IntRect(32, 0, 32, 32));
+		testani.addFrame(new sf::IntRect(0, 0, 32, 32));
+		test.setAnimation(testani);
+		test.setAnimationTime(sf::seconds(1.5f));
+		test.setScale(2.f, 2.f);
 	}
 	void settexture(sf::Texture &tex)
 	{
@@ -126,7 +141,7 @@ public:
 	}
 	void move(const sf::Vector2f &t)
 	{
-		player.move(t);
+		test.move(t);
 	}
 	const sf::Sprite &getSprite()
 	{
@@ -139,10 +154,13 @@ public:
 		if (getPosition().y < 0 || getPosition().y > 320)
 			plVelocity.y = -plVelocity.y;
 		move(plVelocity * t.asSeconds());
+		sheet.setPosition(0, 0);
+		test.update(t);
 	}
 	void draw(const sf::Time &t, sf::RenderTexture &tex)
 	{
-		tex.draw(player);
+		tex.draw(test);
+		// tex.draw(player);
 	}
 };
 class A : IUpdatable

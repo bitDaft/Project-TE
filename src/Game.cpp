@@ -18,7 +18,7 @@
 #define DEFAULT_FRAME_RATE (1.f / 120.f)
 #define DEFAULT_SCREEN_WIDTH 640
 #define DEFAULT_SCREEN_HEIGHT 480
-#define DEFAULT_GAME_NAME ("Application 1")
+#define DEFAULT_GAME_NAME ("Project-TE")
 
 // Default constructor
 
@@ -66,7 +66,7 @@ void Game::commonInit()
 
 void Game::setWindowSize(const int width, const int height)
 {
-    if (initialized)
+    if (!initialized)
     {
         sf::Vector2u size;
         size.x = width;
@@ -77,7 +77,7 @@ void Game::setWindowSize(const int width, const int height)
 
 void Game::setWindowTitle(const char *title)
 {
-    if (initialized)
+    if (!initialized)
     {
         gameWindow.setTitle(title);
     }
@@ -85,7 +85,7 @@ void Game::setWindowTitle(const char *title)
 
 void Game::setFrameRate(const float seconds)
 {
-    if (initialized)
+    if (!initialized)
     {
         timePerFrame = sf::seconds(1.f / seconds);
     }

@@ -429,7 +429,7 @@ Random thoughts and musings
   - next it will need to store the time of the entire animation cycle.
   - so that we can cycle through the animation in frame independant manner.
   - but this animation class cannot contain any specific data related to objects, like the current frame or the progress of the animation.
-  - there will be a animatedsprite object, which will have a reference to the animation object.
+  - there will be an animatedsprite object, which will have a reference to the animation object.
   - this sprite will also contain the object related information like animation progress, current frame etc.
   - this should allow for multiple animated sprite objects to reference the same animation object.
   - every time a object is created an animated sprite object will have to be created
