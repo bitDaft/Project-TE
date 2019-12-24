@@ -4,15 +4,16 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 8:34:11 pm
+ * Last Modified: Tuesday December 24th 2019 11:55:33 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
  */
 
+#include <assert.h>
+
 #include "DrawManager.hpp"
 #include "IDrawable.hpp"
-#include <assert.h>
 
 DrawManager *IDrawable::_u = nullptr;
 
@@ -30,18 +31,18 @@ IDrawable::~IDrawable()
   _2 = -1;
 }
 
-void IDrawable::initialize(DrawManager *uMan)
+void IDrawable::initialize(DrawManager *drawManager)
 {
   if (!_u)
   {
-    _u = uMan;
+    _u = drawManager;
   }
 }
-void IDrawable::callDraw(const sf::Time &t,sf::RenderTexture &im)
+void IDrawable::callDraw(const sf::Time &dt,sf::RenderTexture &renderTexture)
 {
   if (canDraw)
   {
-    draw(t,im);
+    draw(dt,renderTexture);
   }
 }
 void IDrawable::enableDraw()
