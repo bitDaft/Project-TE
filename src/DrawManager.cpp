@@ -4,17 +4,18 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 9:00:07 pm
+ * Last Modified: Tuesday December 24th 2019 12:22:29 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
  */
 
-#include "DrawManager.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
 #include <algorithm>
+
+#include "DrawManager.hpp"
 
 DrawManager::DrawManager()
 {
@@ -30,11 +31,11 @@ DrawManager::~DrawManager()
   drawList.clear();
 }
 
-void DrawManager::addQueue(int n)
+void DrawManager::addQueue(int count)
 {
-  drawCheck.reserve(queueCount + n);
-  drawList.reserve(queueCount + n);
-  for (int i = 0; i < n; i++)
+  drawCheck.reserve(queueCount + count);
+  drawList.reserve(queueCount + count);
+  for (int i = 0; i < count; i++)
   {
     std::vector<IDrawable *> t;
     drawList.emplace_back(t);
@@ -43,24 +44,24 @@ void DrawManager::addQueue(int n)
   }
 }
 
-void DrawManager::intialise()
+void DrawManager::initialize()
 {
   setupDone = true;
 }
 
-int DrawManager::pushToQueue(int pos, IDrawable *ptr)
+int DrawManager::pushToQueue(int queuePos, IDrawable *drawable)
 {
-  if (queueCount < pos)
+  if (queueCount < queuePos)
   {
-    addQueue(pos - queueCount);
-    queueCount = pos;
+    addQueue(queuePos - queueCount);
+    queueCount = queuePos;
   }
-  drawList.at(pos - 1).emplace_back(ptr);
-  return drawList.at(pos - 1).size() - 1;
+  drawList.at(queuePos - 1).emplace_back(drawable);
+  return drawList.at(queuePos - 1).size() - 1;
 }
-void DrawManager::removeFromQueue(int pos1, int pos2)
+void DrawManager::removeFromQueue(int queuePos, int objectPos)
 {
-  drawList.at(pos1).at(pos2) = nullptr;
+  drawList.at(queuePos).at(objectPos) = nullptr;
 }
 void DrawManager::draw(const sf::Time &t, sf::RenderTexture &finalTexture)
 {
@@ -70,7 +71,7 @@ void DrawManager::draw(const sf::Time &t, sf::RenderTexture &finalTexture)
     int totalCount = 0;
     sf::RenderTexture _tex;
     _tex.create(finalTexture.getSize().x, finalTexture.getSize().y);
-    for (int i = 0; i < queueCount; i++)
+    for (int i = 0; i < queueCount; i++) // ?make it std::size_t
     {
       if (drawCheck.at(i))
       {
@@ -87,11 +88,25 @@ void DrawManager::draw(const sf::Time &t, sf::RenderTexture &finalTexture)
             failCount++;
           }
         }
-        // pass each queue image to the shader pipeline
+
+        // what we want is to not have it drawn but obtain the vertices
+        // so that we can draw the vertices for the same texture
+        // currently this is slow and inefficient will have to change later
+        // group vertices by texture and and then loop through it and do multiple draw calls.
+        // it will be better if all were stored on the same texture file.
+        // let us see how this turns out later
 
         _tex.display();
+
+        // pass each queue image to the shader pipeline
+        // get the shader from user to be passed from somehwere
         // add this image to the final image
+        // shader sh = getshader(i);
+        // if(sh){
+        // finalTexture.draw(sf::Sprite(_tex.getTexture()),sh);
+        // }else{
         finalTexture.draw(sf::Sprite(_tex.getTexture()));
+        // }
       }
     }
     // pass the final image to the shader pipeline
@@ -114,17 +129,17 @@ void DrawManager::cleanupQueue()
         drawList[i].end());
   }
 }
-void DrawManager::stopQueue(int pos)
+void DrawManager::stopQueue(int queuePos)
 {
   if (setupDone)
   {
-    drawCheck.at(pos - 1) = false;
+    drawCheck.at(queuePos - 1) = false;
   }
 }
-void DrawManager::resumeQueue(int pos)
+void DrawManager::resumeQueue(int queuePos)
 {
   if (setupDone)
   {
-    drawCheck.at(pos - 1) = true;
+    drawCheck.at(queuePos - 1) = true;
   }
 }

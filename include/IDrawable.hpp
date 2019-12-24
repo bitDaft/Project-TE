@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 11:55:33 am
+ * Last Modified: Tuesday December 24th 2019 12:22:29 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -34,9 +34,6 @@ public:
   // constructor destructor
   IDrawable(int pos);
   virtual ~IDrawable();
-
-  // ?should these function be public just for the sake of being called by other objects
-  // ?should it be private with the needed class beign made friends of this class 
 
   /**
    * Called by the DrawManager object to call the actual draw function  
