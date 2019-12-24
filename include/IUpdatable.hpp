@@ -4,7 +4,7 @@
  * Created Date: Monday November 18th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 12:25:49 pm
+ * Last Modified: Tuesday December 24th 2019 5:05:37 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -16,20 +16,60 @@
 #include <SFML/System/Time.hpp>
 class UpdateManager;
 
+/** 
+ * An interface for updatable objects
+ * ^ This class will have to be inherited to be able to be updated
+ * ^ no additional functionality for priority is given within a queue
+ * ^ all objects added to the queue is appended to the end of the queue
+ * ^ if needed to change the priority just add a new queue
+ * ^ currently does not possess functionality to change queues
+ * TODO changing of queues need to be implemented 
+*/
 class IUpdatable
 {
 public:
-  IUpdatable(int);
+  // constructor destructor
+  IUpdatable(int pos);
   virtual ~IUpdatable();
-  void callUpdate(const sf::Time &);
-  static void initialize(UpdateManager *);
+
+  /**
+   * Called by the UpdateManager object to call the actual update function  
+   * @param dt the elapsed time for the frame
+   * @return void
+   */
+  void callUpdate(const sf::Time &dt);
+
+  /**
+   * Sets the global UpdateManager object used for update management  
+   * manager can only be set once, this is set by the game class itself
+   * @param updateManager pointer to the global UpdateManager object
+   * @return void
+   */
+  static void initialize(UpdateManager *updateManager);
 
 protected:
+  // utility function
+
+  /**
+   * Allow this object to be updated   
+   * @return void
+   */
   void enableUpdate();
+
+   /**
+   * Prevent this object from being updated   
+   * @return void
+   */
   void disableUpdate();
 
 private:
-  virtual void update(const sf::Time &) = 0;
+
+  /**
+   * Should be overriden by inheriting functions to update themselves 
+   * @param dt the elapsed time for the frame
+   * @return void
+   */
+  virtual void update(const sf::Time &dt) = 0;
 
 private:
   int _1;

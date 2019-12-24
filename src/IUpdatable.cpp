@@ -4,7 +4,7 @@
  * Created Date: Monday November 18th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 8:34:11 pm
+ * Last Modified: Tuesday December 24th 2019 5:05:37 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -31,18 +31,18 @@ IUpdatable::~IUpdatable()
   _2 = -1;
 }
 
-void IUpdatable::initialize(UpdateManager *uMan)
+void IUpdatable::initialize(UpdateManager *updateManager)
 {
   if (!_u)
   {
-    _u = uMan;
+    _u = updateManager;
   }
 }
-void IUpdatable::callUpdate(const sf::Time &t)
+void IUpdatable::callUpdate(const sf::Time &dt)
 {
   if (canUpdate)
   {
-    update(t);
+    update(dt);
   }
 }
 void IUpdatable::enableUpdate()
