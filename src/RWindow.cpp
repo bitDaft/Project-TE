@@ -4,7 +4,7 @@
  * Created Date: Thursday August 29th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday September 4th 2019 1:17:08 pm
+ * Last Modified: Tuesday December 24th 2019 5:45:16 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -30,10 +30,10 @@ RWindow::~RWindow()
 {
 }
 
-bool RWindow::pollEvent(Event *&t)
+bool RWindow::pollEvent(Event *&event)
 {
   processEvents();
-  return popEvent(t);
+  return popEvent(event);
 }
 
 void RWindow::processEvents()
