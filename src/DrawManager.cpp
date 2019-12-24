@@ -4,16 +4,17 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 5:16:49 pm
+ * Last Modified: Tuesday December 24th 2019 5:45:16 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
  */
 
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Sprite.hpp>
 #include <iostream>
 #include <algorithm>
+
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include "DrawManager.hpp"
 

@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Monday August 26th 2019 3:15:39 pm
+ * Last Modified: Tuesday December 24th 2019 5:52:32 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -22,12 +22,13 @@
 class InputHandler
 {
 public:
-  /**
-   * constructor which initializes _reactionMapper
-   * @param void* pointer to the inheriting object, normally `this`
-   */
+  // constructor destructor
   InputHandler();
   virtual ~InputHandler();
+
+  // ?why is this public
+  // ?check out why it is public and why it cant be made private
+  // TODO: create a delegate function for the needed function from this object 
   ReactionMapper *_reactionMapper;
 };
 

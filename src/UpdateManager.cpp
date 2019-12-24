@@ -4,15 +4,16 @@
  * Created Date: Tuesday November 19th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 5:16:49 pm
+ * Last Modified: Tuesday December 24th 2019 5:19:57 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
  */
 
-#include "UpdateManager.hpp"
 #include <iostream>
 #include <algorithm>
+
+#include "UpdateManager.hpp"
 
 UpdateManager::UpdateManager()
 {
@@ -41,7 +42,7 @@ void UpdateManager::addQueue(int count)
   }
 }
 
-void UpdateManager::intialise()
+void UpdateManager::initialize()
 {
   setupDone = true;
 }
