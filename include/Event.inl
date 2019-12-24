@@ -4,7 +4,7 @@
  * Created Date: Tuesday September 3rd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday September 6th 2019 1:57:31 pm
+ * Last Modified: Tuesday December 24th 2019 6:10:21 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -13,12 +13,12 @@
 #include "Event.hpp"
 #include "CEvent.hpp"
 
-template <typename V>
-bool Event::getData(V &v)
+template <typename objectType>
+bool Event::getData(objectType &obj)
 {
-  CEVENT<V> *e = dynamic_cast<CEVENT<V> *>(this);
+  CEVENT<objectType> *e = dynamic_cast<CEVENT<objectType> *>(this);
   if (!e)
     return false;
-  v = *(e->getData());
+  obj = *(e->getData());
   return true;
 }

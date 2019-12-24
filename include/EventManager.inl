@@ -4,7 +4,7 @@
  * Created Date: Friday August 30th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday September 6th 2019 1:57:31 pm
+ * Last Modified: Tuesday December 24th 2019 6:03:43 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -14,7 +14,7 @@
 #include "CEvent.hpp"
 
 template <typename data_type>
-void EventManager::pushEvent(int t, data_type *data)
+void EventManager::pushEvent(int eventType, data_type *data)
 {
-  c_events.emplace(new CEVENT<data_type>(t, data));
+  c_events.emplace(new CEVENT<data_type>(eventType, data));
 }

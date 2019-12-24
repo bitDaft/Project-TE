@@ -4,7 +4,7 @@
  * Created Date: Thursday August 29th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 1:51:26 pm
+ * Last Modified: Tuesday December 24th 2019 6:03:43 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -18,11 +18,11 @@ EventManager::EventManager()
 EventManager::~EventManager()
 {
 }
-bool EventManager::popEvent(Event *&e)
+bool EventManager::popEvent(Event *&event)
 {
   if (!c_events.empty())
   {
-    e = c_events.front();
+    event = c_events.front();
     c_events.pop();
     return true;
   }
