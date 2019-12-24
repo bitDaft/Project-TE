@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 12:22:29 pm
+ * Last Modified: Tuesday December 24th 2019 5:16:49 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -65,7 +65,7 @@ public:
   /**
    * Pushes a pointer of an IDrawable object into an object queue  
    * @param queuePos the queue into which the IDrawable pointer is to be pushed into 
-   * @param  drawable the IDrawable that is be added to the drawing queue
+   * @param drawable the IDrawable that is be added to the drawing queue
    * @return void
    */
   int pushToQueue(int queuePos, IDrawable *drawable);

@@ -4,7 +4,7 @@
  * Created Date: Tuesday November 19th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 12:25:49 pm
+ * Last Modified: Tuesday December 24th 2019 5:16:49 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -28,11 +28,11 @@ UpdateManager::~UpdateManager()
   updateList.clear();
 }
 
-void UpdateManager::addQueue(int n)
+void UpdateManager::addQueue(int count)
 {
-  updateCheck.reserve(queueCount + n);
-  updateList.reserve(queueCount + n);
-  for (int i = 0; i < n; i++)
+  updateCheck.reserve(queueCount + count);
+  updateList.reserve(queueCount + count);
+  for (int i = 0; i < count; i++)
   {
     std::vector<IUpdatable *> t;
     updateList.emplace_back(t);
@@ -46,21 +46,21 @@ void UpdateManager::intialise()
   setupDone = true;
 }
 
-int UpdateManager::pushToQueue(int pos, IUpdatable *ptr)
+int UpdateManager::pushToQueue(int queuePos, IUpdatable *updatable)
 {
-  if (queueCount < pos)
+  if (queueCount < queuePos)
   {
-    addQueue(pos - queueCount);
-    queueCount = pos;
+    addQueue(queuePos - queueCount);
+    queueCount = queuePos;
   }
-  updateList.at(pos - 1).emplace_back(ptr);
-  return updateList.at(pos - 1).size() - 1;
+  updateList.at(queuePos - 1).emplace_back(updatable);
+  return updateList.at(queuePos - 1).size() - 1;
 }
-void UpdateManager::removeFromQueue(int pos1, int pos2)
+void UpdateManager::removeFromQueue(int queuePos, int objectPos)
 {
-  updateList.at(pos1).at(pos2) = nullptr;
+  updateList.at(queuePos).at(objectPos) = nullptr;
 }
-void UpdateManager::update(const sf::Time &t)
+void UpdateManager::update(const sf::Time &dt)
 {
   if (setupDone)
   {
@@ -75,7 +75,7 @@ void UpdateManager::update(const sf::Time &t)
         {
           if (updateList[i].at(j))
           {
-            updateList[i][j]->callUpdate(t);
+            updateList[i][j]->callUpdate(dt);
           }
           else
           {
@@ -84,7 +84,7 @@ void UpdateManager::update(const sf::Time &t)
         }
       }
     }
-    if (failCount > 10 && failCount >= (totalCount >> 2))
+    if (failCount > 10 && failCount >= (totalCount >> 1))
     {
       cleanupQueue();
     }
@@ -102,17 +102,17 @@ void UpdateManager::cleanupQueue()
         updateList[i].end());
   }
 }
-void UpdateManager::stopQueue(int pos)
+void UpdateManager::stopQueue(int queuePos)
 {
   if (setupDone)
   {
-    updateCheck.at(pos - 1) = false;
+    updateCheck.at(queuePos - 1) = false;
   }
 }
-void UpdateManager::resumeQueue(int pos)
+void UpdateManager::resumeQueue(int queuePos)
 {
   if (setupDone)
   {
-    updateCheck.at(pos - 1) = true;
+    updateCheck.at(queuePos - 1) = true;
   }
 }

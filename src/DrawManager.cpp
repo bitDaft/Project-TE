@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 12:22:29 pm
+ * Last Modified: Tuesday December 24th 2019 5:16:49 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -63,7 +63,7 @@ void DrawManager::removeFromQueue(int queuePos, int objectPos)
 {
   drawList.at(queuePos).at(objectPos) = nullptr;
 }
-void DrawManager::draw(const sf::Time &t, sf::RenderTexture &finalTexture)
+void DrawManager::draw(const sf::Time &dt, sf::RenderTexture &finalTexture)
 {
   if (setupDone)
   {
@@ -81,7 +81,7 @@ void DrawManager::draw(const sf::Time &t, sf::RenderTexture &finalTexture)
         {
           if (drawList[i].at(j))
           {
-            drawList[i][j]->callDraw(t, _tex);
+            drawList[i][j]->callDraw(dt, _tex);
           }
           else
           {
