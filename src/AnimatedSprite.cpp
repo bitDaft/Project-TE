@@ -101,11 +101,11 @@ void AnimatedSprite::setColor(const sf::Color &color)
   _v[3].color = color;
 }
 
-void AnimatedSprite::setAnimation(const Animation &_a)
+void AnimatedSprite::setAnimation(const Animation &animation)
 {
-  if (anim != (&_a))
+  if (anim != (&animation))
   {
-    anim = &_a;
+    anim = &animation;
     setCurrentFrame(0);
   }
 }

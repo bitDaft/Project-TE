@@ -13,22 +13,61 @@
 #ifndef ANIMATION_HPP
 #define ANIMATION_HPP
 
+#include <vector>
+
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Time.hpp>
-#include <vector>
 
+/** 
+ * Holds the frames needed for an animation used by an AnimatedSprite
+*/
 class Animation
 {
 public:
-  Animation(const int && = 10);
+  // constructor destructor
+  Animation(const int &&reserve = 10);
   virtual ~Animation();
 
-  void addFrame(const sf::IntRect *, int = 1);
-  void setTexture(const sf::Texture &);
+  /**
+   * Add a new frame to the current animation  
+   * @param rect the rect that denotes the frames of the animation from a texture
+   * @param count the number of times to enter the frames
+   * @return void
+   */
+  void addFrame(const sf::IntRect *rect, int count = 1);
+  
+  /**
+   * Sets the texture needed for this animation frames  
+   * @param texture a reference to the texture
+   * @return void
+   */
+  void setTexture(const sf::Texture &texture);
+  
+  /**
+   * Gets the number of frames in the stored animation  
+   * @return int the count of frames
+   */
   int getFrameCount() const;
-  const sf::IntRect &getFrame(int) const;
+  
+  /**
+   * Gets the nth frame   
+   * @param pos the position of the frame in the animation
+   * @return const sf::IntRect & reference to the frame
+   */
+  const sf::IntRect &getFrame(int pos) const;
+  
+  /**
+   * Get a reference to the texture   
+   * @return const sf::Texture & a reference to the stored texture
+   */
   const sf::Texture &getTexture() const;
+  
+  /**
+   * Prevent the freeing of memory used by the frames when the animation is destroyed
+   * may come in use if the frames need to be resused
+   * @return void
+   */
   void preventRelease();
 
 private:

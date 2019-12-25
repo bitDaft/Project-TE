@@ -12,11 +12,11 @@
 
 #include "Animation.hpp"
 
-Animation::Animation(const int &&_res)
+Animation::Animation(const int &&reserve)
     : refTex(nullptr),
       _c(true)
 {
-  frames.reserve(_res);
+  frames.reserve(reserve);
 }
 Animation::~Animation()
 {
@@ -39,9 +39,9 @@ int Animation::getFrameCount() const
 {
   return frames.size();
 }
-void Animation::setTexture(const sf::Texture &tex)
+void Animation::setTexture(const sf::Texture &texture)
 {
-  refTex = &tex;
+  refTex = &texture;
 }
 const sf::IntRect &Animation::getFrame(int pos) const
 {
