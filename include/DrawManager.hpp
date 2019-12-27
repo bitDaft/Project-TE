@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 5:16:49 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -47,14 +47,14 @@ public:
    * @return void
    */
   void draw(const sf::Time &dt, sf::RenderTexture &renderTexture);
-  
+
   /**
    * Prevents an object queue from drawing its objects  
    * @param queuePos the position of the queue which should not be drawn
    * @return void
    */
   void stopQueue(int queuePos);
-  
+
   /**
    * Allows an object queue from drawing its objects  
    * @param queuePos the position of the queue which should be allowed to be drawn
@@ -69,7 +69,7 @@ public:
    * @return void
    */
   int pushToQueue(int queuePos, IDrawable *drawable);
-  
+
   /**
    * Removes a pointer of an IDrawable object from an object queue  
    * @param queuePos the queue from which the IDrawable pointer is to be removed 
@@ -79,14 +79,13 @@ public:
   void removeFromQueue(int queuePos, int objectPos);
 
 private:
-
   /**
    * Adds a new object queue  
    * @param count number of new queues to be added
    * @return void
    */
   void addQueue(int count);
-  
+
   /**
    * Cleans up all deleted and removed objects from the drawing queue to free up space  
    * @return void

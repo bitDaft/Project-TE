@@ -4,7 +4,7 @@
  * Created Date: Tuesday September 3rd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 6:03:43 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -24,13 +24,12 @@ template <typename derived>
 class EventProxy : public Event
 {
 private:
-
   /**
    * Calls the derived classes clear function to clear up memory  
    * @return void
    */
   void clear();
-  
+
   /**
    * Calls the derived classes prevent function to prevent clearing up of memory
    * @return void
@@ -38,7 +37,6 @@ private:
   void prevent();
 
 public:
-
   // constructor destructor
   explicit EventProxy(int eventType);
   virtual ~EventProxy();

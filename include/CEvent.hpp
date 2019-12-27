@@ -4,7 +4,7 @@
  * Created Date: Wednesday August 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 6:15:07 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -24,7 +24,6 @@ template <typename dataType>
 class CEVENT : public EventProxy<CEVENT<dataType>>
 {
 public:
-
   // constructor destructor
   CEVENT();
   CEVENT(int eventType, dataType *data);
@@ -39,13 +38,13 @@ private:
    * @return void
    */
   dataType *getData();
-  
+
   /**
    * clears the memory used to store the data
    * @return void
    */
   void clearT();
-  
+
   /**
    * prevetns clearing the memory used to store the data
    * @return void

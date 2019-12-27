@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 9:21:06 pm
+ * Last Modified: Wednesday December 25th 2019 11:55:39 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -29,8 +29,8 @@ Game::Game()
     : timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
       initialized(false),
       isRunning(true),
-      runUpdate(true),
-      runDraw(true),
+      runUpdate(false),
+      runDraw(false),
       fps(0),
       _updateManager(new UpdateManager()),
       _drawManager(new DrawManager()),
@@ -45,8 +45,8 @@ Game::Game(const int w, const int h, const char *n)
     : timePerFrame(sf::seconds(DEFAULT_FRAME_RATE)),
       initialized(false),
       isRunning(true),
-      runUpdate(true),
-      runDraw(true),
+      runUpdate(false),
+      runDraw(false),
       fps(0),
       _updateManager(new UpdateManager()),
       _drawManager(new DrawManager()),
@@ -60,8 +60,9 @@ void Game::commonInit()
 {
     gameWindow.setKeyRepeatEnabled(false);
     startUpdation();
-    IUpdatable::initialize(_updateManager);
-    IDrawable::initialize(_drawManager);
+    startDrawing();
+    IUpdatable::initialize(_updateManager); // TODO: spelling
+    IDrawable::initialize(_drawManager);    // TODO: spelling
 }
 
 void Game::setWindowSize(const int width, const int height)
@@ -95,8 +96,8 @@ void Game::run()
 {
     initialized = true;
     init();
-    _updateManager->intialise();
-    _drawManager->intialise();
+    _updateManager->initialize();
+    _drawManager->initialize();
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     // TODO: Re-evaluate loop
@@ -136,7 +137,7 @@ void Game::run()
             }
         }
         // TODO: calculate the interpolation from the remaning time and pass it onto render so as to obtain the intermediary state
-        // ?Instead of sending remaning time, why not send an interpolation ration between [0,1]
+        // ?Instead of sending remaning time, why not send an interpolation ratio between [0,1]
         sf::Time remaining_time = sf::Time::Zero; // !replace with the calculated time
         if (isRunning && runDraw)
         {
@@ -200,6 +201,8 @@ void Game::quitForce()
 void Game::render(const sf::Time &dt)
 {
     // ?there will be calculation here to determine the intermediary positions
+    // lets worry about shader to this texture later
+    // although there is a way for it now
     sf::RenderTexture finalTexture;
     finalTexture.create(gameWindow.getSize().x, gameWindow.getSize().y);
     gameWindow.clear();

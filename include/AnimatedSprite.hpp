@@ -4,7 +4,7 @@
  * Created Date: Sunday December 8th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 8th 2019 10:17:52 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -45,14 +45,14 @@ public:
    * @return void
    */
   void setAnimation(const Animation &animation);
-  
+
   /**
    * Sets the amount of time needed to show the complete animation  
    * @param totalTime the total time needed for the animation
    * @return void
    */
   void setAnimationTime(const sf::Time &totalTime);
-  
+
   /**
    * Sets the current frame  
    * @param frame the new frame position
@@ -71,19 +71,19 @@ public:
    * @return void
    */
   void play();
-  
+
   /**
    * pause the playing of the current animation  
    * @return void
    */
   void pause();
-  
+
   /**
    * stop the animation and reset to first frame  
    * @return void
    */
   void stop();
-  
+
   /**
    * Set whether the animation can loop or not  
    * @param loop whether to loop or not

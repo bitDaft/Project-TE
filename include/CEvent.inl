@@ -4,7 +4,7 @@
  * Created Date: Thursday August 29th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 6:15:07 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -21,8 +21,8 @@ CEVENT<dataType>::CEVENT() : EventProxy<CEVENT<dataType>>(-1),
 
 template <typename dataType>
 CEVENT<dataType>::CEVENT(int eventType, dataType *_data) : EventProxy<CEVENT<dataType>>(eventType),
-                                               data(_data),
-                                               preventClear(false)
+                                                           data(_data),
+                                                           preventClear(false)
 {
 }
 

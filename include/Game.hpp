@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 1st 2019 9:02:32 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -143,8 +143,8 @@ private:
     bool runUpdate;
     bool runDraw;
     double fps;
-    UpdateManager *_updateManager;
-    DrawManager *_drawManager;
+    UpdateManager *_updateManager; // ?is pointer needed
+    DrawManager *_drawManager;     // ?is pointer needed
 
 protected:
     RWindow gameWindow;

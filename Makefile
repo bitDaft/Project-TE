@@ -1,4 +1,3 @@
-
 CC					:= g++
 C_FLAGS			:= -std=c++17 -Wall -Wextra
 

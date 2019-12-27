@@ -4,7 +4,7 @@
  * Created Date: Thursday August 29th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 5:45:16 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -40,7 +40,7 @@ public:
    * @param data This is the pointer to the data
    * @return void
    */
-  template < typename objType = void *>
+  template <typename objType = void *>
   void triggerEvent(int eventType, objType data = nullptr);
 
   /**
@@ -51,7 +51,6 @@ public:
   bool pollEvent(Event *&event);
 
 private:
-  
   /**
    * Processess the events present in the default queue and move them to the custom queue   
    * @return void

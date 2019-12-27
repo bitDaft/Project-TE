@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Sunday December 8th 2019 11:01:54 pm
+ * Last Modified: Tuesday December 24th 2019 10:16:56 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -159,6 +159,8 @@ public:
 	}
 	void draw(const sf::Time &t, sf::RenderTexture &tex)
 	{
+		// we dont really want a draw here
+		// what we want is to send the vertices so that they may all be drawn at the same time
 		tex.draw(test);
 		// tex.draw(player);
 	}

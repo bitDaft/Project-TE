@@ -4,7 +4,7 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 3rd 2019 8:22:43 am
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -42,7 +42,7 @@ public:
    * @param int The action to which the callback is bound 
    * @return void
    */
-  template <auto T>                              // ^C++17 feature, using auto in template
+  template <auto T>                     // ^C++17 feature, using auto in template
   void bindActionToReaction(int action) // ?Move it into an inline file
   {
     using className = typename point_to_mem<decltype(T)>::class_type;

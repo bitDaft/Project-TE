@@ -4,7 +4,7 @@
  * Created Date: Tuesday November 19th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 5:16:49 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -56,7 +56,7 @@ public:
    * @param queuePos the position of the queue which should not be updated
    * @return void
    */
-  void stopQueue(int queuePos;
+  void stopQueue(int queuePos);
 
   /**
    * Allows an object queue from updating its objects  
@@ -82,7 +82,6 @@ public:
   void removeFromQueue(int queuePos, int objectPos);
 
 private:
-
   /**
    * Adds a new object queue  
    * @param count number of new queues to be added
@@ -95,7 +94,7 @@ private:
    * @return void
    */
   void cleanupQueue();
-  
+
 private:
   std::vector<bool> updateCheck;
   int queueCount;

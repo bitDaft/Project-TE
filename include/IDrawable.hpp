@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 12:22:29 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -42,8 +42,8 @@ public:
    * @param renderTexture a renderable texture to which the objects should be drawn to
    * @return void
    */
-  void callDraw(const sf::Time &dt,sf::RenderTexture &renderTexture);
-  
+  void callDraw(const sf::Time &dt, sf::RenderTexture &renderTexture);
+
   /**
    * Sets the global DrawManager object used for drawing management  
    * manager can only be set once, this is set by the game class itself
@@ -68,7 +68,6 @@ protected:
   void disableDraw();
 
 private:
-
   /**
    * Should be overriden by inheriting functions to draw themselves onto the RenderTexture 
    * ^ should change later to make it return the texture and the vertices instead of drawing to reduce the draw calls 
@@ -76,7 +75,7 @@ private:
    * @param renderTexture a renderable texture to which the objects should be drawn to
    * @return void
    */
-  virtual void draw(const sf::Time &dt,sf::RenderTexture &renderTexture) = 0;
+  virtual void draw(const sf::Time &dt, sf::RenderTexture &renderTexture) = 0;
 
 private:
   int _1;

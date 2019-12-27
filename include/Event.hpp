@@ -4,7 +4,7 @@
  * Created Date: Tuesday September 3rd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 6:10:21 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -30,8 +30,8 @@ public:
    * calls the clear function by the internal class which subclasses it  
    * @return void
    */
-  virtual void clear() = 0;   // release the memory, prevent leak
-  
+  virtual void clear() = 0; // release the memory, prevent leak
+
   /**
    * Should not be overriden
    * Should only be called by the user

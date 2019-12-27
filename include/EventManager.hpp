@@ -4,7 +4,7 @@
  * Created Date: Thursday August 29th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 6:03:43 pm
+ * Last Modified: Friday December 27th 2019 10:41:38 am
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -31,7 +31,6 @@ public:
   ~EventManager();
 
 protected:
-
   /**
    * Pushes a new event into the queue  
    * @template data_type the data type of the data
@@ -50,7 +49,6 @@ protected:
   bool popEvent(Event *&event);
 
 private:
-
   std::queue<Event *> c_events;
 };
 
