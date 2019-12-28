@@ -463,12 +463,12 @@ _Issue_ - no object other than the game can currently issue new events. change i
 - issue with animation using quads and not triangles
 - issue with animation have no code for clearing of the rects used
 - issue create a delegate function for adding mapping of keys of reactionmapper in enitity.
-- MAJOR ISSUE - affect both drawing and updation
-  - after inserting a some objects and deleting some of it out. clean up will remove the delted objects
-  - this will rearrange the position of the pointers in the array.
-  - so _2 will not correspond to the correct position in the array when it has to be removed for other pointer
-  - this will crash later. NEED FIX NOW.
-  - so after cleanup the new positions need to be recalculated.
+~~- MAJOR ISSUE - affect both drawing and updation~~ THIS ISSUE IS SOLVED
+  - ~~after inserting a some objects and deleting some of it out. clean up will remove the delted objects~~
+  - ~~this will rearrange the position of the pointers in the array.~~
+  - ~~so _2 will not correspond to the correct position in the array when it has to be removed for other pointer~~
+  - ~~this will crash later. NEED FIX NOW.~~
+  - ~~so after cleanup the new positions need to be recalculated.~~
 
 # SOLUTION
 
