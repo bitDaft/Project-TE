@@ -4,7 +4,7 @@
  * Created Date: Tuesday November 19th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 5:19:57 pm
+ * Last Modified: Saturday December 28th 2019 11:48:14 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -65,42 +65,46 @@ void UpdateManager::update(const sf::Time &dt)
 {
   if (setupDone)
   {
-    int failCount = 0;
-    int totalCount = 0;
     for (int i = 0; i < queueCount; i++)
     {
       if (updateCheck[i])
       {
-        totalCount += updateList.at(i).size();
+        std::size_t failCount = 0;
         for (std::size_t j = 0; j < updateList[i].size(); ++j)
         {
           if (updateList[i].at(j))
           {
-            updateList[i][j]->callUpdate(dt);
+            if (updateList[i][j]->canUpdate)
+            {
+              updateList[i][j]->update(dt);
+            }
           }
           else
           {
             failCount++;
           }
         }
+        if (failCount > 10 && failCount >= (updateList.at(i).size() >> 1))
+        {
+          cleanupQueue(i);
+        }
       }
-    }
-    if (failCount > 10 && failCount >= (totalCount >> 1))
-    {
-      cleanupQueue();
     }
   }
 }
-void UpdateManager::cleanupQueue()
+void UpdateManager::cleanupQueue(int pos)
 {
-  for (int i = 0; i < queueCount; i++)
+
+  updateList[pos].erase(
+      std::remove_if(
+          updateList[pos].begin(),
+          updateList[pos].end(),
+          [](IUpdatable *ptr) { return ptr == nullptr; }),
+      updateList[pos].end());
+
+  for (std::size_t i = 0; i < updateList[pos].size(); ++i)
   {
-    updateList[i].erase(
-        std::remove_if(
-            updateList[i].begin(),
-            updateList[i].end(),
-            [](IUpdatable *ptr) { return ptr == nullptr; }),
-        updateList[i].end());
+    updateList[pos][i]->_2 = i;
   }
 }
 void UpdateManager::stopQueue(int queuePos)

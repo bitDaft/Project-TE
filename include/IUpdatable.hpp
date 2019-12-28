@@ -4,7 +4,7 @@
  * Created Date: Monday November 18th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday December 27th 2019 10:41:38 am
+ * Last Modified: Saturday December 28th 2019 11:47:27 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -31,13 +31,6 @@ public:
   // constructor destructor
   IUpdatable(int pos);
   virtual ~IUpdatable();
-
-  /**
-   * Called by the UpdateManager object to call the actual update function  
-   * @param dt the elapsed time for the frame
-   * @return void
-   */
-  void callUpdate(const sf::Time &dt);
 
   /**
    * Sets the global UpdateManager object used for update management  
@@ -75,6 +68,8 @@ private:
   int _2;
   bool canUpdate;
   static UpdateManager *_u;
+
+  friend class UpdateManager;
 };
 
 #endif
