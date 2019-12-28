@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday December 27th 2019 10:41:38 am
+ * Last Modified: Saturday December 28th 2019 11:41:23 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -34,15 +34,6 @@ public:
   // constructor destructor
   IDrawable(int pos);
   virtual ~IDrawable();
-
-  /**
-   * Called by the DrawManager object to call the actual draw function  
-   * ^ should change later to make it return the texture and the vertices instead of drawing to reduce the draw calls 
-   * @param dt the remaining delta time needed to calculate an interpolated state
-   * @param renderTexture a renderable texture to which the objects should be drawn to
-   * @return void
-   */
-  void callDraw(const sf::Time &dt, sf::RenderTexture &renderTexture);
 
   /**
    * Sets the global DrawManager object used for drawing management  
@@ -82,6 +73,8 @@ private:
   int _2;
   bool canDraw;
   static DrawManager *_u;
+
+  friend class DrawManager;
 };
 
 #endif

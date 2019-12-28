@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday December 27th 2019 10:41:38 am
+ * Last Modified: Saturday December 28th 2019 11:24:55 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -88,9 +88,10 @@ private:
 
   /**
    * Cleans up all deleted and removed objects from the drawing queue to free up space  
+   * @param i the queue to cleanup
    * @return void
    */
-  void cleanupQueue();
+  void cleanupQueue(int pos);
 
 private:
   std::vector<bool> drawCheck;

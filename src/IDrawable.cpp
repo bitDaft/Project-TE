@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Saturday December 28th 2019 12:47:49 pm
+ * Last Modified: Saturday December 28th 2019 11:41:23 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -39,13 +39,7 @@ void IDrawable::initialize(DrawManager *drawManager)
     _u = drawManager;
   }
 }
-void IDrawable::callDraw(const sf::Time &dt, sf::RenderTexture &renderTexture)
-{
-  if (canDraw)
-  {
-    draw(dt, renderTexture);
-  }
-}
+
 void IDrawable::enableDraw()
 {
   canDraw = true;

@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Saturday December 28th 2019 3:58:04 pm
+ * Last Modified: Saturday December 28th 2019 11:41:23 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -68,21 +68,22 @@ void DrawManager::draw(const sf::Time &dt, sf::RenderTexture &finalTexture)
 {
   if (setupDone)
   {
-    int failCount = 0;
-    int totalCount = 0;
     sf::RenderTexture _tex;
     _tex.create(finalTexture.getSize().x, finalTexture.getSize().y);
     for (int i = 0; i < queueCount; i++) // ?make it std::size_t
     {
       if (drawCheck.at(i))
       {
+        std::size_t failCount = 0;
         _tex.clear(sf::Color::Transparent);
-        totalCount += drawList[i].size();
         for (std::size_t j = 0; j < drawList[i].size(); ++j)
         {
           if (drawList[i].at(j))
           {
-            drawList[i][j]->callDraw(dt, _tex);
+            if (drawList[i][j]->canDraw)
+            {
+              drawList[i][j]->draw(dt, _tex);
+            }
           }
           else
           {
@@ -108,26 +109,29 @@ void DrawManager::draw(const sf::Time &dt, sf::RenderTexture &finalTexture)
         // }else{
         finalTexture.draw(sf::Sprite(_tex.getTexture()));
         // }
+
+        if (failCount > 10 && failCount >= (drawList[i].size() >> 2))
+        {
+          cleanupQueue(i);
+        }
       }
     }
     // pass the final image to the shader pipeline
-    if (failCount > 10 && failCount >= (totalCount >> 2))
-    {
-      cleanupQueue();
-    }
   }
 }
 
-void DrawManager::cleanupQueue()
+void DrawManager::cleanupQueue(int pos)
 {
-  for (int i = 0; i < queueCount; i++)
+  drawList[pos].erase(
+      std::remove_if(
+          drawList[pos].begin(),
+          drawList[pos].end(),
+          [](IDrawable *ptr) { return ptr == nullptr; }),
+      drawList[pos].end());
+
+  for (std::size_t i = 0; i < drawList[pos].size(); ++i)
   {
-    drawList[i].erase(
-        std::remove_if(
-            drawList[i].begin(),
-            drawList[i].end(),
-            [](IDrawable *ptr) { return ptr == nullptr; }),
-        drawList[i].end());
+    drawList[pos][i]->_2 = i;
   }
 }
 void DrawManager::stopQueue(int queuePos)
