@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday December 24th 2019 10:16:56 am
+ * Last Modified: Saturday December 28th 2019 12:48:25 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -165,19 +165,19 @@ public:
 		// tex.draw(player);
 	}
 };
-class A : IUpdatable
-{
-public:
-	A() : IUpdatable(1)
-	{
-	}
-	~A()
-	{
-	}
-	void update(const sf::Time &t)
-	{
-	}
-};
+// class A : IUpdatable
+// {
+// public:
+// 	A() : IUpdatable(1)
+// 	{
+// 	}
+// 	~A()
+// 	{
+// 	}
+// 	void update(const sf::Time &t)
+// 	{
+// 	}
+// };
 
 class Test : public Game, private IUpdatable
 {
@@ -264,7 +264,6 @@ public:
 		if (tt.asSeconds() > 1)
 		{
 			tt -= sf::seconds(1.f);
-			A a;
 		}
 	}
 
@@ -275,6 +274,8 @@ public:
 		pl.settexture(ResourceManager::getTexture(playerHandle));
 
 		// TODO: change it so that diff key same action when pressed twice does not trigger twice
+		// ^we cannot handle that, the programmer will have to think of a way
+		// ^if we handle it, it may cause problems for developers
 
 		_reactionMapper->bindActionToReaction<mld>(Actions::MOUSE_LEFT);
 		_reactionMapper->bindActionToReaction<mlu>(Actions::MOUSE_LEFT_RELEASE);

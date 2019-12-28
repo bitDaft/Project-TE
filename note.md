@@ -462,3 +462,22 @@ _Issue_ - no object other than the game can currently issue new events. change i
 - issue objects cannot respond to events, currently only game is able to respond to events
 - issue with animation using quads and not triangles
 - issue with animation have no code for clearing of the rects used
+- issue create a delegate function for adding mapping of keys of reactionmapper in enitity.
+- MAJOR ISSUE - affect both drawing and updation
+  - after inserting a some objects and deleting some of it out. clean up will remove the delted objects
+  - this will rearrange the position of the pointers in the array.
+  - so _2 will not correspond to the correct position in the array when it has to be removed for other pointer
+  - this will crash later. NEED FIX NOW.
+  - so after cleanup the new positions need to be recalculated.
+
+# SOLUTION
+
+- EVENT ISSUE
+  - objects can neither create nor handle any events.
+  - objects should be able to fire events
+  - objects should be able to handle events if required.
+
+  - problem 1 - objects cannot fire events.
+    - how to make events be able to fire events
+    - trigger events is part of Rwindow
+    - should events have access to the current window

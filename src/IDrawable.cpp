@@ -4,7 +4,7 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday December 27th 2019 10:41:38 am
+ * Last Modified: Saturday December 28th 2019 12:47:49 pm
  * Modified By: bitDaft at <ajaxhis@tutanota.com>
  * -----
  * Copyright (c) 2019 bitDaft
@@ -29,6 +29,7 @@ IDrawable::~IDrawable()
   _u->removeFromQueue(_1, _2);
   _1 = -1;
   _2 = -1;
+  canDraw = false;
 }
 
 void IDrawable::initialize(DrawManager *drawManager)
