@@ -1,14 +1,15 @@
 /*
  * File: Game.cpp
  * Project: Project-TE
- * Created Date: Sunday June 9th 2019
+ * Created Date: Sunday, March 22nd 2020, 7:30:00 pm
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday December 25th 2019 11:55:39 am
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Monday, March 23rd 2020 12:56:22 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
- * Copyright (c) 2019 bitDaft coorp.
+ * Copyright (c) 2020 bitDaft
  */
+
 #include <iostream>
 
 #include "Game.hpp"
@@ -61,8 +62,8 @@ void Game::commonInit()
     gameWindow.setKeyRepeatEnabled(false);
     startUpdation();
     startDrawing();
-    IUpdatable::initialize(_updateManager); // TODO: spelling
-    IDrawable::initialize(_drawManager);    // TODO: spelling
+    IUpdatable::initialize(_updateManager); 
+    IDrawable::initialize(_drawManager);
 }
 
 void Game::setWindowSize(const int width, const int height)
@@ -95,6 +96,7 @@ void Game::setFrameRate(const float seconds)
 void Game::run()
 {
     initialized = true;
+    finalTexture.create(gameWindow.getSize().x, gameWindow.getSize().y); 
     init();
     _updateManager->initialize();
     _drawManager->initialize();
@@ -138,7 +140,8 @@ void Game::run()
         }
         // TODO: calculate the interpolation from the remaning time and pass it onto render so as to obtain the intermediary state
         // ?Instead of sending remaning time, why not send an interpolation ratio between [0,1]
-        sf::Time remaining_time = sf::Time::Zero; // !replace with the calculated time
+        // sf::Time remaining_time = sf::Time::Zero; // !replace with the calculated time
+        sf::Time remaining_time = timePerFrame; // !replace with the calculated time
         if (isRunning && runDraw)
         {
             render(remaining_time);
@@ -203,8 +206,6 @@ void Game::render(const sf::Time &dt)
     // ?there will be calculation here to determine the intermediary positions
     // lets worry about shader to this texture later
     // although there is a way for it now
-    sf::RenderTexture finalTexture;
-    finalTexture.create(gameWindow.getSize().x, gameWindow.getSize().y);
     gameWindow.clear();
     finalTexture.clear();
     _drawManager->draw(dt, finalTexture);

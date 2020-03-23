@@ -1,13 +1,13 @@
 /*
  * File: Game.hpp
  * Project: Project-TE
- * Created Date: Sunday June 9th 2019
+ * Created Date: Tuesday, March 10th 2020, 10:19:27 pm
  * Author: bitDaft
  * -----
- * Last Modified: Friday December 27th 2019 10:41:38 am
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Monday, March 23rd 2020 12:54:53 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
- * Copyright (c) 2019 bitDaft coorp.
+ * Copyright (c) 2020 bitDaft
  */
 
 #ifndef GAME_HPP
@@ -145,6 +145,7 @@ private:
     double fps;
     UpdateManager *_updateManager; // ?is pointer needed
     DrawManager *_drawManager;     // ?is pointer needed
+    sf::RenderTexture finalTexture;
 
 protected:
     RWindow gameWindow;
