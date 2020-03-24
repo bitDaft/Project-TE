@@ -4,8 +4,8 @@
  * Created Date: Friday June 28th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Thursday September 5th 2019 1:35:28 pm
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Monday, March 23rd 2020 2:06:55 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft coorp.
  */
@@ -13,7 +13,7 @@
 #include "ReactionMapper.hpp"
 
 ReactionMapper::ReactionMapper(void *obj) : objThis(obj) {}
-ReactionMapper::~ReactionMapper() {}
+ReactionMapper::~ReactionMapper() {clearAllBinding();}
 
 bool ReactionMapper::executeCallback(int action, sf::Event &ev)
 {

@@ -4,8 +4,8 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday December 27th 2019 10:41:38 am
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Tuesday, March 24th 2020 10:14:18 am
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft coorp.
  */
@@ -29,6 +29,7 @@ public:
   // ?why is this public
   // ?check out why it is public and why it cant be made private
   // TODO: create a delegate function for the needed function from this object
+  // ^ the inputmanager needs it to be public so it can call the executecallback function
   ReactionMapper *_reactionMapper;
 };
 
