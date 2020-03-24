@@ -53,7 +53,8 @@
         "xtr1common": "cpp",
         "xutility": "cpp",
         "queue": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "random": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

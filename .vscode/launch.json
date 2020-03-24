@@ -5,21 +5,23 @@
             "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/debug/main.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}/bin/debug",
             "environment": [],
             "externalConsole": false,
             "preLaunchTask": "build",
-            "miDebuggerPath": "C:\\mingw32\\bin\\gdb.exe",
             "linux": {
+                "miDebuggerPath": "/usr/bin/gdb",
+                "program": "${workspaceFolder}/bin/debug/main",
                 "MIMode": "gdb"
             },
             "osx": {
                 "MIMode": "lldb"
             },
             "windows": {
+                "miDebuggerPath": "C:\\mingw32\\bin\\gdb.exe",
+                "program": "${workspaceFolder}/bin/debug/main.exe",
                 "MIMode": "gdb",
             },
             "setupCommands": [

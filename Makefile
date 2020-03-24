@@ -30,7 +30,7 @@ MODE_FLAG 	+= -Ddebug\(x\)='do{if(_DEBUG_)std::cerr<<"\n"<<__FILE__<<":"<<__LINE
 
 ifeq ($(OS),Windows_NT)
 EXECUTABLE	:= main.exe
-RM		 = del /Q /S
+RM		 	= del /Q /S
 else
 LIBRARIES	:= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 EXECUTABLE	:= main
