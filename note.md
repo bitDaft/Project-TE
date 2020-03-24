@@ -481,3 +481,11 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - how to make events be able to fire events
     - trigger events is part of Rwindow
     - should events have access to the current window
+
+
+
+#### random thoughts on action system. 
+  - have and or system to combine actinos
+  - but the actions should only be triggered when an event has occured otherwise it will check for every action every loop which i not only inefficient but also might check for wrong key combination. like an only release action could be triggered even though no event was made sicne it will check at the current time is it pressed or released.
+  - even when an acction is triggered need to quickly determine whether this action object needs to be parsed to check whether it is valid or invalid instead of just parsing all the action objects to find the correct one, which is inefficient.
+  
