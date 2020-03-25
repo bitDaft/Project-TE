@@ -489,3 +489,7 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - but the actions should only be triggered when an event has occured otherwise it will check for every action every loop which i not only inefficient but also might check for wrong key combination. like an only release action could be triggered even though no event was made sicne it will check at the current time is it pressed or released.
   - even when an acction is triggered need to quickly determine whether this action object needs to be parsed to check whether it is valid or invalid instead of just parsing all the action objects to find the correct one, which is inefficient.
   
+#### Event system random notes.
+  - this sytem can be reduced and made more easily accessible and easier to work with. right now it looks convoluted and unwieldy.
+  - although it work works without any hitches currently , we will need to test it out thoroughly before changing it completely.
+  - i feel it can be made much more simpler.
