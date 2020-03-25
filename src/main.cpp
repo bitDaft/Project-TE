@@ -4,8 +4,8 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Saturday December 28th 2019 12:48:25 pm
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Tuesday, March 24th 2020 9:00:11 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft coorp.
  */
@@ -112,14 +112,14 @@ public:
 	TestPlayer() : IUpdatable(1), IDrawable(1), playerMoveSpeed(50.f), plVelocity(0, 0), testani(6)
 	{
 		player.setPosition(100.f, 100.f);
-		_reactionMapper->bindActionToReaction<moveUpR>(Actions::UP_RELEASE);
-		_reactionMapper->bindActionToReaction<moveDownR>(Actions::DOWN_RELEASE);
-		_reactionMapper->bindActionToReaction<moveLeftR>(Actions::LEFT_RELEASE);
-		_reactionMapper->bindActionToReaction<moveRightR>(Actions::RIGHT_RELEASE);
-		_reactionMapper->bindActionToReaction<moveDown>(Actions::DOWN);
-		_reactionMapper->bindActionToReaction<moveUp>(Actions::UP);
-		_reactionMapper->bindActionToReaction<moveLeft>(Actions::LEFT);
-		_reactionMapper->bindActionToReaction<moveRight>(Actions::RIGHT);
+		_reactionMapper->bindActionToReaction<&TestPlayer::moveUpR>(Actions::UP_RELEASE);
+		_reactionMapper->bindActionToReaction<&TestPlayer::moveDownR>(Actions::DOWN_RELEASE);
+		_reactionMapper->bindActionToReaction<&TestPlayer::moveLeftR>(Actions::LEFT_RELEASE);
+		_reactionMapper->bindActionToReaction<&TestPlayer::moveRightR>(Actions::RIGHT_RELEASE);
+		_reactionMapper->bindActionToReaction<&TestPlayer::moveDown>(Actions::DOWN);
+		_reactionMapper->bindActionToReaction<&TestPlayer::moveUp>(Actions::UP);
+		_reactionMapper->bindActionToReaction<&TestPlayer::moveLeft>(Actions::LEFT);
+		_reactionMapper->bindActionToReaction<&TestPlayer::moveRight>(Actions::RIGHT);
 		const unsigned int sheetHandle = ResourceManager::loadTexture("assets/sheet2.png");
 		sheet.setTexture(ResourceManager::getTexture(sheetHandle));
 		testani.setTexture(ResourceManager::getTexture(sheetHandle));
@@ -128,7 +128,7 @@ public:
 		testani.addFrame(new sf::IntRect(32, 0, 32, 32));
 		testani.addFrame(new sf::IntRect(0, 0, 32, 32));
 		test.setAnimation(testani);
-		test.setAnimationTime(sf::seconds(1.5f));
+		test.setAnimationTime(sf::seconds(1.f));
 		test.setScale(2.f, 2.f);
 	}
 	void settexture(sf::Texture &tex)
@@ -277,13 +277,13 @@ public:
 		// ^we cannot handle that, the programmer will have to think of a way
 		// ^if we handle it, it may cause problems for developers
 
-		_reactionMapper->bindActionToReaction<mld>(Actions::MOUSE_LEFT);
-		_reactionMapper->bindActionToReaction<mlu>(Actions::MOUSE_LEFT_RELEASE);
-		_reactionMapper->bindActionToReaction<mrd>(Actions::MOUSE_RIGHT);
-		_reactionMapper->bindActionToReaction<mru>(Actions::MOUSE_RIGHT_RELEASE);
-		_reactionMapper->bindActionToReaction<mm>(Actions::MOUSE_MOVED);
-		_reactionMapper->bindActionToReaction<ms>(Actions::MOUSE_SCROLL);
-		_reactionMapper->bindActionToReaction<quit>(Actions::QUIT);
+		_reactionMapper->bindActionToReaction<&Test::mld>(Actions::MOUSE_LEFT);
+		_reactionMapper->bindActionToReaction<&Test::mlu>(Actions::MOUSE_LEFT_RELEASE);
+		_reactionMapper->bindActionToReaction<&Test::mrd>(Actions::MOUSE_RIGHT);
+		_reactionMapper->bindActionToReaction<&Test::mru>(Actions::MOUSE_RIGHT_RELEASE);
+		_reactionMapper->bindActionToReaction<&Test::mm>(Actions::MOUSE_MOVED);
+		_reactionMapper->bindActionToReaction<&Test::ms>(Actions::MOUSE_SCROLL);
+		_reactionMapper->bindActionToReaction<&Test::quit>(Actions::QUIT);
 
 		_inputManager.pushEntity(&pl);
 

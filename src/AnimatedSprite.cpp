@@ -4,8 +4,8 @@
  * Created Date: Sunday December 8th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday December 27th 2019 10:41:38 am
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Tuesday, March 24th 2020 8:57:54 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft
  */
@@ -82,7 +82,7 @@ void AnimatedSprite::draw(sf::RenderTarget &target, sf::RenderStates states) con
 {
   if (anim)
   {
-    states.transform = getTransform();
+    states.transform *= getTransform();
     states.texture = &anim->getTexture();
     target.draw(_v, 4, sf::PrimitiveType::Quads, states);
   }

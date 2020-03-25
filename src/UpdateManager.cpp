@@ -4,8 +4,8 @@
  * Created Date: Tuesday November 19th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Saturday December 28th 2019 11:48:14 pm
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Tuesday, March 24th 2020 2:23:09 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft
  */
@@ -57,10 +57,12 @@ int UpdateManager::pushToQueue(int queuePos, IUpdatable *updatable)
   updateList.at(queuePos - 1).emplace_back(updatable);
   return updateList.at(queuePos - 1).size() - 1;
 }
+
 void UpdateManager::removeFromQueue(int queuePos, int objectPos)
 {
   updateList.at(queuePos).at(objectPos) = nullptr;
 }
+
 void UpdateManager::update(const sf::Time &dt)
 {
   if (setupDone)

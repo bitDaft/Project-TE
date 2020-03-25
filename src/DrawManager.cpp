@@ -4,8 +4,8 @@
  * Created Date: Sunday December 1st 2019
  * Author: bitDaft
  * -----
- * Last Modified: Saturday December 28th 2019 11:41:23 pm
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Tuesday, March 24th 2020 4:24:36 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft
  */
@@ -69,6 +69,7 @@ void DrawManager::draw(const sf::Time &dt, sf::RenderTexture &finalTexture)
   if (setupDone)
   {
     sf::RenderTexture _tex;
+    
     _tex.create(finalTexture.getSize().x, finalTexture.getSize().y);
     for (int i = 0; i < queueCount; i++) // ?make it std::size_t
     {
@@ -90,6 +91,9 @@ void DrawManager::draw(const sf::Time &dt, sf::RenderTexture &finalTexture)
             failCount++;
           }
         }
+
+        // ? maybe instead of just following painters algoritm see whther we can create a mask from the already created texture so that the new 
+        // ? texture that is going to blitted is not gonna draw useless parts of it which is hidden in a higher layer
 
         // what we want is to not have it drawn but obtain the vertices
         // so that we can draw the vertices for the same texture

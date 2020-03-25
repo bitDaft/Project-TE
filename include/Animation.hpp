@@ -4,8 +4,8 @@
  * Created Date: Sunday December 8th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday December 27th 2019 10:41:38 am
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Tuesday, March 24th 2020 4:33:29 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft
  */
@@ -18,6 +18,12 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Time.hpp>
+
+
+// ! this is going to be considered as a resource,
+// ! so there is no need to remove any rects. let all the rects be created at start
+// ! since the textures are only going to be loaded once and the animation on that is fixed and since it is available globally
+// ! let the animations for that texture also be created at the same time and be accessible globally as a resource
 
 /** 
  * Holds the frames needed for an animation used by an AnimatedSprite

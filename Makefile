@@ -26,12 +26,13 @@ MODE_FLAG		:= -mwindows -D_DEBUG_=0
 C_FLAGS			+= -o3
 endif
 
-#MODE_FLAG 	+= -Ddebug(x)='do{if(_DEBUG_)std::cerr<<"\n"<<__FILE__<<":"<<__LINE__<<":"<<__func__<<": "<<x<<"\n";}while(false)'
+MODE_FLAG 	+= -Ddebug\(x\)='do{if(_DEBUG_)std::cerr<<"\n"<<__FILE__<<":"<<__LINE__<<":"<<__func__<<": "<<x<<"\n";}while(false)'
 
 ifeq ($(OS),Windows_NT)
 EXECUTABLE	:= main.exe
-RM		 = del /Q /S
+RM		 	= del /Q /S
 else
+LIBRARIES	:= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 EXECUTABLE	:= main
 endif
 
