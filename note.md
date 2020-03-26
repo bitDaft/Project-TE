@@ -493,3 +493,80 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - this sytem can be reduced and made more easily accessible and easier to work with. right now it looks convoluted and unwieldy.
   - although it work works without any hitches currently , we will need to test it out thoroughly before changing it completely.
   - i feel it can be made much more simpler.
+
+- read the entire codebase and notes and readme and up to date with current progress of engine.
+- i feel it is time to implement the state system
+- after the state system has been implemented we can do all the needed fixes, refactoring of current objects to add the required functionalitis.
+
+# EVENT SYSTEM
+  - we are going to design the event system that needs to be implemented
+  - lets start with the lowest unit, the state
+  - the state class will be a templated class so that it can be reused for multiple different entities
+  - it will have basic functions such as onenter, update and onexit. are there any more functions that are needed? hmmm will need to think about it
+  - this state class can be subclassed to create the actual states for any entity.
+  - since all the states for an entity will be tied to one another should we maybe create a behaviour object encapsulating them? this an idea for another time.
+  - any state transition logic will be baked into these objects.
+  - what about having state for these objects. ie context dependant variables.
+  - this is in order to understand having just a singleton state or need to create states as they are made.
+  - which is why i though of enapsulating it in a behaviour object or even having an interface for the entities to inherit from which would contain the necessary values needed for stateful states to function, and then the states can just query their parent object for these details so they dont really need to maintain it thus we can have all the states be singleton.
+  - lets consider both possibilities
+  - first is inherit an interface for usage of these states. or statemachine.
+  - the interface class will only contain the required dependant variables and their getter setter functions(if the variables are not public, which it most probably will be).
+  - any entity that inherits this interface class will be able to obtain those variables needed without having to directly manage them.
+  - if any of their values need to be accessed or set it can be set directly by the entity or the state since the state has access to the entity pointer.
+  - so any entity that want to use states of a set need to inherit the interface for that state.
+  - or they can also implement those needed variables themselves.
+  - this approach is very straight forward. but it makes the entity needing to inherit a class or to implement variables they may not directly use. also what if they forget to inherit the required interface. then the statemachine needs to check that the class has inherited the appropriate interface.
+  - but what if we need to switch behaviours of an entity, wouldnt they need to inherit both their interfaces. what if both the interface has the same variables.wont it cause a resolution error. but if the state use their own interfaces variables then those two separate variables would be out of sync
+  - here i think the best solution will to have the entity itself have the variables,instead of inheriting them. but they will inherit interfaces which are abstract and define the abstract functions of the interfaces to return the correct value or variable.
+  - thus two different states that need to access a variable for the same function can have their own functions that thay will call, but the programmer can define what variables those functions returned which will keep them in syncif the variables needed are the same.
+  - so if they are stateful states they will need the entity to inherit from an abstract base class with virtual methods which needs to be implemented by the programmer.
+  - this will allow us to have variables that are in sync with every state, where we can manipulate the variables to convert them into the right format needed for that state, and the variable can be used for outside purposes like displaying health or something without breaking.
+  - but a major issue is the inheritance. the entity will need to inherit for every interface that may be needed for any potential behaviours it may change into.
+  - which looks very shitty and i dont want that.
+  - also the same problem arises if two interface function are named the same it will cause resolution conflict..sooo...
+  - onto the seconf idea of encapsulating them into a behaviour object.
+  - the behaviour object will contain an instance of all the states that are needed to define that behaviour pattern within an entity.
+  - first i thought the behaviour object will contain all the stateful variables that the states may need to hold and such the actual entity need not define anything
+  - and these behaviour objects can be passed to the statemachine which will execute them.
+  - so the behaviours can be switched on the fly by simply switching the behaviour objects around.
+  - since the behaviour has its own state variables same as previously they may be out of sync, but we can solve that by initializing the correct values for that behaviour using the values from the previous behaviour object.
+  - this may need the entity to hold onto a copy of those variables that are common in the states transitioning to and thus will need to know beforehand itself what all states it can change into and hold their common variables.
+  - with this approach there will be no name conflict or function conflict or have the entity to define the accessor functions or even to inherit anything, so the objects can be switched on the fly without any impact, such as for checking whether it has inherited the correct interface or that the variable used is not in any conflict as they are all encapsulated under one behaviour object.
+  - another aspect it created is that the states need not be related to the entities as the needed variables and functions needed to function are defined in the behaviour object itself. so the behaviour object becomes entity independant. thus now the states need not be templated with the entity class.
+  - all they need is the reference to their encapsulating parent object. which is the behaviour class.
+  - i think this approach is better than the first one.
+  - what are the cons of this approach?
+  - the class will not have direct amangement of variables such as health thus will need to query the behaviour obejct to get the details such as health if needed for any other external purposes such as displaying health.
+  - so now we have a new behaviour class to think about.
+  - basically what is needed of the behaviour class is that it hold the necessary variables and methods for that set of states to function. 
+  - behaviour object will also need to hold onto instances of states that are needed.
+  - upon creation of a behaviour object the necessary states are also created.
+  - since all of the required variables are held in behaviour and not in state , all the state objects can be singletons now.
+  - for any of the singleton states to access the variables they will need access to the encompasing behaviour object to query those variables.
+  - thus i think the state will still be templated, but they will be templated with behaviour class instead.
+  - will the behaviour object need to hold all the related states, or just to the current state?
+  - since the states are interconnected you dont really need to store all the states, when a state change happens the behaviour currentstate will be updated.
+  - so the behaviour class will act as if it is proxy for the entity
+  - whenever a state update happens instead of the entity or statemachines currentstate being updated, it will update the behaviour currentstate.
+  - instead of the statemachine holding the behaviour object let the entity hold the object and the statemachine can have a pointer to it.
+  - the state machine can be initialized with the behaviour object pointer or state object pointer.
+  - so now we can easily switch between the two different methods without any issues.
+  - anything with state will either be a behaviour object or normal state object with the required variables defined the entity itself
+  - since the states are still templated, the previous method can also be done without interference.
+  - we might run into problems while implementing and cleaning up some details on its working but it is a solid idea for now.
+  - then there is the statemachine object itself
+  - the entity holds a statemachine object.
+  - every update the entity will call the statemachines update function
+  - if the statemachine is an state holder it will simply execute the state execute method.
+  - if it is a behaviour it will execute the behaviours method.
+  - if we give them both the same interface then no need to change how the statemachine handles state or behaviour obejcts, it will be treated the same.
+  - the statemachine will hold onto the currentstate, and globalstate.
+  - maybe for previous state we will implement a pda.
+  - the state machine also holds a function to change the currently held currentstate pointer or global pointer.
+  - there it will execute the onenter on exit function and change the pointers around.
+  - if the behaviour object also contains the same interface as a state it can be seamlessly used without any extra code in the statemachine.
+  - that is all there is to the statemachine concept
+  - after implementation of state machine we will do a simple run and then see how to integrate animation drawing updation system as mentioned inthe questions above
+  - i think we finally have a clear picture for a state machine and switchable behaviour
+  - lets get to implementing it.
