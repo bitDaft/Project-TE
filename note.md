@@ -570,3 +570,27 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - after implementation of state machine we will do a simple run and then see how to integrate animation drawing updation system as mentioned inthe questions above
   - i think we finally have a clear picture for a state machine and switchable behaviour
   - lets get to implementing it.
+
+  - during implementation found that switching will not be easy with the behaviour object encapsulation as it will just simply recreate the functionality of statemachine itself into the behaviour.
+  - so thought of a new approach which is not perfect but works with the contraints, can be swapped out for any other behaviour etc. the only issue here is the syncing of variables upon switching behaviours.
+  - so the method is behaviour is like a proxy entity.
+  - it will contain all the methods and variables needed for the states.
+  - a specific behaviour like person behaviour will need to be created inheriting fromt he aprent behaviour class
+  - this will allow the entities to hold all different type of behaviour objects irrespective of what they do by having a pointer to the base class
+  - since that behaviour object will act as a proxy entity , it will be the one to hold onto the state machine and not the entity.
+  - so the behaviour class will contain all the variables for state. it will also contain a state machine which works with that state, since state machine is currently also templated to hold the entity type this pointer and all.
+  - if we do it this way then state machine will always have a pointer to the proxy object whenever a new one is created and need not be bothered about having to handle any other type of behaviour. since each behaviour contains a statemachine which can handle it.
+  - this method also allows us to create state machine in the normal method by having the statemachine be held by the entity and the states being tied to the entity.
+  - so there is really no change to the code for state or statemachine from the initial time, it can be used as such and for dynamic behaviour a proxy entity can be used.
+  - now come to the problem, which is my guts. having the state machine inside a proxy object does not feel well. since the behaviour object is just a bunch of methods and data, i dont feel it should be responsible for state machine.
+  - just that the statemachine should not be templated and they should be able to work with all the behaviour objects as passed to them if needed.
+  - but if the state machine is taken out then it will need to be templated according to the behaviour data object which will then break being able to switch behaviour on the run. defeatingthe purpose.
+  - thus the statemachine should not be templated but at the same time should also handle all types of behaviour objects.
+  - let me see..
+  - if this is the case then stateamchine will store a pointer to behaviour class which holds the subclasses actual behaviour like person etc object.
+  - the statemachine will not be able to hold the specific state such as state personbehaviour but it will have to also hold a higher level parent class which we will need to make simply to be able to hold them.
+  - if the statemachine does not want to hold this data then it will be delegated to the behaviour object finally making it a clone of state amchine itself, so i dont want to put that functionality into behaviour, and subclassing statemachine with the required variables and methods for behaviour is feasable but for the switching mechanic will have to replace the entire statemachine. better than this is to have statemachine pointer in behaviour child object which will be neater to develop.
+  - so shoudl we just go with the design of having the behaviour class encapsulate the state machine and it will be entirely switched out?
+  - i think that is the best that we can do now
+  - since it wont break for those situation where changing of behaviours is needed dynamicallyand all the changable state groups are controlled.
+    
