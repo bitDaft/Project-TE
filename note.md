@@ -593,4 +593,25 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - so shoudl we just go with the design of having the behaviour class encapsulate the state machine and it will be entirely switched out?
   - i think that is the best that we can do now
   - since it wont break for those situation where changing of behaviours is needed dynamicallyand all the changable state groups are controlled.
-    
+
+  - state machine has been implemented.
+  - we have been only talking about state machine up to this point assuming it would not react to input, ie uncontrolled.
+  - before we move on to implement the behaviour class, lets discuss how the a controlled entity is going to work with the state system.
+  - what immedietly comes to mind is that make the behaviour class inherit from inputhandler if the behaviour is controlled behaviour so that it will have an instance of reactionmapper and can set delegate callbacks that are needed
+  - this way the actual entity need not do anything and simple needs to let the behaviour change.
+  - when behaviour changes the controls may also change and thus we get dynamic behaviour.
+  - but the obvious issue is the input handler system itself. as soon as  an object is created it is added to the queue.
+  - what if behaviour objects were created but they are not used yet and are waiting to be switched in, if they were created after the currently used behaviour and their daisy chain return false, the no input will reach the current system
+  - there also needs to be a way to allow or block an entity from processing input, and maybe even add and remove dynamically as needed at whatever position in the queue.
+  - i dont know how priority is going to help much but it should be useful
+  - we can have a similar multi queued system as updation or drawing, as those have functions for individual, queue, and entire blocking if needed, although switching of queues is not implemented as yet.
+  - lets go and revise to understand how the curernt input system works .
+
+  - curerntly input manager only handles one queue. it will check any events that it gets and get the action for it and then call the registered callback of the objects in the queue.
+  - made all of the functions and variables in the inutmanager static so now it can be accessed from outside without an object.
+  - it can be called by all objects to add or remove any objects in any queue
+  - programmer will have to responsible for it.
+  - but this allows any new object that was created to be immedietly added to the queue.
+  - before only the game object had access to the object so an event with a pointer to the new object telling to add to the queue was needed(although this was not implemented).
+  - now the object can just tell to insert intself into the queue.
+  - and maybe even remove onself.
