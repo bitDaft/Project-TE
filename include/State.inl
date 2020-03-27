@@ -4,20 +4,20 @@
  * Created Date: Friday, March 27th 2020, 8:09:49 am
  * Author: bitDaft
  * -----
- * Last Modified: Friday, March 27th 2020 6:00:36 pm
+ * Last Modified: Friday, March 27th 2020 6:11:32 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2020 bitDaft
  */
 
 template <class T>
-State::State(){}
+State::State() {}
 
 template <class T>
-State::~State(){}
+State::~State() {}
 
 template <class T>
-void State::enter(){}
+void State::enter(T *) {}
 
 template <class T>
-void State::exit(){}
+void State::exit(T *) {}

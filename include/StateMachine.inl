@@ -4,7 +4,7 @@
  * Created Date: Friday, March 27th 2020, 5:50:26 pm
  * Author: bitDaft
  * -----
- * Last Modified: Friday, March 27th 2020 6:03:28 pm
+ * Last Modified: Friday, March 27th 2020 6:11:07 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2020 bitDaft
@@ -15,10 +15,11 @@ StateMachine::StateMachine(T *obj_entity)
     : entity(obj_entity),
       currentState(nullptr),
       globalState(nullptr)
-{}
+{
+}
 
 template <class T>
-StateMachine::~StateMachine(){}
+StateMachine::~StateMachine() {}
 
 template <class T>
 void StateMachine::setCurrentState(State<T> *newCurrentState)
@@ -33,20 +34,23 @@ void StateMachine::setGlobalState(State<T> *newGlobalState)
 }
 
 template <class T>
-void StateMachine::update()
+void StateMachine::update(const sf::Time &dt)
 {
-    if(globalState){
-        globalState->update(entity);
+    if (globalState)
+    {
+        globalState->update(entity, dt);
     }
-    if(currentState){
-        currentState->update(entity);
+    if (currentState)
+    {
+        currentState->update(entity, dt);
     }
 }
 
 template <class T>
 void StateMachine::transitionToState(State<T> *nextState)
 {
-    if(!nextState){
+    if (!nextState)
+    {
         return;
     }
 
@@ -54,4 +58,3 @@ void StateMachine::transitionToState(State<T> *nextState)
     currentState = nextState;
     currentState->enter(entity);
 }
-
