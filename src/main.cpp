@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday, March 27th 2020 7:46:59 pm
+ * Last Modified: Friday, March 27th 2020 8:42:37 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -73,12 +73,12 @@ private:
 	bool moveLeftR(sf::Event &)
 	{
 		plVelocity.x += playerMoveSpeed;
-		return false;
+		return true;
 	}
 	bool moveRightR(sf::Event &)
 	{
 		plVelocity.x -= playerMoveSpeed;
-		return false;
+		return true;
 	}
 	bool moveUp(sf::Event &)
 	{
@@ -93,12 +93,12 @@ private:
 	bool moveLeft(sf::Event &)
 	{
 		plVelocity.x -= playerMoveSpeed;
-		return false;
+		return true;
 	}
 	bool moveRight(sf::Event &)
 	{
 		plVelocity.x += playerMoveSpeed;
-		return false;
+		return true;
 	}
 
 public:
@@ -111,6 +111,7 @@ public:
 	}
 	TestPlayer() : IUpdatable(1), IDrawable(1), playerMoveSpeed(50.f), plVelocity(0, 0), testani(6)
 	{
+		InputManager::pushEntity(this);
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveUpR>(Actions::UP_RELEASE);
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveDownR>(Actions::DOWN_RELEASE);
@@ -157,7 +158,7 @@ public:
 		sheet.setPosition(0, 0);
 		test.update(t);
 	}
-	void draw(const sf::Time &t, sf::RenderTexture &tex)
+	void draw(const sf::Time &, sf::RenderTexture &tex)
 	{
 		// we dont really want a draw here
 		// what we want is to send the vertices so that they may all be drawn at the same time
@@ -183,6 +184,7 @@ class Test : public Game, private IUpdatable
 {
 private:
 	TestPlayer pl;
+	TestPlayer pl2;
 	sf::Time tt;
 
 	bool mld(sf::Event &)
@@ -205,12 +207,12 @@ private:
 		std::cout << "Released right\n";
 		return false;
 	}
-	bool mm(sf::Event &e)
+	bool mm(sf::Event &)
 	{
 		// std::cout << "Moving : " << e.mouseMove.x << " " << e.mouseMove.y << "\n";
 		return false;
 	}
-	bool ms(sf::Event &e)
+	bool ms(sf::Event &)
 	{
 		// std::cout << "Scrolling : " << e.mouseWheelScroll.delta << "\n";
 		return false;
@@ -224,6 +226,7 @@ public:
 			: Game(wndWidth, wndHeight, wndName),
 				IUpdatable(1),
 				pl(),
+				pl2(),
 				tt(sf::Time::Zero)
 	{
 
@@ -285,7 +288,7 @@ public:
 		_reactionMapper->bindActionToReaction<&Test::ms>(Actions::MOUSE_SCROLL);
 		_reactionMapper->bindActionToReaction<&Test::quit>(Actions::QUIT);
 
-		InputManager::pushEntity(&pl);
+		
 
 		// testData *t = new testData();
 		// gameWindow.triggerEvent(EventType::testNum, t);

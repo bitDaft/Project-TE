@@ -615,3 +615,10 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - before only the game object had access to the object so an event with a pointer to the new object telling to add to the queue was needed(although this was not implemented).
   - now the object can just tell to insert intself into the queue.
   - and maybe even remove onself.
+  - also now any built in sfml event can be triggered by simply creating the event object and passing it to inputmanager::processevents.
+  - this was not possible before. now we can manually trigger some key down or mouse down at some position.
+  - although i think if all functions should have been available to all. maybe adding and removing only to inputhandler.
+  - maybe changing of actionmapper to some setting object or so.
+  - anyways anyone can now modify anything so lets just use it properly in the engine itself so that the programmer will not have to fiddle with it unless really necessary
+  - what is remaing is multiple queus and adding and removing
+  - let think about hoiw it is going to work with state sytem before we go any further now 
