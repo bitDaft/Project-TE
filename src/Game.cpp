@@ -4,7 +4,7 @@
  * Created Date: Sunday, March 22nd 2020, 7:30:00 pm
  * Author: bitDaft
  * -----
- * Last Modified: Monday, March 23rd 2020 12:56:22 pm
+ * Last Modified: Friday, March 27th 2020 8:11:34 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2020 bitDaft
@@ -36,8 +36,7 @@ Game::Game()
       _updateManager(new UpdateManager()),
       _drawManager(new DrawManager()),
       gameWindow(sf::VideoMode(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT), DEFAULT_GAME_NAME),
-      _aMapper(),
-      _inputManager(this, &_aMapper)
+      _aMapper()
 {
     commonInit();
 }
@@ -52,13 +51,15 @@ Game::Game(const int w, const int h, const char *n)
       _updateManager(new UpdateManager()),
       _drawManager(new DrawManager()),
       gameWindow(sf::VideoMode(w, h), n),
-      _aMapper(),
-      _inputManager(this, &_aMapper)
+      _aMapper()
 {
     commonInit();
 }
 void Game::commonInit()
 {
+    InputManager _inputManager(this);
+    InputManager::setActionMapper(&_aMapper);
+    
     gameWindow.setKeyRepeatEnabled(false);
     startUpdation();
     startDrawing();
@@ -176,7 +177,7 @@ void Game::processEvents()
             {
                 break;
             }
-            _inputManager.processInputsEvent(e);
+            InputManager::processInputsEvent(e);
             break;
         }
         default:

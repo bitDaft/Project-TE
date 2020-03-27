@@ -4,22 +4,31 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday November 20th 2019 9:07:10 am
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Friday, March 27th 2020 8:10:35 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft coorp.
  */
 
 #include "InputManager.hpp"
 
-InputManager::InputManager(InputHandler *const game, ActionMapper *aMap) : _actionMapper(aMap), _itemList(), gameEntity(game)
+ActionMapper *InputManager::_actionMapper;
+std::vector<InputHandler *> InputManager::_itemList;
+InputHandler *InputManager::gameEntity = nullptr;
+
+InputManager::InputManager(InputHandler *game)
 {
+  if (!gameEntity)
+  {
+    gameEntity = game;
+  }
 }
 InputManager::~InputManager() {}
 void InputManager::setActionMapper(ActionMapper *aMap)
 {
   _actionMapper = aMap;
 }
+
 void InputManager::pushEntity(InputHandler *e)
 {
   _itemList.push_back(e);

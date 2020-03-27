@@ -4,7 +4,7 @@
  * Created Date: Tuesday, March 10th 2020, 10:19:27 pm
  * Author: bitDaft
  * -----
- * Last Modified: Monday, March 23rd 2020 12:54:53 pm
+ * Last Modified: Friday, March 27th 2020 8:02:11 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2020 bitDaft
@@ -150,7 +150,6 @@ private:
 protected:
     RWindow gameWindow;
     ActionMapper _aMapper;
-    InputManager _inputManager;
 };
 
 #endif

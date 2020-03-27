@@ -4,8 +4,8 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Wednesday November 20th 2019 9:07:10 am
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Friday, March 27th 2020 8:10:37 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft coorp.
  */
@@ -24,7 +24,7 @@
 class InputManager : private sf::NonCopyable
 {
 public:
-  InputManager(InputHandler *const, ActionMapper *);
+  InputManager(InputHandler *);
   ~InputManager();
 
   /**
@@ -32,41 +32,41 @@ public:
    * @param ActionMapper * The pointer to the new ActionMapper
    * @return void
    */
-  void setActionMapper(ActionMapper *);
+  static void setActionMapper(ActionMapper *);
   /**
    * Processes the inputs obtained from the event queue
    * @param sf::Event & The Event that was generated
    * @return void
    */
-  void processInputsEvent(sf::Event &);
+  static void processInputsEvent(sf::Event &);
 
   /**
    * Pushes an InputHandler object on to the daisy chain stack for callback evaluation
    * @param InputHandler * A pointer to the input handler object
    * @return void
    */
-  void pushEntity(InputHandler *);
+  static void pushEntity(InputHandler *);
   /**
    * Replaces an InputHandler object on top of the daisy chain stack for callback evaluation
    * @param InputHandler * A pointer to the input handler object to replace
    * @return void
    */
-  void replaceEntity(InputHandler *);
+  static void replaceEntity(InputHandler *);
   /**
    * Removes the top InputHandler object  of the daisy chain stack for callback evaluation
    * @return void
    */
-  void popEntity();
+  static void popEntity();
   /**
    * clears the stack for callback evaluation
    * @return void
    */
-  void clearEntity();
+  static void clearEntity();
 
 private:
-  ActionMapper *_actionMapper;
-  std::vector<InputHandler *> _itemList;
-  InputHandler *const gameEntity;
+  static ActionMapper *_actionMapper;
+  static std::vector<InputHandler *> _itemList;
+  static InputHandler *gameEntity;
 };
 
 #endif

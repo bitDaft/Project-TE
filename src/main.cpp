@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday, March 24th 2020 9:00:11 pm
+ * Last Modified: Friday, March 27th 2020 7:46:59 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -285,7 +285,7 @@ public:
 		_reactionMapper->bindActionToReaction<&Test::ms>(Actions::MOUSE_SCROLL);
 		_reactionMapper->bindActionToReaction<&Test::quit>(Actions::QUIT);
 
-		_inputManager.pushEntity(&pl);
+		InputManager::pushEntity(&pl);
 
 		// testData *t = new testData();
 		// gameWindow.triggerEvent(EventType::testNum, t);
