@@ -4,14 +4,14 @@
  * Created Date: Friday, March 27th 2020, 5:50:26 pm
  * Author: bitDaft
  * -----
- * Last Modified: Friday, March 27th 2020 6:11:07 pm
+ * Last Modified: Friday, March 27th 2020 7:41:54 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2020 bitDaft
  */
 
 template <class T>
-StateMachine::StateMachine(T *obj_entity)
+StateMachine<T>::StateMachine(T *obj_entity)
     : entity(obj_entity),
       currentState(nullptr),
       globalState(nullptr)
@@ -19,22 +19,22 @@ StateMachine::StateMachine(T *obj_entity)
 }
 
 template <class T>
-StateMachine::~StateMachine() {}
+StateMachine<T>::~StateMachine() {}
 
 template <class T>
-void StateMachine::setCurrentState(State<T> *newCurrentState)
+void StateMachine<T>::setCurrentState(State<T> *newCurrentState)
 {
     currentState = newCurrentState;
 }
 
 template <class T>
-void StateMachine::setGlobalState(State<T> *newGlobalState)
+void StateMachine<T>::setGlobalState(State<T> *newGlobalState)
 {
     globalState = newGlobalState;
 }
 
 template <class T>
-void StateMachine::update(const sf::Time &dt)
+void StateMachine<T>::update(const sf::Time &dt)
 {
     if (globalState)
     {
@@ -47,7 +47,7 @@ void StateMachine::update(const sf::Time &dt)
 }
 
 template <class T>
-void StateMachine::transitionToState(State<T> *nextState)
+void StateMachine<T>::transitionToState(State<T> *nextState)
 {
     if (!nextState)
     {
