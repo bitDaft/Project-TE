@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday, March 27th 2020 8:42:37 pm
+ * Last Modified: Saturday, March 28th 2020 3:32:36 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -111,7 +111,7 @@ public:
 	}
 	TestPlayer() : IUpdatable(1), IDrawable(1), playerMoveSpeed(50.f), plVelocity(0, 0), testani(6)
 	{
-		InputManager::pushEntity(this);
+		enableInputHandling();
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveUpR>(Actions::UP_RELEASE);
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveDownR>(Actions::DOWN_RELEASE);

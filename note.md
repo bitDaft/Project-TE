@@ -622,3 +622,13 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - anyways anyone can now modify anything so lets just use it properly in the engine itself so that the programmer will not have to fiddle with it unless really necessary
   - what is remaing is multiple queus and adding and removing
   - let think about hoiw it is going to work with state sytem before we go any further now 
+  - now that i have thought a lot about this. i have come upon the fact that state system is not really dependant on the input system.
+  - it is just that there may be multiple inputs and we need to manage that
+  -but for the state system to work does not necessarily need multiple queues or anything
+  - the only dependancy is that when multiple behaviour may be created or whatever may be created with inputhandlers and even if they are not being used they will process the input and they will consuime the input without even being active.
+  - so all that is needed is that entities need to be enabled for input and if they are disabled just skip them.
+  - so let input handler provide functions for enabling and disabling. so let it hold onto the positionin the queue
+  - and for removal no need for any clean up now. lets just make it nullptr so the ordering is not broken.
+  - added funcitonality to add remove disable or enable any enitty in the input queue.
+  - so now the actual blocker for behaviour objects is gone.
+  - so lets get onto making the behaviour class
