@@ -15,7 +15,8 @@
       "includePath": [
         "${workspaceFolder}/**",
         "${workspaceFolder}/include",
-        "/usr/include"
+        "/usr/include/**",
+        "/usr/local/include/**"
       ],
       "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
       "compilerPath": "/usr/bin/g++",
