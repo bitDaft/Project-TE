@@ -646,3 +646,16 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - but i want to just go on and see how far i can make it before i start another one with a different structure.
   - many aspects may still remain the same since sfml is built the way it is but i might find better ways of doing other things.
   - later on i want to also make a data oriented engine and also an ecs based engine.
+
+  - so with that our state system is completed 
+  - although there is a need to brush up quite a few things it is in a usabel state now.
+  - let the programmer of the entity manually call stateupdate if needed.
+  - should the state also have a draw function to draw that current .. nah. the state machine will swtich the sprite which is stored in the entity.
+  - just simply draw it.
+  - another thing that ive thought about is that if a entity has a state machine it can  have a state which just simply does nothing, which mimics the not updating state, so insteading of updatehandler or whatever checking whtehr the entity can be updated why not just leave it to the state to do it.
+  - so we can still run login where it can check whther the entity is ready to start being updating again by simply changing states,
+  - because currently now the entity cannot check whether it is ready to be updated again or not (this can include self or queue or maybe entirely disable of updation)
+  although currently an entity only has power over its own updation and not of the queue. 
+  - so what ive thought is that when en enityt is disabled it will call an alternate function in which the entity can do any process to check whether the entity should be enabled again. 
+  - this will also provide us a method to update the animation of the sprite even if the entity is disabled.
+  - so lets do that now.
