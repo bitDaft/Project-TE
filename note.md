@@ -632,3 +632,17 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - added funcitonality to add remove disable or enable any enitty in the input queue.
   - so now the actual blocker for behaviour objects is gone.
   - so lets get onto making the behaviour class
+
+  - ive been doing a lot of thinking. 
+  - using crtp the base behaviour is done. now they need to subclass it and set their states.
+  - what i thought was if an object with some behaviour is updated, then cant the behaviour itself subclass iupdatable and be in the update queueu. thus it just the main entity simply becomes useless.
+  - thus the behaviour object becomes what the entity was initially
+  - i feel that this system is not that usefull without an ECS system. since we are not really gonna make an ecs system and this is a project in learning to make a game engine that i did not want ecs in so i could understand how it should be done normally and what all will be its limitation and stuff.
+  - so since the behaviour just becomes close to what the actual entity was let us just discard this idea of having a behavviour objecct
+  - lets just follow the first approach were we have groups of states that are part related to an entity and that entity alone
+  - and even if the interface was same for another object that entity will need to hold the interface also.
+  - whatever.
+  - i know that not all the systems are that great even within this sytem and there may be much better methods to do things.
+  - but i want to just go on and see how far i can make it before i start another one with a different structure.
+  - many aspects may still remain the same since sfml is built the way it is but i might find better ways of doing other things.
+  - later on i want to also make a data oriented engine and also an ecs based engine.
