@@ -4,7 +4,7 @@
  * Created Date: Sunday June 9th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Saturday, March 28th 2020 3:32:36 pm
+ * Last Modified: Saturday, March 28th 2020 6:52:13 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -106,11 +106,13 @@ public:
 	Animation testani;
 	AnimatedSprite test;
 	sf::Sprite sheet;
+	sf::Time ttime;
 	~TestPlayer()
 	{
 	}
 	TestPlayer() : IUpdatable(1), IDrawable(1), playerMoveSpeed(50.f), plVelocity(0, 0), testani(6)
 	{
+		ttime = sf::seconds(0.f);
 		enableInputHandling();
 		player.setPosition(100.f, 100.f);
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveUpR>(Actions::UP_RELEASE);
@@ -155,7 +157,21 @@ public:
 		if (getPosition().y < 0 || getPosition().y > 320)
 			plVelocity.y = -plVelocity.y;
 		move(plVelocity * t.asSeconds());
+		ttime += t;
+		if(ttime.asSeconds() > 5.f){
+			disableUpdate();
+			ttime = sf::seconds(0.f);
+		}
 		sheet.setPosition(0, 0);
+		test.update(t);
+	}
+	void disabledUpdate(const sf::Time &t)
+	{
+		ttime += t;
+		if(ttime.asSeconds() > 5.f){
+			enableUpdate();
+			ttime = sf::seconds(0.f);
+		}
 		test.update(t);
 	}
 	void draw(const sf::Time &, sf::RenderTexture &tex)
