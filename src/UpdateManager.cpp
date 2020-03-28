@@ -4,7 +4,7 @@
  * Created Date: Tuesday November 19th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Tuesday, March 24th 2020 2:23:09 pm
+ * Last Modified: Saturday, March 28th 2020 6:45:49 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft
@@ -79,6 +79,8 @@ void UpdateManager::update(const sf::Time &dt)
             if (updateList[i][j]->canUpdate)
             {
               updateList[i][j]->update(dt);
+            }else{
+              updateList[i][j]->disabledUpdate(dt);
             }
           }
           else

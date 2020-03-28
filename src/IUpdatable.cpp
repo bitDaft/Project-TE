@@ -4,8 +4,8 @@
  * Created Date: Monday November 18th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Saturday December 28th 2019 11:47:27 pm
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Saturday, March 28th 2020 6:47:41 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft
  */
@@ -39,6 +39,10 @@ void IUpdatable::initialize(UpdateManager *updateManager)
   }
 }
 
+void IUpdatable::disabledUpdate(const sf::Time &)
+{
+  
+}
 void IUpdatable::enableUpdate()
 {
   canUpdate = true;

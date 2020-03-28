@@ -4,8 +4,8 @@
  * Created Date: Monday November 18th 2019
  * Author: bitDaft
  * -----
- * Last Modified: Saturday December 28th 2019 11:47:27 pm
- * Modified By: bitDaft at <ajaxhis@tutanota.com>
+ * Last Modified: Saturday, March 28th 2020 6:46:36 pm
+ * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft
  */
@@ -61,7 +61,8 @@ private:
    * @param dt the elapsed time for the frame
    * @return void
    */
-  virtual void update(const sf::Time &dt) = 0;
+  virtual void update(const sf::Time &) = 0;
+  virtual void disabledUpdate(const sf::Time &);
 
 private:
   int _1;
