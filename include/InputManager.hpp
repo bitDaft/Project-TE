@@ -4,7 +4,7 @@
  * Created Date: Tuesday July 2nd 2019
  * Author: bitDaft
  * -----
- * Last Modified: Friday, March 27th 2020 8:10:37 pm
+ * Last Modified: Saturday, March 28th 2020 3:23:46 pm
  * Modified By: bitDaft at (ajaxhis@tutanota.com>)
  * -----
  * Copyright (c) 2019 bitDaft coorp.
@@ -45,7 +45,7 @@ public:
    * @param InputHandler * A pointer to the input handler object
    * @return void
    */
-  static void pushEntity(InputHandler *);
+  static int pushEntity(InputHandler *);
   /**
    * Replaces an InputHandler object on top of the daisy chain stack for callback evaluation
    * @param InputHandler * A pointer to the input handler object to replace
@@ -57,6 +57,7 @@ public:
    * @return void
    */
   static void popEntity();
+  static void removeEntity(int);
   /**
    * clears the stack for callback evaluation
    * @return void
