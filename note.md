@@ -659,3 +659,24 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - so what ive thought is that when en enityt is disabled it will call an alternate function in which the entity can do any process to check whether the entity should be enabled again. 
   - this will also provide us a method to update the animation of the sprite even if the entity is disabled.
   - so lets do that now.
+  - the alternate function for updation has been added.
+
+  - now we have a lot of features with half completed stuff all over
+  - it should all be implemented or cleaned up
+  - but i dont feel like cleaning u p; hehe
+  - fuck. maintainance is hard
+  - i should start doing the maintainance and add pazzazz now to keep things smooth and shiny i guess.
+  - buuuuuuttt. before that lets just get onto other systems
+  - so now we need to research and identify core systems that may be needed
+  - lets see how that goes.
+
+# CLEANUP
+  - so lets see what we need for cleanup. of the top of my head
+  - event should be triggerable from any entity.
+  - i dont know about entities handling events though.
+  - resource amanger must be made to texture manager
+  - make managers for fonts, music, sfx , animation 
+  - create the actual resource manager interface to interface with these resource loaders and handlers
+  - updation and drawing queue switching between queues.
+  - multiple queue for input system. maybe we need to rethink the input manager.
+   
