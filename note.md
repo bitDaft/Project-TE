@@ -678,5 +678,12 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - make managers for fonts, music, sfx , animation 
   - create the actual resource manager interface to interface with these resource loaders and handlers
   - updation and drawing queue switching between queues.
-  - multiple queue for input system. maybe we need to rethink the input manager.
-   
+  - multiple queue for input system. maybe we need to rethink the input manager.?
+  - 
+
+# Some Game ideas that popped up
+  - clicker
+  - advance wars strategy
+  - into the breach
+  - pokemon mystery dungeon
+
