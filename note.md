@@ -687,3 +687,26 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - into the breach
   - pokemon mystery dungeon
 
+  - one thing i realized i cant just make a clicker game. coz of gui input mouse
+  - how will an element know that it has been clicked or mouse is hovering over it.
+  - this will need the element to subscribe to the mouse events
+  - and we will have to generate these events by checking it every time, so it is not easy
+  - the mouse will be a point and we will have to check whether it does a collision check with every element on screen
+  - but that is stupid.
+  - so maybe i may need to think of a better system to handle input
+  - keyboard does not seem to have much issues since once it is not a visual input.
+  - so once a key is pressed it will just send it to the required object to execute.
+  - but a mouse is visual
+  - so it may hover over some element, mouseon or mouseoff , click on or release on an entity.
+  - so basically mouse needs a special handler for this.
+  - so this is a major blocker in creating any kind of games in this engine with robust mouse fucntionality.
+  - currently it may only be able to reliably and easily create games which are predominantly keyboard based
+  - fuck
+  - when interacting with gui elements every element will have to ckeck whether it has collided. so it can know when mouse has entered hovered over or exited, clicked etc when on top of the element
+  - we will take a look into all the events of the mouse that are available in the browser first to see what all are the most commonly needed event.
+  - if we just program those in we should have covered almost all use cases that may arise. there may be some quirky use case. but lets not think of that now,
+  - so we maybe the interactive elements will need to subscribe to the mouse. depending on what kind of event and where that event occured like a click, we will call that objects callback function.
+  - but this will make the ui into object based which we really did not want to and wanted to make it like html css kind of. shit. this is so confudsing.
+  - will need to research and find a good method to see how entities can interact with mouse. 
+  - and if we do find a better approach maybe that may work for the keyboard as well.
+  - so now that this has been thought out a bit we may need to overhaul the entirety of the input system. fuck.
