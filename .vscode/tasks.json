@@ -9,15 +9,13 @@
         "isDefault": true
       },
       "windows": {
-        "command": "powershell"
+        "command": "powershell",
+        "args": ["-c", "mingw32-make"]
       },
       "linux": {
-        "command": "bash"
-      },
-      "args": [
-        "-c",
-        "make"
-      ]
+        "command": "bash",
+        "args": ["-c", "make"]
+      }
     },
     {
       "label": "build & run",
@@ -32,10 +30,7 @@
       "linux": {
         "command": "bash"
       },
-      "args": [
-        "-c",
-        "make run"
-      ]
+      "args": ["-c", "make run"]
     },
     {
       "label": "clean",
@@ -46,10 +41,7 @@
       "linux": {
         "command": "bash"
       },
-      "args": [
-        "-c",
-        "make clean"
-      ]
+      "args": ["-c", "make clean"]
     }
   ]
 }
