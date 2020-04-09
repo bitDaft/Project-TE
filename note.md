@@ -710,3 +710,50 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - will need to research and find a good method to see how entities can interact with mouse. 
   - and if we do find a better approach maybe that may work for the keyboard as well.
   - so now that this has been thought out a bit we may need to overhaul the entirety of the input system. fuck.
+
+  - ok i have thought up two issues.
+  - 1 . inoput manager not blocking inputs when like in pause state.
+  - 2 . a potential solution for the mouse issue, where whenever a mouse input comes up go through the draw queues and find the top one where it occured
+  - so all will get the event but the mouse system will keep track of the actual target that might have occured.
+  - so we might need a mouse system.
+
+  - although there are issues for mouse based games because of the above mentioned pronblems, it does not stop from making miouse involved games.
+  - like clicking on a screen to shoot projectile. or to turn a character in mouse direction. 
+  - so i think the causes can be limited to a few cases.
+  - the case where we need to know exactly what entity it occured when there are multiple entity stacked on the same place
+  - this is probably the only issue.
+  - once we can figure out the top entity on which the event occured, which will have to be calculated we can solve almost all issue of that i gues.
+  - like hover over or click on entity or mousenter exit kind of event.
+  - i am thinking that we can have a mouse system. whenever the entity needs a click or mouse over or enter exit events that are specific to the entity we can add it to a special queue
+  - then whenever such an event is triggered we can just check what the z-index of all the entities are and at what position the event occured so we can easily get the target entity.
+  - we can get the z-index by exposing a function from drawhandler to show the _1 and _2 variable value which is z- index.
+  - so whenever a mouse event occures we will go through this queue calculate if it happened to that event and call its special callback.
+  - so we will need to create a special event clickOnEntity, EnterEntity, ExitEntity, HoverEntity, MouseOverEntity etc. 
+  - so all of these relate to mouse click and mouse move. 
+  - what if there is mouse rightclick.? we will need to check that also.
+  - so there can be any click by that logic. the rest is just move event.
+  - these are special events since they occur on an entity.
+  - the other are general events which occur to the game window. or that which will be managed by the game object. and occur to the game as a whole.
+  - so if we want to make a game which use mouse that works on the game as a whole then it is possible. but on entity level there needs to be some thought.
+  - since entity level mouse is a visual issue , keyboard does not matter as it is just a toggle state and not visual need to identify.
+  - since it is visual it can be for anything visual. like maybe a cursor.
+  - but if the cursor was moved with keyboard like for advance wars then the button for A and B will act upon the cursor object and it will know which object it is selecting based on the scene raph or something. so it is not purely a cursor issue. it is just a mouse based issue.
+  - no. what if the cursor had super precision and moved with arrow button. now it has to highlight the entity below it even though it is being moved by a keyboard.
+  - so we need a way to solve the issue at a visual level. meaning it will need to interact with the drawing system.
+  - as said before we can have the entities that need these special mouse events be put in a queue.and the sorted to their z-index. then we can just go through the queue and find the first one at the correct coordinate. this might work.
+
+  - so those are some of the issues that are facing in mouse department.
+  - lets talk about input in pause state.
+  - oncethe state is paused i dont want any input to pass through to the character or whatever,
+  - this is helped by the daisy chain by having a pause oibject at the top which just returns false.
+  - but if it does not registers any other key it will passthrough.
+  - so how are we going to keep the input restricted to the needed objefcts only,
+  - i thought of having a multiple queue system, so when the state changes the queue will be enabled or disabled accordingly for input manager.
+  - since input manger is universal anyone anywhere can enable or disabel queues.
+  - so lets the game object have a state machine, which will be needed when checking the state at a game level like pause or so.
+  - when the state changed let the state just disable all other queues and just enable the one single queue for pause state.
+  - anyhow this cannot be built into the engine as this is game dependant and the programmer will need to do it.
+  - but it needs to be discusse dhere as i can build a system which will allow the programmer to implement such a system.
+  - so how should we go about implementing this system for blocking events based on events. let me read that shit agin.
+
+  
