@@ -1,7 +1,7 @@
 /include/SFML/*
 # /lib/*/*
 /bin/*/*
-/obj
+/obj/*
 !/bin/*/assets
 /.vscode
 *.o
