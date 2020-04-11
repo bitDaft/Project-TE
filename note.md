@@ -463,16 +463,17 @@ _Issue_ - no object other than the game can currently issue new events. change i
 - issue with animation using quads and not triangles
 - issue with animation have no code for clearing of the rects used
 - issue create a delegate function for adding mapping of keys of reactionmapper in enitity.
-~~- MAJOR ISSUE - affect both drawing and updation~~ THIS ISSUE IS SOLVED
+  ~~- MAJOR ISSUE - affect both drawing and updation~~ THIS ISSUE IS SOLVED
   - ~~after inserting a some objects and deleting some of it out. clean up will remove the delted objects~~
   - ~~this will rearrange the position of the pointers in the array.~~
-  - ~~so _2 will not correspond to the correct position in the array when it has to be removed for other pointer~~
+  - ~~so \_2 will not correspond to the correct position in the array when it has to be removed for other pointer~~
   - ~~this will crash later. NEED FIX NOW.~~
   - ~~so after cleanup the new positions need to be recalculated.~~
 
 # SOLUTION
 
 - EVENT ISSUE
+
   - objects can neither create nor handle any events.
   - objects should be able to fire events
   - objects should be able to handle events if required.
@@ -482,278 +483,357 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - trigger events is part of Rwindow
     - should events have access to the current window
 
+#### random thoughts on action system.
 
+- have and or system to combine actinos
+- but the actions should only be triggered when an event has occured otherwise it will check for every action every loop which i not only inefficient but also might check for wrong key combination. like an only release action could be triggered even though no event was made sicne it will check at the current time is it pressed or released.
+- even when an acction is triggered need to quickly determine whether this action object needs to be parsed to check whether it is valid or invalid instead of just parsing all the action objects to find the correct one, which is inefficient.
 
-#### random thoughts on action system. 
-  - have and or system to combine actinos
-  - but the actions should only be triggered when an event has occured otherwise it will check for every action every loop which i not only inefficient but also might check for wrong key combination. like an only release action could be triggered even though no event was made sicne it will check at the current time is it pressed or released.
-  - even when an acction is triggered need to quickly determine whether this action object needs to be parsed to check whether it is valid or invalid instead of just parsing all the action objects to find the correct one, which is inefficient.
-  
 #### Event system random notes.
-  - this sytem can be reduced and made more easily accessible and easier to work with. right now it looks convoluted and unwieldy.
-  - although it work works without any hitches currently , we will need to test it out thoroughly before changing it completely.
-  - i feel it can be made much more simpler.
+
+- this sytem can be reduced and made more easily accessible and easier to work with. right now it looks convoluted and unwieldy.
+- although it work works without any hitches currently , we will need to test it out thoroughly before changing it completely.
+- i feel it can be made much more simpler.
 
 - read the entire codebase and notes and readme and up to date with current progress of engine.
 - i feel it is time to implement the state system
 - after the state system has been implemented we can do all the needed fixes, refactoring of current objects to add the required functionalitis.
 
 # EVENT SYSTEM
-  - we are going to design the event system that needs to be implemented
-  - lets start with the lowest unit, the state
-  - the state class will be a templated class so that it can be reused for multiple different entities
-  - it will have basic functions such as onenter, update and onexit. are there any more functions that are needed? hmmm will need to think about it
-  - this state class can be subclassed to create the actual states for any entity.
-  - since all the states for an entity will be tied to one another should we maybe create a behaviour object encapsulating them? this an idea for another time.
-  - any state transition logic will be baked into these objects.
-  - what about having state for these objects. ie context dependant variables.
-  - this is in order to understand having just a singleton state or need to create states as they are made.
-  - which is why i though of enapsulating it in a behaviour object or even having an interface for the entities to inherit from which would contain the necessary values needed for stateful states to function, and then the states can just query their parent object for these details so they dont really need to maintain it thus we can have all the states be singleton.
-  - lets consider both possibilities
-  - first is inherit an interface for usage of these states. or statemachine.
-  - the interface class will only contain the required dependant variables and their getter setter functions(if the variables are not public, which it most probably will be).
-  - any entity that inherits this interface class will be able to obtain those variables needed without having to directly manage them.
-  - if any of their values need to be accessed or set it can be set directly by the entity or the state since the state has access to the entity pointer.
-  - so any entity that want to use states of a set need to inherit the interface for that state.
-  - or they can also implement those needed variables themselves.
-  - this approach is very straight forward. but it makes the entity needing to inherit a class or to implement variables they may not directly use. also what if they forget to inherit the required interface. then the statemachine needs to check that the class has inherited the appropriate interface.
-  - but what if we need to switch behaviours of an entity, wouldnt they need to inherit both their interfaces. what if both the interface has the same variables.wont it cause a resolution error. but if the state use their own interfaces variables then those two separate variables would be out of sync
-  - here i think the best solution will to have the entity itself have the variables,instead of inheriting them. but they will inherit interfaces which are abstract and define the abstract functions of the interfaces to return the correct value or variable.
-  - thus two different states that need to access a variable for the same function can have their own functions that thay will call, but the programmer can define what variables those functions returned which will keep them in syncif the variables needed are the same.
-  - so if they are stateful states they will need the entity to inherit from an abstract base class with virtual methods which needs to be implemented by the programmer.
-  - this will allow us to have variables that are in sync with every state, where we can manipulate the variables to convert them into the right format needed for that state, and the variable can be used for outside purposes like displaying health or something without breaking.
-  - but a major issue is the inheritance. the entity will need to inherit for every interface that may be needed for any potential behaviours it may change into.
-  - which looks very shitty and i dont want that.
-  - also the same problem arises if two interface function are named the same it will cause resolution conflict..sooo...
-  - onto the seconf idea of encapsulating them into a behaviour object.
-  - the behaviour object will contain an instance of all the states that are needed to define that behaviour pattern within an entity.
-  - first i thought the behaviour object will contain all the stateful variables that the states may need to hold and such the actual entity need not define anything
-  - and these behaviour objects can be passed to the statemachine which will execute them.
-  - so the behaviours can be switched on the fly by simply switching the behaviour objects around.
-  - since the behaviour has its own state variables same as previously they may be out of sync, but we can solve that by initializing the correct values for that behaviour using the values from the previous behaviour object.
-  - this may need the entity to hold onto a copy of those variables that are common in the states transitioning to and thus will need to know beforehand itself what all states it can change into and hold their common variables.
-  - with this approach there will be no name conflict or function conflict or have the entity to define the accessor functions or even to inherit anything, so the objects can be switched on the fly without any impact, such as for checking whether it has inherited the correct interface or that the variable used is not in any conflict as they are all encapsulated under one behaviour object.
-  - another aspect it created is that the states need not be related to the entities as the needed variables and functions needed to function are defined in the behaviour object itself. so the behaviour object becomes entity independant. thus now the states need not be templated with the entity class.
-  - all they need is the reference to their encapsulating parent object. which is the behaviour class.
-  - i think this approach is better than the first one.
-  - what are the cons of this approach?
-  - the class will not have direct amangement of variables such as health thus will need to query the behaviour obejct to get the details such as health if needed for any other external purposes such as displaying health.
-  - so now we have a new behaviour class to think about.
-  - basically what is needed of the behaviour class is that it hold the necessary variables and methods for that set of states to function. 
-  - behaviour object will also need to hold onto instances of states that are needed.
-  - upon creation of a behaviour object the necessary states are also created.
-  - since all of the required variables are held in behaviour and not in state , all the state objects can be singletons now.
-  - for any of the singleton states to access the variables they will need access to the encompasing behaviour object to query those variables.
-  - thus i think the state will still be templated, but they will be templated with behaviour class instead.
-  - will the behaviour object need to hold all the related states, or just to the current state?
-  - since the states are interconnected you dont really need to store all the states, when a state change happens the behaviour currentstate will be updated.
-  - so the behaviour class will act as if it is proxy for the entity
-  - whenever a state update happens instead of the entity or statemachines currentstate being updated, it will update the behaviour currentstate.
-  - instead of the statemachine holding the behaviour object let the entity hold the object and the statemachine can have a pointer to it.
-  - the state machine can be initialized with the behaviour object pointer or state object pointer.
-  - so now we can easily switch between the two different methods without any issues.
-  - anything with state will either be a behaviour object or normal state object with the required variables defined the entity itself
-  - since the states are still templated, the previous method can also be done without interference.
-  - we might run into problems while implementing and cleaning up some details on its working but it is a solid idea for now.
-  - then there is the statemachine object itself
-  - the entity holds a statemachine object.
-  - every update the entity will call the statemachines update function
-  - if the statemachine is an state holder it will simply execute the state execute method.
-  - if it is a behaviour it will execute the behaviours method.
-  - if we give them both the same interface then no need to change how the statemachine handles state or behaviour obejcts, it will be treated the same.
-  - the statemachine will hold onto the currentstate, and globalstate.
-  - maybe for previous state we will implement a pda.
-  - the state machine also holds a function to change the currently held currentstate pointer or global pointer.
-  - there it will execute the onenter on exit function and change the pointers around.
-  - if the behaviour object also contains the same interface as a state it can be seamlessly used without any extra code in the statemachine.
-  - that is all there is to the statemachine concept
-  - after implementation of state machine we will do a simple run and then see how to integrate animation drawing updation system as mentioned inthe questions above
-  - i think we finally have a clear picture for a state machine and switchable behaviour
-  - lets get to implementing it.
 
-  - during implementation found that switching will not be easy with the behaviour object encapsulation as it will just simply recreate the functionality of statemachine itself into the behaviour.
-  - so thought of a new approach which is not perfect but works with the contraints, can be swapped out for any other behaviour etc. the only issue here is the syncing of variables upon switching behaviours.
-  - so the method is behaviour is like a proxy entity.
-  - it will contain all the methods and variables needed for the states.
-  - a specific behaviour like person behaviour will need to be created inheriting fromt he aprent behaviour class
-  - this will allow the entities to hold all different type of behaviour objects irrespective of what they do by having a pointer to the base class
-  - since that behaviour object will act as a proxy entity , it will be the one to hold onto the state machine and not the entity.
-  - so the behaviour class will contain all the variables for state. it will also contain a state machine which works with that state, since state machine is currently also templated to hold the entity type this pointer and all.
-  - if we do it this way then state machine will always have a pointer to the proxy object whenever a new one is created and need not be bothered about having to handle any other type of behaviour. since each behaviour contains a statemachine which can handle it.
-  - this method also allows us to create state machine in the normal method by having the statemachine be held by the entity and the states being tied to the entity.
-  - so there is really no change to the code for state or statemachine from the initial time, it can be used as such and for dynamic behaviour a proxy entity can be used.
-  - now come to the problem, which is my guts. having the state machine inside a proxy object does not feel well. since the behaviour object is just a bunch of methods and data, i dont feel it should be responsible for state machine.
-  - just that the statemachine should not be templated and they should be able to work with all the behaviour objects as passed to them if needed.
-  - but if the state machine is taken out then it will need to be templated according to the behaviour data object which will then break being able to switch behaviour on the run. defeatingthe purpose.
-  - thus the statemachine should not be templated but at the same time should also handle all types of behaviour objects.
-  - let me see..
-  - if this is the case then stateamchine will store a pointer to behaviour class which holds the subclasses actual behaviour like person etc object.
-  - the statemachine will not be able to hold the specific state such as state personbehaviour but it will have to also hold a higher level parent class which we will need to make simply to be able to hold them.
-  - if the statemachine does not want to hold this data then it will be delegated to the behaviour object finally making it a clone of state amchine itself, so i dont want to put that functionality into behaviour, and subclassing statemachine with the required variables and methods for behaviour is feasable but for the switching mechanic will have to replace the entire statemachine. better than this is to have statemachine pointer in behaviour child object which will be neater to develop.
-  - so shoudl we just go with the design of having the behaviour class encapsulate the state machine and it will be entirely switched out?
-  - i think that is the best that we can do now
-  - since it wont break for those situation where changing of behaviours is needed dynamicallyand all the changable state groups are controlled.
+- we are going to design the event system that needs to be implemented
+- lets start with the lowest unit, the state
+- the state class will be a templated class so that it can be reused for multiple different entities
+- it will have basic functions such as onenter, update and onexit. are there any more functions that are needed? hmmm will need to think about it
+- this state class can be subclassed to create the actual states for any entity.
+- since all the states for an entity will be tied to one another should we maybe create a behaviour object encapsulating them? this an idea for another time.
+- any state transition logic will be baked into these objects.
+- what about having state for these objects. ie context dependant variables.
+- this is in order to understand having just a singleton state or need to create states as they are made.
+- which is why i though of enapsulating it in a behaviour object or even having an interface for the entities to inherit from which would contain the necessary values needed for stateful states to function, and then the states can just query their parent object for these details so they dont really need to maintain it thus we can have all the states be singleton.
+- lets consider both possibilities
+- first is inherit an interface for usage of these states. or statemachine.
+- the interface class will only contain the required dependant variables and their getter setter functions(if the variables are not public, which it most probably will be).
+- any entity that inherits this interface class will be able to obtain those variables needed without having to directly manage them.
+- if any of their values need to be accessed or set it can be set directly by the entity or the state since the state has access to the entity pointer.
+- so any entity that want to use states of a set need to inherit the interface for that state.
+- or they can also implement those needed variables themselves.
+- this approach is very straight forward. but it makes the entity needing to inherit a class or to implement variables they may not directly use. also what if they forget to inherit the required interface. then the statemachine needs to check that the class has inherited the appropriate interface.
+- but what if we need to switch behaviours of an entity, wouldnt they need to inherit both their interfaces. what if both the interface has the same variables.wont it cause a resolution error. but if the state use their own interfaces variables then those two separate variables would be out of sync
+- here i think the best solution will to have the entity itself have the variables,instead of inheriting them. but they will inherit interfaces which are abstract and define the abstract functions of the interfaces to return the correct value or variable.
+- thus two different states that need to access a variable for the same function can have their own functions that thay will call, but the programmer can define what variables those functions returned which will keep them in syncif the variables needed are the same.
+- so if they are stateful states they will need the entity to inherit from an abstract base class with virtual methods which needs to be implemented by the programmer.
+- this will allow us to have variables that are in sync with every state, where we can manipulate the variables to convert them into the right format needed for that state, and the variable can be used for outside purposes like displaying health or something without breaking.
+- but a major issue is the inheritance. the entity will need to inherit for every interface that may be needed for any potential behaviours it may change into.
+- which looks very shitty and i dont want that.
+- also the same problem arises if two interface function are named the same it will cause resolution conflict..sooo...
+- onto the seconf idea of encapsulating them into a behaviour object.
+- the behaviour object will contain an instance of all the states that are needed to define that behaviour pattern within an entity.
+- first i thought the behaviour object will contain all the stateful variables that the states may need to hold and such the actual entity need not define anything
+- and these behaviour objects can be passed to the statemachine which will execute them.
+- so the behaviours can be switched on the fly by simply switching the behaviour objects around.
+- since the behaviour has its own state variables same as previously they may be out of sync, but we can solve that by initializing the correct values for that behaviour using the values from the previous behaviour object.
+- this may need the entity to hold onto a copy of those variables that are common in the states transitioning to and thus will need to know beforehand itself what all states it can change into and hold their common variables.
+- with this approach there will be no name conflict or function conflict or have the entity to define the accessor functions or even to inherit anything, so the objects can be switched on the fly without any impact, such as for checking whether it has inherited the correct interface or that the variable used is not in any conflict as they are all encapsulated under one behaviour object.
+- another aspect it created is that the states need not be related to the entities as the needed variables and functions needed to function are defined in the behaviour object itself. so the behaviour object becomes entity independant. thus now the states need not be templated with the entity class.
+- all they need is the reference to their encapsulating parent object. which is the behaviour class.
+- i think this approach is better than the first one.
+- what are the cons of this approach?
+- the class will not have direct amangement of variables such as health thus will need to query the behaviour obejct to get the details such as health if needed for any other external purposes such as displaying health.
+- so now we have a new behaviour class to think about.
+- basically what is needed of the behaviour class is that it hold the necessary variables and methods for that set of states to function.
+- behaviour object will also need to hold onto instances of states that are needed.
+- upon creation of a behaviour object the necessary states are also created.
+- since all of the required variables are held in behaviour and not in state , all the state objects can be singletons now.
+- for any of the singleton states to access the variables they will need access to the encompasing behaviour object to query those variables.
+- thus i think the state will still be templated, but they will be templated with behaviour class instead.
+- will the behaviour object need to hold all the related states, or just to the current state?
+- since the states are interconnected you dont really need to store all the states, when a state change happens the behaviour currentstate will be updated.
+- so the behaviour class will act as if it is proxy for the entity
+- whenever a state update happens instead of the entity or statemachines currentstate being updated, it will update the behaviour currentstate.
+- instead of the statemachine holding the behaviour object let the entity hold the object and the statemachine can have a pointer to it.
+- the state machine can be initialized with the behaviour object pointer or state object pointer.
+- so now we can easily switch between the two different methods without any issues.
+- anything with state will either be a behaviour object or normal state object with the required variables defined the entity itself
+- since the states are still templated, the previous method can also be done without interference.
+- we might run into problems while implementing and cleaning up some details on its working but it is a solid idea for now.
+- then there is the statemachine object itself
+- the entity holds a statemachine object.
+- every update the entity will call the statemachines update function
+- if the statemachine is an state holder it will simply execute the state execute method.
+- if it is a behaviour it will execute the behaviours method.
+- if we give them both the same interface then no need to change how the statemachine handles state or behaviour obejcts, it will be treated the same.
+- the statemachine will hold onto the currentstate, and globalstate.
+- maybe for previous state we will implement a pda.
+- the state machine also holds a function to change the currently held currentstate pointer or global pointer.
+- there it will execute the onenter on exit function and change the pointers around.
+- if the behaviour object also contains the same interface as a state it can be seamlessly used without any extra code in the statemachine.
+- that is all there is to the statemachine concept
+- after implementation of state machine we will do a simple run and then see how to integrate animation drawing updation system as mentioned inthe questions above
+- i think we finally have a clear picture for a state machine and switchable behaviour
+- lets get to implementing it.
 
-  - state machine has been implemented.
-  - we have been only talking about state machine up to this point assuming it would not react to input, ie uncontrolled.
-  - before we move on to implement the behaviour class, lets discuss how the a controlled entity is going to work with the state system.
-  - what immedietly comes to mind is that make the behaviour class inherit from inputhandler if the behaviour is controlled behaviour so that it will have an instance of reactionmapper and can set delegate callbacks that are needed
-  - this way the actual entity need not do anything and simple needs to let the behaviour change.
-  - when behaviour changes the controls may also change and thus we get dynamic behaviour.
-  - but the obvious issue is the input handler system itself. as soon as  an object is created it is added to the queue.
-  - what if behaviour objects were created but they are not used yet and are waiting to be switched in, if they were created after the currently used behaviour and their daisy chain return false, the no input will reach the current system
-  - there also needs to be a way to allow or block an entity from processing input, and maybe even add and remove dynamically as needed at whatever position in the queue.
-  - i dont know how priority is going to help much but it should be useful
-  - we can have a similar multi queued system as updation or drawing, as those have functions for individual, queue, and entire blocking if needed, although switching of queues is not implemented as yet.
-  - lets go and revise to understand how the curernt input system works .
+- during implementation found that switching will not be easy with the behaviour object encapsulation as it will just simply recreate the functionality of statemachine itself into the behaviour.
+- so thought of a new approach which is not perfect but works with the contraints, can be swapped out for any other behaviour etc. the only issue here is the syncing of variables upon switching behaviours.
+- so the method is behaviour is like a proxy entity.
+- it will contain all the methods and variables needed for the states.
+- a specific behaviour like person behaviour will need to be created inheriting fromt he aprent behaviour class
+- this will allow the entities to hold all different type of behaviour objects irrespective of what they do by having a pointer to the base class
+- since that behaviour object will act as a proxy entity , it will be the one to hold onto the state machine and not the entity.
+- so the behaviour class will contain all the variables for state. it will also contain a state machine which works with that state, since state machine is currently also templated to hold the entity type this pointer and all.
+- if we do it this way then state machine will always have a pointer to the proxy object whenever a new one is created and need not be bothered about having to handle any other type of behaviour. since each behaviour contains a statemachine which can handle it.
+- this method also allows us to create state machine in the normal method by having the statemachine be held by the entity and the states being tied to the entity.
+- so there is really no change to the code for state or statemachine from the initial time, it can be used as such and for dynamic behaviour a proxy entity can be used.
+- now come to the problem, which is my guts. having the state machine inside a proxy object does not feel well. since the behaviour object is just a bunch of methods and data, i dont feel it should be responsible for state machine.
+- just that the statemachine should not be templated and they should be able to work with all the behaviour objects as passed to them if needed.
+- but if the state machine is taken out then it will need to be templated according to the behaviour data object which will then break being able to switch behaviour on the run. defeatingthe purpose.
+- thus the statemachine should not be templated but at the same time should also handle all types of behaviour objects.
+- let me see..
+- if this is the case then stateamchine will store a pointer to behaviour class which holds the subclasses actual behaviour like person etc object.
+- the statemachine will not be able to hold the specific state such as state personbehaviour but it will have to also hold a higher level parent class which we will need to make simply to be able to hold them.
+- if the statemachine does not want to hold this data then it will be delegated to the behaviour object finally making it a clone of state amchine itself, so i dont want to put that functionality into behaviour, and subclassing statemachine with the required variables and methods for behaviour is feasable but for the switching mechanic will have to replace the entire statemachine. better than this is to have statemachine pointer in behaviour child object which will be neater to develop.
+- so shoudl we just go with the design of having the behaviour class encapsulate the state machine and it will be entirely switched out?
+- i think that is the best that we can do now
+- since it wont break for those situation where changing of behaviours is needed dynamicallyand all the changable state groups are controlled.
 
-  - curerntly input manager only handles one queue. it will check any events that it gets and get the action for it and then call the registered callback of the objects in the queue.
-  - made all of the functions and variables in the inutmanager static so now it can be accessed from outside without an object.
-  - it can be called by all objects to add or remove any objects in any queue
-  - programmer will have to responsible for it.
-  - but this allows any new object that was created to be immedietly added to the queue.
-  - before only the game object had access to the object so an event with a pointer to the new object telling to add to the queue was needed(although this was not implemented).
-  - now the object can just tell to insert intself into the queue.
-  - and maybe even remove onself.
-  - also now any built in sfml event can be triggered by simply creating the event object and passing it to inputmanager::processevents.
-  - this was not possible before. now we can manually trigger some key down or mouse down at some position.
-  - although i think if all functions should have been available to all. maybe adding and removing only to inputhandler.
-  - maybe changing of actionmapper to some setting object or so.
-  - anyways anyone can now modify anything so lets just use it properly in the engine itself so that the programmer will not have to fiddle with it unless really necessary
-  - what is remaing is multiple queus and adding and removing
-  - let think about hoiw it is going to work with state sytem before we go any further now 
-  - now that i have thought a lot about this. i have come upon the fact that state system is not really dependant on the input system.
-  - it is just that there may be multiple inputs and we need to manage that
+- state machine has been implemented.
+- we have been only talking about state machine up to this point assuming it would not react to input, ie uncontrolled.
+- before we move on to implement the behaviour class, lets discuss how the a controlled entity is going to work with the state system.
+- what immedietly comes to mind is that make the behaviour class inherit from inputhandler if the behaviour is controlled behaviour so that it will have an instance of reactionmapper and can set delegate callbacks that are needed
+- this way the actual entity need not do anything and simple needs to let the behaviour change.
+- when behaviour changes the controls may also change and thus we get dynamic behaviour.
+- but the obvious issue is the input handler system itself. as soon as an object is created it is added to the queue.
+- what if behaviour objects were created but they are not used yet and are waiting to be switched in, if they were created after the currently used behaviour and their daisy chain return false, the no input will reach the current system
+- there also needs to be a way to allow or block an entity from processing input, and maybe even add and remove dynamically as needed at whatever position in the queue.
+- i dont know how priority is going to help much but it should be useful
+- we can have a similar multi queued system as updation or drawing, as those have functions for individual, queue, and entire blocking if needed, although switching of queues is not implemented as yet.
+- lets go and revise to understand how the curernt input system works .
+
+- curerntly input manager only handles one queue. it will check any events that it gets and get the action for it and then call the registered callback of the objects in the queue.
+- made all of the functions and variables in the inutmanager static so now it can be accessed from outside without an object.
+- it can be called by all objects to add or remove any objects in any queue
+- programmer will have to responsible for it.
+- but this allows any new object that was created to be immedietly added to the queue.
+- before only the game object had access to the object so an event with a pointer to the new object telling to add to the queue was needed(although this was not implemented).
+- now the object can just tell to insert intself into the queue.
+- and maybe even remove onself.
+- also now any built in sfml event can be triggered by simply creating the event object and passing it to inputmanager::processevents.
+- this was not possible before. now we can manually trigger some key down or mouse down at some position.
+- although i think if all functions should have been available to all. maybe adding and removing only to inputhandler.
+- maybe changing of actionmapper to some setting object or so.
+- anyways anyone can now modify anything so lets just use it properly in the engine itself so that the programmer will not have to fiddle with it unless really necessary
+- what is remaing is multiple queus and adding and removing
+- let think about hoiw it is going to work with state sytem before we go any further now
+- now that i have thought a lot about this. i have come upon the fact that state system is not really dependant on the input system.
+- it is just that there may be multiple inputs and we need to manage that
   -but for the state system to work does not necessarily need multiple queues or anything
-  - the only dependancy is that when multiple behaviour may be created or whatever may be created with inputhandlers and even if they are not being used they will process the input and they will consuime the input without even being active.
-  - so all that is needed is that entities need to be enabled for input and if they are disabled just skip them.
-  - so let input handler provide functions for enabling and disabling. so let it hold onto the positionin the queue
-  - and for removal no need for any clean up now. lets just make it nullptr so the ordering is not broken.
-  - added funcitonality to add remove disable or enable any enitty in the input queue.
-  - so now the actual blocker for behaviour objects is gone.
-  - so lets get onto making the behaviour class
+- the only dependancy is that when multiple behaviour may be created or whatever may be created with inputhandlers and even if they are not being used they will process the input and they will consuime the input without even being active.
+- so all that is needed is that entities need to be enabled for input and if they are disabled just skip them.
+- so let input handler provide functions for enabling and disabling. so let it hold onto the positionin the queue
+- and for removal no need for any clean up now. lets just make it nullptr so the ordering is not broken.
+- added funcitonality to add remove disable or enable any enitty in the input queue.
+- so now the actual blocker for behaviour objects is gone.
+- so lets get onto making the behaviour class
 
-  - ive been doing a lot of thinking. 
-  - using crtp the base behaviour is done. now they need to subclass it and set their states.
-  - what i thought was if an object with some behaviour is updated, then cant the behaviour itself subclass iupdatable and be in the update queueu. thus it just the main entity simply becomes useless.
-  - thus the behaviour object becomes what the entity was initially
-  - i feel that this system is not that usefull without an ECS system. since we are not really gonna make an ecs system and this is a project in learning to make a game engine that i did not want ecs in so i could understand how it should be done normally and what all will be its limitation and stuff.
-  - so since the behaviour just becomes close to what the actual entity was let us just discard this idea of having a behavviour objecct
-  - lets just follow the first approach were we have groups of states that are part related to an entity and that entity alone
-  - and even if the interface was same for another object that entity will need to hold the interface also.
-  - whatever.
-  - i know that not all the systems are that great even within this sytem and there may be much better methods to do things.
-  - but i want to just go on and see how far i can make it before i start another one with a different structure.
-  - many aspects may still remain the same since sfml is built the way it is but i might find better ways of doing other things.
-  - later on i want to also make a data oriented engine and also an ecs based engine.
+- ive been doing a lot of thinking.
+- using crtp the base behaviour is done. now they need to subclass it and set their states.
+- what i thought was if an object with some behaviour is updated, then cant the behaviour itself subclass iupdatable and be in the update queueu. thus it just the main entity simply becomes useless.
+- thus the behaviour object becomes what the entity was initially
+- i feel that this system is not that usefull without an ECS system. since we are not really gonna make an ecs system and this is a project in learning to make a game engine that i did not want ecs in so i could understand how it should be done normally and what all will be its limitation and stuff.
+- so since the behaviour just becomes close to what the actual entity was let us just discard this idea of having a behavviour objecct
+- lets just follow the first approach were we have groups of states that are part related to an entity and that entity alone
+- and even if the interface was same for another object that entity will need to hold the interface also.
+- whatever.
+- i know that not all the systems are that great even within this sytem and there may be much better methods to do things.
+- but i want to just go on and see how far i can make it before i start another one with a different structure.
+- many aspects may still remain the same since sfml is built the way it is but i might find better ways of doing other things.
+- later on i want to also make a data oriented engine and also an ecs based engine.
 
-  - so with that our state system is completed 
-  - although there is a need to brush up quite a few things it is in a usabel state now.
-  - let the programmer of the entity manually call stateupdate if needed.
-  - should the state also have a draw function to draw that current .. nah. the state machine will swtich the sprite which is stored in the entity.
-  - just simply draw it.
-  - another thing that ive thought about is that if a entity has a state machine it can  have a state which just simply does nothing, which mimics the not updating state, so insteading of updatehandler or whatever checking whtehr the entity can be updated why not just leave it to the state to do it.
-  - so we can still run login where it can check whther the entity is ready to start being updating again by simply changing states,
-  - because currently now the entity cannot check whether it is ready to be updated again or not (this can include self or queue or maybe entirely disable of updation)
-  although currently an entity only has power over its own updation and not of the queue. 
-  - so what ive thought is that when en enityt is disabled it will call an alternate function in which the entity can do any process to check whether the entity should be enabled again. 
-  - this will also provide us a method to update the animation of the sprite even if the entity is disabled.
-  - so lets do that now.
-  - the alternate function for updation has been added.
+- so with that our state system is completed
+- although there is a need to brush up quite a few things it is in a usabel state now.
+- let the programmer of the entity manually call stateupdate if needed.
+- should the state also have a draw function to draw that current .. nah. the state machine will swtich the sprite which is stored in the entity.
+- just simply draw it.
+- another thing that ive thought about is that if a entity has a state machine it can have a state which just simply does nothing, which mimics the not updating state, so insteading of updatehandler or whatever checking whtehr the entity can be updated why not just leave it to the state to do it.
+- so we can still run login where it can check whther the entity is ready to start being updating again by simply changing states,
+- because currently now the entity cannot check whether it is ready to be updated again or not (this can include self or queue or maybe entirely disable of updation)
+  although currently an entity only has power over its own updation and not of the queue.
+- so what ive thought is that when en enityt is disabled it will call an alternate function in which the entity can do any process to check whether the entity should be enabled again.
+- this will also provide us a method to update the animation of the sprite even if the entity is disabled.
+- so lets do that now.
+- the alternate function for updation has been added.
 
-  - now we have a lot of features with half completed stuff all over
-  - it should all be implemented or cleaned up
-  - but i dont feel like cleaning u p; hehe
-  - fuck. maintainance is hard
-  - i should start doing the maintainance and add pazzazz now to keep things smooth and shiny i guess.
-  - buuuuuuttt. before that lets just get onto other systems
-  - so now we need to research and identify core systems that may be needed
-  - lets see how that goes.
+- now we have a lot of features with half completed stuff all over
+- it should all be implemented or cleaned up
+- but i dont feel like cleaning u p; hehe
+- fuck. maintainance is hard
+- i should start doing the maintainance and add pazzazz now to keep things smooth and shiny i guess.
+- buuuuuuttt. before that lets just get onto other systems
+- so now we need to research and identify core systems that may be needed
+- lets see how that goes.
 
 # CLEANUP
-  - so lets see what we need for cleanup. of the top of my head
-  - event should be triggerable from any entity.
-  - i dont know about entities handling events though.
-  - resource amanger must be made to texture manager
-  - make managers for fonts, music, sfx , animation 
-  - create the actual resource manager interface to interface with these resource loaders and handlers
-  - updation and drawing queue switching between queues.
-  - multiple queue for input system. maybe we need to rethink the input manager.?
-  - 
+
+- so lets see what we need for cleanup. of the top of my head
+- event should be triggerable from any entity.
+- i dont know about entities handling events though.
+- resource amanger must be made to texture manager
+- make managers for fonts, music, sfx , animation
+- create the actual resource manager interface to interface with these resource loaders and handlers
+- updation and drawing queue switching between queues.
+- multiple queue for input system. maybe we need to rethink the input manager.?
+-
 
 # Some Game ideas that popped up
-  - clicker
-  - advance wars strategy
-  - into the breach
-  - pokemon mystery dungeon
 
-  - one thing i realized i cant just make a clicker game. coz of gui input mouse
-  - how will an element know that it has been clicked or mouse is hovering over it.
-  - this will need the element to subscribe to the mouse events
-  - and we will have to generate these events by checking it every time, so it is not easy
-  - the mouse will be a point and we will have to check whether it does a collision check with every element on screen
-  - but that is stupid.
-  - so maybe i may need to think of a better system to handle input
-  - keyboard does not seem to have much issues since once it is not a visual input.
-  - so once a key is pressed it will just send it to the required object to execute.
-  - but a mouse is visual
-  - so it may hover over some element, mouseon or mouseoff , click on or release on an entity.
-  - so basically mouse needs a special handler for this.
-  - so this is a major blocker in creating any kind of games in this engine with robust mouse fucntionality.
-  - currently it may only be able to reliably and easily create games which are predominantly keyboard based
-  - fuck
-  - when interacting with gui elements every element will have to ckeck whether it has collided. so it can know when mouse has entered hovered over or exited, clicked etc when on top of the element
-  - we will take a look into all the events of the mouse that are available in the browser first to see what all are the most commonly needed event.
-  - if we just program those in we should have covered almost all use cases that may arise. there may be some quirky use case. but lets not think of that now,
-  - so we maybe the interactive elements will need to subscribe to the mouse. depending on what kind of event and where that event occured like a click, we will call that objects callback function.
-  - but this will make the ui into object based which we really did not want to and wanted to make it like html css kind of. shit. this is so confudsing.
-  - will need to research and find a good method to see how entities can interact with mouse. 
-  - and if we do find a better approach maybe that may work for the keyboard as well.
-  - so now that this has been thought out a bit we may need to overhaul the entirety of the input system. fuck.
+- clicker
+- advance wars strategy
+- into the breach
+- pokemon mystery dungeon
 
-  - ok i have thought up two issues.
-  - 1 . inoput manager not blocking inputs when like in pause state.
-  - 2 . a potential solution for the mouse issue, where whenever a mouse input comes up go through the draw queues and find the top one where it occured
-  - so all will get the event but the mouse system will keep track of the actual target that might have occured.
-  - so we might need a mouse system.
+- one thing i realized i cant just make a clicker game. coz of gui input mouse
+- how will an element know that it has been clicked or mouse is hovering over it.
+- this will need the element to subscribe to the mouse events
+- and we will have to generate these events by checking it every time, so it is not easy
+- the mouse will be a point and we will have to check whether it does a collision check with every element on screen
+- but that is stupid.
+- so maybe i may need to think of a better system to handle input
+- keyboard does not seem to have much issues since once it is not a visual input.
+- so once a key is pressed it will just send it to the required object to execute.
+- but a mouse is visual
+- so it may hover over some element, mouseon or mouseoff , click on or release on an entity.
+- so basically mouse needs a special handler for this.
+- so this is a major blocker in creating any kind of games in this engine with robust mouse fucntionality.
+- currently it may only be able to reliably and easily create games which are predominantly keyboard based
+- fuck
+- when interacting with gui elements every element will have to ckeck whether it has collided. so it can know when mouse has entered hovered over or exited, clicked etc when on top of the element
+- we will take a look into all the events of the mouse that are available in the browser first to see what all are the most commonly needed event.
+- if we just program those in we should have covered almost all use cases that may arise. there may be some quirky use case. but lets not think of that now,
+- so we maybe the interactive elements will need to subscribe to the mouse. depending on what kind of event and where that event occured like a click, we will call that objects callback function.
+- but this will make the ui into object based which we really did not want to and wanted to make it like html css kind of. shit. this is so confudsing.
+- will need to research and find a good method to see how entities can interact with mouse.
+- and if we do find a better approach maybe that may work for the keyboard as well.
+- so now that this has been thought out a bit we may need to overhaul the entirety of the input system. fuck.
 
-  - although there are issues for mouse based games because of the above mentioned pronblems, it does not stop from making miouse involved games.
-  - like clicking on a screen to shoot projectile. or to turn a character in mouse direction. 
-  - so i think the causes can be limited to a few cases.
-  - the case where we need to know exactly what entity it occured when there are multiple entity stacked on the same place
-  - this is probably the only issue.
-  - once we can figure out the top entity on which the event occured, which will have to be calculated we can solve almost all issue of that i gues.
-  - like hover over or click on entity or mousenter exit kind of event.
-  - i am thinking that we can have a mouse system. whenever the entity needs a click or mouse over or enter exit events that are specific to the entity we can add it to a special queue
-  - then whenever such an event is triggered we can just check what the z-index of all the entities are and at what position the event occured so we can easily get the target entity.
-  - we can get the z-index by exposing a function from drawhandler to show the _1 and _2 variable value which is z- index.
-  - so whenever a mouse event occures we will go through this queue calculate if it happened to that event and call its special callback.
-  - so we will need to create a special event clickOnEntity, EnterEntity, ExitEntity, HoverEntity, MouseOverEntity etc. 
-  - so all of these relate to mouse click and mouse move. 
-  - what if there is mouse rightclick.? we will need to check that also.
-  - so there can be any click by that logic. the rest is just move event.
-  - these are special events since they occur on an entity.
-  - the other are general events which occur to the game window. or that which will be managed by the game object. and occur to the game as a whole.
-  - so if we want to make a game which use mouse that works on the game as a whole then it is possible. but on entity level there needs to be some thought.
-  - since entity level mouse is a visual issue , keyboard does not matter as it is just a toggle state and not visual need to identify.
-  - since it is visual it can be for anything visual. like maybe a cursor.
-  - but if the cursor was moved with keyboard like for advance wars then the button for A and B will act upon the cursor object and it will know which object it is selecting based on the scene raph or something. so it is not purely a cursor issue. it is just a mouse based issue.
-  - no. what if the cursor had super precision and moved with arrow button. now it has to highlight the entity below it even though it is being moved by a keyboard.
-  - so we need a way to solve the issue at a visual level. meaning it will need to interact with the drawing system.
-  - as said before we can have the entities that need these special mouse events be put in a queue.and the sorted to their z-index. then we can just go through the queue and find the first one at the correct coordinate. this might work.
+- ok i have thought up two issues.
+- 1 . inoput manager not blocking inputs when like in pause state.
+- 2 . a potential solution for the mouse issue, where whenever a mouse input comes up go through the draw queues and find the top one where it occured
+- so all will get the event but the mouse system will keep track of the actual target that might have occured.
+- so we might need a mouse system.
 
-  - so those are some of the issues that are facing in mouse department.
-  - lets talk about input in pause state.
-  - oncethe state is paused i dont want any input to pass through to the character or whatever,
-  - this is helped by the daisy chain by having a pause oibject at the top which just returns false.
-  - but if it does not registers any other key it will passthrough.
-  - so how are we going to keep the input restricted to the needed objefcts only,
-  - i thought of having a multiple queue system, so when the state changes the queue will be enabled or disabled accordingly for input manager.
-  - since input manger is universal anyone anywhere can enable or disabel queues.
-  - so lets the game object have a state machine, which will be needed when checking the state at a game level like pause or so.
-  - when the state changed let the state just disable all other queues and just enable the one single queue for pause state.
-  - anyhow this cannot be built into the engine as this is game dependant and the programmer will need to do it.
-  - but it needs to be discusse dhere as i can build a system which will allow the programmer to implement such a system.
-  - so how should we go about implementing this system for blocking events based on events. let me read that shit agin.
+- although there are issues for mouse based games because of the above mentioned pronblems, it does not stop from making miouse involved games.
+- like clicking on a screen to shoot projectile. or to turn a character in mouse direction.
+- so i think the causes can be limited to a few cases.
+- the case where we need to know exactly what entity it occured when there are multiple entity stacked on the same place
+- this is probably the only issue.
+  1
+  ,/ once we can figure out the top entity on which the event occured, which will have to be calculated we can solve almost all issue of that i gues.
+- like hover over or click on entity or mousenter exit kind of event.
+- i am thinking that we can have a mouse system. whenever the entity needs a click or mouse over or enter exit events that are specific to the entity we can add it to a special queue
+- then whenever such an event is triggered we can just check what the z-index of all the entities are and at what position the event occured so we can easily get the target entity.
+- we can get the z-index by exposing a function from drawhandler to show the \_1 and \_2 variable value which is z- index.
+- so whenever a mouse event occures we will go through this queue calculate if it happened to that event and call its special callback.
+- so we will need to create a special event clickOnEntity, EnterEntity, ExitEntity, HoverEntity, MouseOverEntity etc.
+- so all of these relate to mouse click and mouse move.
+- what if there is mouse rightclick.? we will need to check that also.
+- so there can be any click by that logic. the rest is just move event.
+- these are special events since they occur on an entity.
+- the other are general events which occur to the game window. or that which will be managed by the game object. and occur to the game as a whole.
+- so if we want to make a game which use mouse that works on the game as a whole then it is possible. but on entity level there needs to be some thought.
+- since entity level mouse is a visual issue , keyboard does not matter as it is just a toggle state and not visual need to identify.
+- since it is visual it can be for anything visual. like maybe a cursor.
+- but if the cursor was moved with keyboard like for advance wars then the button for A and B will act upon the cursor object and it will know which object it is selecting based on the scene raph or something. so it is not purely a cursor issue. it is just a mouse based issue.
+- no. what if the cursor had super precision and moved with arrow button. now it has to highlight the entity below it even though it is being moved by a keyboard.
+- so we need a way to solve the issue at a visual level. meaning it will need to interact with the drawing system.
+- as said before we can have the entities that need these special mouse events be put in a queue.and the sorted to their z-index. then we can just go through the queue and find the first one at the correct coordinate. this might work.
 
-  
+- so those are some of the issues that are facing in mouse department.
+- lets talk about input in pause state.
+- oncethe state is paused i dont want any input to pass through to the character or whatever,
+- this is helped by the daisy chain by having a pause oibject at the top which just returns false.
+- but if it does not registers any other key it will passthrough.
+- so how are we going to keep the input restricted to the needed objefcts only,
+- i thought of having a multiple queue system, so when the state changes the queue will be enabled or disabled accordingly for input manager.
+- since input manger is universal anyone anywhere can enable or disabel queues.
+- so lets the game object have a state machine, which will be needed when checking the state at a game level like pause or so.
+- when the state changed let the state just disable all other queues and just enable the one single queue for pause state.
+- anyhow this cannot be built into the engine as this is game dependant and the programmer will need to do it.
+- but it needs to be discusse dhere as i can build a system which will allow the programmer to implement such a system.
+- so how should we go about implementing this system for blocking events based on events. let me read that shit agin.
+
+- now that i think about it even more the only time when the mouse functionality oh hovver or click or whatever breaks is when muilitple entities are areoverlapping.
+- if they were all independant then there would be no issue of whether we clicked on the entity or not because there would be no overlap between any entities
+- in this case all the entities can maintain their own state of whether mouse enter hover or exit or what not whenever the mouse moves and clickes
+- the only issue comesup when the entities are overlapping, meaning their collision masks are overlapping, so the entities cant distinguish on which entity the mouse is on
+- so we just need to find a solution for this situation iof an entity is colliding.
+- so instead of sinply sending a mouse event. we can alter it to contain some more information by precalculating if there are multiple entities under the mouse at that point.
+- then the mouse can just set its own property of which entity is the actual target currently
+- although all the entities will recieve the event.
+- if they wasnt to avoid such collisoin and only need to handle when the mouse is actually over that entity then all they need to do is to simply to check whther the target is themseleves
+- is they arent they need not process anything.
+- this method of having a target will also simplify each object needing to maintain the onenter on exit hover mouseover kind of states by simply checking for each mouse event if they are the target or not and need not have to hold any other variables or do any other calcualtion other than just simply checking target == this.
+- so the main bulk of the issue will eb how can we calcualte the mouse target whenever a mouse event occurs and how will we add this new information to the existing mouse event
+- once a mouse event occurs it will need to check the current positionof mouse, and the poistions and zindex of all the objects that will interact with the mouse and set the property mouseOverEntity as some entity object pointer.
+
+- what i though was once a mouse event occurs it will go through all the objects that has mouse handling callbacks, get their collision mask and z-index. then find the one that is colliding with the highesdt z-index.
+
+- now although i say that, it may be inefficient as there may be many objects that may need to handle input events and not all need to handle specific mouse based events.
+- so we may need to have a separate queue who want to participate inthis checking from mouse.
+
+- another issue that i found while thinking was that what if there is a controller object that is not part of drawing system then they will not be drawn. 
+- so theywont have a zindex.
+- so we cant just poll any and all objects that have inputhandlers. we will need to specify which of these objects are actually part of drawing system too. then only poll those objects.
+- but we cant just go throuhg the drawing queues since there may be multiple objects thatoverlap like the ground or background asse4t or whatever which are not part of the input system.
+- this will throw the system into whack.
+- so it has to be partof bboth input and drawing.
+- but what if they are part of them both. like a character who only takes in keyboard input. why check for suchan event if not needed.
+
+- i think ive touched upon a core issue.  
+- this is basically collision checking of mouse on entities.
+- in collision check also we will have to tell which all entities are going to need collision checking
+- there can also be drawn entities that do not have collision check
+- even when we have a gui we will be checking for collision against those elements.
+- like buttons fields and maybe even emoty divs etc all come under collision checking
+- a dom can contain hundreds of node that canall have their own event listeners for collision checking.
+- even an empty div can have an event listener attached to it to check whther mouse is hovering.
+- now thati think about it the most common mouse events are going to be hover which is defined in css. 
+- for js there is mouseenter, mouseexit, mousemove,mousehover and mouseclick
+-  we already have mousedown , up , and mousemove, the rest are just built upon this. 
+- it wont go checking for collision for all the entities only those that have callbacks registered.
+- but that does not tell how bubbling happens.
+- when we have parent listeneer all the vhild elements are also checked for clicks because the target can be those children instead of the one with listeners
+- hmmm? 
+
+- today we will make a game and then after making it we will go on to implement a proper esource system
+- the resource system to be split into multiple resources and accessed globally is needed.
+- anotherthing to do is to change the readme so as to resemble that of an actual usable game engine and not that progress milestone stuff. remove that into its own file.
+- give disclaimer that it is under heavy development and features are partially and not completely done or even properly tested and fixed
+
+- now lets get on to the ideas for games.
+
+- wait . lets do games later.
+
+- an idea for intent syste.
+- lets say that the input manager also can decide which actions are acgtive or can be active.
+- so lets say, when the game is playing all the action related for playing like move left, move right, jusp etc intents are active.
+- now lets say that the game is paused. all we need to do is change the mapping of controller input to actions and everything changes,
+- since none of the game objects might have actions related in the pause screen, so player wont react to action_changeresolution or so.
+- this might just work
+- sothe action manager can have different files actionmappers loaded for each game state. and when the game state changes we just simply swap the actionmapper used. 
+- so this way the entiore mapping will change away.
+- what this will allow us to do is that it will contain new mapping for each state.
+- so even if we have the pause screen menu showing above the game screen pressing left or so will not trigger the player and will be handled by the menu because the actions are diffreet
+- this will also work ven if the menu object does not bind all keys to prevent daisy chain effect. so we just need to swap out the action mapper.
+- one issue with this technique is that although it a completely working solution, is the efficiency on swapping out this object. im gonna assume the objects are looaded first itself and the refernce to it is swapped around.
+- so basically y swapiing references we will not have much of a performance impact. 
+- damn we got the solution for input issue here.
+- anyways we need to test this sytem before we finalize on it.
+
+- input system will need to be made into queue based like for updation.
+
+- we will also need to be able to store multiple context and have them enabled and disabled as needed. this will only be accessed by the game object.
+- but what if we need multiple active context, then how are we going to swap it or tell it to stop.hmmm. what about just having one intent pointer for now adn mapping all required for that state onto it,.
+- yeah lets just go with one for now.
+
+- since these issues will not actually impact us majorly currently. lets actually make a game now. need not even be usefull. but ;ets just. 
+
