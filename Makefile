@@ -21,7 +21,7 @@ MODE_FLAG		:= -D_DEBUG_=1
 C_FLAGS			+= -og -g
 else
 LIBRARIES		:= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-main -lsfml-system
-MODE_FLAG		:= -mwindows -D_DEBUG_=0
+MODE_FLAG		:= -mwindows -D_DEBUG_=0 -DNDEBUG
 C_FLAGS			+= -o3
 endif
 
