@@ -123,14 +123,10 @@ public:
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveUp>(Actions::UP);
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveLeft>(Actions::LEFT);
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveRight>(Actions::RIGHT);
-		const unsigned int sheetHandle = ResourceManager::loadTexture(23,"assets/sheet2.png");
-		sheet.setTexture(ResourceManager::getTexture(23));
-		testani.setTexture(ResourceManager::getTexture(23));
-		testani.addFrame(new sf::IntRect(32, 0, 32, 32));
-		testani.addFrame(new sf::IntRect(64, 0, 32, 32));
-		testani.addFrame(new sf::IntRect(32, 0, 32, 32));
-		testani.addFrame(new sf::IntRect(0, 0, 32, 32));
-		test.setAnimation(testani);
+	}
+	void setAnimation(Animation &anim)
+	{
+		test.setAnimation(anim);
 		test.setAnimationTime(sf::seconds(1.f));
 		test.setScale(2.f, 2.f);
 	}
@@ -158,7 +154,8 @@ public:
 			plVelocity.y = -plVelocity.y;
 		move(plVelocity * t.asSeconds());
 		ttime += t;
-		if(ttime.asSeconds() > 5.f){
+		if (ttime.asSeconds() > 5.f)
+		{
 			disableUpdate();
 			ttime = sf::seconds(0.f);
 		}
@@ -168,7 +165,8 @@ public:
 	void disabledUpdate(const sf::Time &t)
 	{
 		ttime += t;
-		if(ttime.asSeconds() > 5.f){
+		if (ttime.asSeconds() > 5.f)
+		{
 			enableUpdate();
 			ttime = sf::seconds(0.f);
 		}
@@ -289,8 +287,19 @@ public:
 	void init()
 	{
 
-		const unsigned int playerHandle = ResourceManager::loadTexture(24,"assets/player.png");
+		const unsigned int playerHandle = ResourceManager::loadTexture(24, "assets/player.png");
 		pl.settexture(ResourceManager::getTexture(24));
+
+		const unsigned int sheetHandle = ResourceManager::loadTexture(23, "assets/sheet2.png");
+		Animation *testani = new Animation();
+		testani->setTexture(ResourceManager::getTexture(23));
+		testani->addFrame(new sf::IntRect(32, 0, 32, 32));
+		testani->addFrame(new sf::IntRect(64, 0, 32, 32));
+		testani->addFrame(new sf::IntRect(32, 0, 32, 32));
+		testani->addFrame(new sf::IntRect(0, 0, 32, 32));
+		ResourceManager::loadAnimation(25, testani);
+		pl.setAnimation(ResourceManager::getAnimation(25));
+		pl2.setAnimation(ResourceManager::getAnimation(25));
 
 		// TODO: change it so that diff key same action when pressed twice does not trigger twice
 		// ^we cannot handle that, the programmer will have to think of a way
@@ -303,8 +312,6 @@ public:
 		_reactionMapper->bindActionToReaction<&Test::mm>(Actions::MOUSE_MOVED);
 		_reactionMapper->bindActionToReaction<&Test::ms>(Actions::MOUSE_SCROLL);
 		_reactionMapper->bindActionToReaction<&Test::quit>(Actions::QUIT);
-
-		
 
 		// testData *t = new testData();
 		// gameWindow.triggerEvent(EventType::testNum, t);
