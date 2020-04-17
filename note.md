@@ -837,3 +837,104 @@ _Issue_ - no object other than the game can currently issue new events. change i
 
 - since these issues will not actually impact us majorly currently. lets actually make a game now. need not even be usefull. but ;ets just. 
 
+
+---------------------
+
+  - it has been some time now and now i can look at it with fresh eyes.
+  - for the input system. each actionmapper is now a context. so for different context we can have different inputs enabled.
+  - for the mouse collision issue we are going to implement the mouse as a in game cursor. so it is basically collision checking only. same as any other UI check.
+  - during this time i looked into a lot of html css ui tools to make ui in cpp. maybe we can use it.
+  - i have a new idea for a simple grid like game inspired kind of with action poinnts thingy. ore on this later.
+  - now i felt will work on the resource amanger. as that is a self contained module for the engine once that is done, i will not need to worry about loading of assets and i can just not think about that module any longer.
+
+
+## cleanup of resource manager.
+  - so what we are going to need to know first are the different types of resources needed.
+  - resources can be anything that may only be loaded once and used multiple times later and need to be unloaded.
+
+  - some are textures, fonts, sfx, music, animation. i cant think of any more currently but im sure that others may pop up later .
+  - so as to acomodate all of this using a simple single interface it will have a modular design.
+  - this will allow me to add more resource loader modules later on if needed without much effort.
+
+  - shaders
+  - images
+  - textures
+  - fonts
+  - sound
+  - music
+  - animation
+
+  - these are the basic resources that i came up with once i went through the docs and animation while development
+  - i am only going to make a texture resource module for now.
+  - since once the system is made the other modules can be made when they are necessary
+  - since my engine is still just coming up music sound fonts and other stuff dont seem that important as being able to see something move and interact on the screen
+  - so the texture module is the only one that is really necessary as of now
+
+  - ### this is the specification for the new resource handling
+    - each module will be a self contained loader.
+    - a texture module will load a texture, a font module will load fonts etc.
+    - what these modules will do is have functions for loading of the resource.
+    - there are currently 3 main loaders in sfml that i found
+    - load from file
+    - load from memory
+    - load from stream
+
+    - load from file and memory i can understand. but need to check out how stream works and whether it is actually needed and/or widely used.
+    - if not widely used it can be moved to a later release cycle.
+
+    - currently we will only have method in module to load from file as that is what is really needed.
+    - now that i look at it loading an animation resource does not load from a file.
+    - so i dont think base classing these modules from a resourceLoader is a good idea as different resource may have different methods and signature for loading of the resource
+    - the only odd one out currently is only the animation module which will have a different signature for loading of the resource.
+
+    - so now lets talk about what these modules are going to do.
+    - off the top of my head they will only contain function to load the resource and return a reference to the resource loaded
+    - maybe also a function to unload it memory when a reference to the resource is passed to it?
+    - or should it be part of the resourceManager class. maybe its better to be part of the resource manager class.
+
+    - so what is the resource manager
+    - the resource manager is what calls the respective modules' loaders and stores the reference.
+    - what i want is that any object entity in the game can call the resource to get the reference to that resource
+    - which is why i want it to be static .
+
+    - all of these resource will be associated with a handle so they can be referenced via this handle
+    - but the entity themselves may not know what the handle for that resource may be
+    - ive been thinking of loading screens where these resources are loaded. 
+    - so i thought there could be a loader class which told which all resources need to be loaded. and just calling the loader instaces' load method would just load all those resources immedietly or clear them when needed. 
+    - but i dont know if that is needed. as some resources may be shared between sections and the resources will be unloaded atomically with all other unwanted resources.
+    - also i dont know of a proper method to implement these loaders too.
+
+    - also these modules also can be static as they do not store any information, but just simply encapsulate the related functions for that resource together.
+    - since the modules may have their own signature for function to load the resources, they will have to be called directly.
+    - so maybe we can have these loaders itself store the references to the handles.
+    - so then what is the purpose of the resource manager? if we are directly calling these individual classes.?
+    - i wanted the resource manager to hold the references and handles map. so the user only needs to ping resource manager with what type of resource and the handle to that resource
+    - then resource manager will return that resource.
+    - but for each type of resource there will be a need funtion to load and get the resource.
+    - so basically it will simply be an aggregate getter and loader for all the modules. although that is useless and we can simly directly call the modules.
+    - hmmmmm? ?  ? ?
+    - so if we added another module we will need to add the getter and setter to it also keep a reference to the acutal loader class. which is just a waste i feel
+    - but i wanted a central hub to be able to call whatever resource type we needed.
+    - hmmmmm?????????????????
+    - let me think a bit
+
+    - one idea that pops into my head is to ditch the module design. and just implement the needed loader getter function in resource manager itself.
+    - when a new "module" needs to be implemented just make their functions defined in resourceamanger
+    - this one will not need to have any reference to moudle as the loader and getter fucntions will differ automatically
+    - and have unordered map for each differen type of resource 
+    - this method actually does not cause thatmuch problems anyways.
+    - i think this is good
+
+    - ultimately no change form the current way except for the feature of user defined handles
+    - ok. i have thought about it.
+    - the current method is still better.
+    - we are going to allow custom handles and implement animation loaders and getters too for this iteration.
+    - so lets get coding
+    - wait. hmmmm. there are 3 loaders as mentioned above. so for each module we will have to have 3 loaders if we wanted support for all and 1 getter.
+    - but since the interface is different, it sucks. we can make animation as load from memory buuutttt....? not really sure.
+    - nah. fuck it. 3 laoders for whoever needs it. for now load from file and loader for animation.
+    - so lets actually get to coding now.
+    - lets make the loader function recieve the handle value as template so it needs to be constant and is not a variable.
+    - why not let it be a variable. what if they have a list of handle and file paths or something which they want to load by simply looping through it.
+    - ok let it be a variable.
+
