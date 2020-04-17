@@ -22,15 +22,21 @@ public:
     ResourceManager();
     ~ResourceManager();
 
-    static sf::Texture &getTexture(const int ID);
-    static int loadTexture(const char *path);
-    static void unloadTexture(const int ID);
+    static void init();
+
+    static sf::Texture &getTexture(const int);
+    static bool loadTexture(const int, const char *);
+    static void unloadTexture(const int);
+
+    // this section is modify for animation
+    // static sf::Texture &getTexture(const int ID);
+    // static int loadTexture(const int handle, const char *path);
+    // static void unloadTexture(const int ID);
 
 private:
     typedef std::unique_ptr<sf::Texture> _texPtr;
 
     // ^Using unordered map as it provides 'near' O(1) lookup albeit memory hog
     static std::unordered_map<int, _texPtr> _resourceMap;
-    static int _id;
 };
 #endif

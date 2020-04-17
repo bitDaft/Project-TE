@@ -11,8 +11,8 @@
  */
 
 #include "ResourceManager.hpp"
+#include <cassert>
 
-int ResourceManager::_id = 1;
 std::unordered_map<int, ResourceManager::_texPtr> ResourceManager::_resourceMap;
 
 ResourceManager::ResourceManager()
@@ -22,15 +22,21 @@ ResourceManager::~ResourceManager()
 {
 }
 
-int ResourceManager::loadTexture(const char *path)
+void ResourceManager::init()
+{
+    ResourceManager::_resourceMap.reserve(30);
+}
+
+bool ResourceManager::loadTexture(const int handle, const char *path)
 {
     _texPtr tex(new sf::Texture());
     if (tex->loadFromFile(path))
     {
-        ResourceManager::_resourceMap.emplace(_id, std::move(tex));
-        return _id++;
+        const auto status = ResourceManager::_resourceMap.emplace(handle, std::move(tex));
+        assert(status.second);
+        return status.second;
     }
-    return 0;
+    return false;
 }
 sf::Texture &ResourceManager::getTexture(const int ID)
 {

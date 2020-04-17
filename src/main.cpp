@@ -123,9 +123,9 @@ public:
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveUp>(Actions::UP);
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveLeft>(Actions::LEFT);
 		_reactionMapper->bindActionToReaction<&TestPlayer::moveRight>(Actions::RIGHT);
-		const unsigned int sheetHandle = ResourceManager::loadTexture("assets/sheet2.png");
-		sheet.setTexture(ResourceManager::getTexture(sheetHandle));
-		testani.setTexture(ResourceManager::getTexture(sheetHandle));
+		const unsigned int sheetHandle = ResourceManager::loadTexture(23,"assets/sheet2.png");
+		sheet.setTexture(ResourceManager::getTexture(23));
+		testani.setTexture(ResourceManager::getTexture(23));
 		testani.addFrame(new sf::IntRect(32, 0, 32, 32));
 		testani.addFrame(new sf::IntRect(64, 0, 32, 32));
 		testani.addFrame(new sf::IntRect(32, 0, 32, 32));
@@ -289,8 +289,8 @@ public:
 	void init()
 	{
 
-		const unsigned int playerHandle = ResourceManager::loadTexture("assets/player.png");
-		pl.settexture(ResourceManager::getTexture(playerHandle));
+		const unsigned int playerHandle = ResourceManager::loadTexture(24,"assets/player.png");
+		pl.settexture(ResourceManager::getTexture(24));
 
 		// TODO: change it so that diff key same action when pressed twice does not trigger twice
 		// ^we cannot handle that, the programmer will have to think of a way
