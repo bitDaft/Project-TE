@@ -14,6 +14,7 @@
 #include <cassert>
 
 std::unordered_map<int, ResourceManager::_texPtr> ResourceManager::_resourceMap;
+std::unordered_map<int, Animation *> ResourceManager::_animMap;
 
 ResourceManager::ResourceManager()
 {
@@ -25,6 +26,7 @@ ResourceManager::~ResourceManager()
 void ResourceManager::init()
 {
     ResourceManager::_resourceMap.reserve(30);
+    ResourceManager::_animMap.reserve(30);
 }
 
 bool ResourceManager::loadTexture(const int handle, const char *path)
@@ -45,4 +47,20 @@ sf::Texture &ResourceManager::getTexture(const int ID)
 void ResourceManager::unloadTexture(const int ID)
 {
     ResourceManager::_resourceMap.erase(ID);
+}
+
+Animation &ResourceManager::getAnimation(const int ID)
+{
+    return *ResourceManager::_animMap.at(ID);
+}
+bool ResourceManager::loadAnimation(const int handle, Animation *anim)
+{
+    const auto status = ResourceManager::_animMap.emplace(handle, anim);
+    // assert(status.second);
+    return status.second;
+}
+void ResourceManager::unloadAnimation(const int ID)
+{
+    delete ResourceManager::_animMap.at(ID);
+    ResourceManager::_animMap.erase(ID);
 }

@@ -16,6 +16,8 @@
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
 
+#include "Animation.hpp"
+
 class ResourceManager
 {
 public:
@@ -28,15 +30,16 @@ public:
     static bool loadTexture(const int, const char *);
     static void unloadTexture(const int);
 
-    // this section is modify for animation
-    // static sf::Texture &getTexture(const int ID);
-    // static int loadTexture(const int handle, const char *path);
-    // static void unloadTexture(const int ID);
+    static Animation &getAnimation(const int);
+    static bool loadAnimation(const int, Animation *);
+    static void unloadAnimation(const int);
 
 private:
     typedef std::unique_ptr<sf::Texture> _texPtr;
+    // typedef std::unique_ptr<Animation> _animPtr;
 
     // ^Using unordered map as it provides 'near' O(1) lookup albeit memory hog
     static std::unordered_map<int, _texPtr> _resourceMap;
+    static std::unordered_map<int, Animation *> _animMap;
 };
 #endif
