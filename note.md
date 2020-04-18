@@ -780,7 +780,7 @@ _Issue_ - no object other than the game can currently issue new events. change i
 - now although i say that, it may be inefficient as there may be many objects that may need to handle input events and not all need to handle specific mouse based events.
 - so we may need to have a separate queue who want to participate inthis checking from mouse.
 
-- another issue that i found while thinking was that what if there is a controller object that is not part of drawing system then they will not be drawn. 
+- another issue that i found while thinking was that what if there is a controller object that is not part of drawing system then they will not be drawn.
 - so theywont have a zindex.
 - so we cant just poll any and all objects that have inputhandlers. we will need to specify which of these objects are actually part of drawing system too. then only poll those objects.
 - but we cant just go throuhg the drawing queues since there may be multiple objects thatoverlap like the ground or background asse4t or whatever which are not part of the input system.
@@ -788,7 +788,7 @@ _Issue_ - no object other than the game can currently issue new events. change i
 - so it has to be partof bboth input and drawing.
 - but what if they are part of them both. like a character who only takes in keyboard input. why check for suchan event if not needed.
 
-- i think ive touched upon a core issue.  
+- i think ive touched upon a core issue.
 - this is basically collision checking of mouse on entities.
 - in collision check also we will have to tell which all entities are going to need collision checking
 - there can also be drawn entities that do not have collision check
@@ -796,13 +796,13 @@ _Issue_ - no object other than the game can currently issue new events. change i
 - like buttons fields and maybe even emoty divs etc all come under collision checking
 - a dom can contain hundreds of node that canall have their own event listeners for collision checking.
 - even an empty div can have an event listener attached to it to check whther mouse is hovering.
-- now thati think about it the most common mouse events are going to be hover which is defined in css. 
+- now thati think about it the most common mouse events are going to be hover which is defined in css.
 - for js there is mouseenter, mouseexit, mousemove,mousehover and mouseclick
--  we already have mousedown , up , and mousemove, the rest are just built upon this. 
+- we already have mousedown , up , and mousemove, the rest are just built upon this.
 - it wont go checking for collision for all the entities only those that have callbacks registered.
 - but that does not tell how bubbling happens.
 - when we have parent listeneer all the vhild elements are also checked for clicks because the target can be those children instead of the one with listeners
-- hmmm? 
+- hmmm?
 
 - today we will make a game and then after making it we will go on to implement a proper esource system
 - the resource system to be split into multiple resources and accessed globally is needed.
@@ -819,13 +819,13 @@ _Issue_ - no object other than the game can currently issue new events. change i
 - now lets say that the game is paused. all we need to do is change the mapping of controller input to actions and everything changes,
 - since none of the game objects might have actions related in the pause screen, so player wont react to action_changeresolution or so.
 - this might just work
-- sothe action manager can have different files actionmappers loaded for each game state. and when the game state changes we just simply swap the actionmapper used. 
+- sothe action manager can have different files actionmappers loaded for each game state. and when the game state changes we just simply swap the actionmapper used.
 - so this way the entiore mapping will change away.
 - what this will allow us to do is that it will contain new mapping for each state.
 - so even if we have the pause screen menu showing above the game screen pressing left or so will not trigger the player and will be handled by the menu because the actions are diffreet
 - this will also work ven if the menu object does not bind all keys to prevent daisy chain effect. so we just need to swap out the action mapper.
 - one issue with this technique is that although it a completely working solution, is the efficiency on swapping out this object. im gonna assume the objects are looaded first itself and the refernce to it is swapped around.
-- so basically y swapiing references we will not have much of a performance impact. 
+- so basically y swapiing references we will not have much of a performance impact.
 - damn we got the solution for input issue here.
 - anyways we need to test this sytem before we finalize on it.
 
@@ -835,106 +835,116 @@ _Issue_ - no object other than the game can currently issue new events. change i
 - but what if we need multiple active context, then how are we going to swap it or tell it to stop.hmmm. what about just having one intent pointer for now adn mapping all required for that state onto it,.
 - yeah lets just go with one for now.
 
-- since these issues will not actually impact us majorly currently. lets actually make a game now. need not even be usefull. but ;ets just. 
+- since these issues will not actually impact us majorly currently. lets actually make a game now. need not even be usefull. but ;ets just.
 
+---
 
----------------------
-
-  - it has been some time now and now i can look at it with fresh eyes.
-  - for the input system. each actionmapper is now a context. so for different context we can have different inputs enabled.
-  - for the mouse collision issue we are going to implement the mouse as a in game cursor. so it is basically collision checking only. same as any other UI check.
-  - during this time i looked into a lot of html css ui tools to make ui in cpp. maybe we can use it.
-  - i have a new idea for a simple grid like game inspired kind of with action poinnts thingy. ore on this later.
-  - now i felt will work on the resource amanger. as that is a self contained module for the engine once that is done, i will not need to worry about loading of assets and i can just not think about that module any longer.
-
+- it has been some time now and now i can look at it with fresh eyes.
+- for the input system. each actionmapper is now a context. so for different context we can have different inputs enabled.
+- for the mouse collision issue we are going to implement the mouse as a in game cursor. so it is basically collision checking only. same as any other UI check.
+- during this time i looked into a lot of html css ui tools to make ui in cpp. maybe we can use it.
+- i have a new idea for a simple grid like game inspired kind of with action poinnts thingy. ore on this later.
+- now i felt will work on the resource amanger. as that is a self contained module for the engine once that is done, i will not need to worry about loading of assets and i can just not think about that module any longer.
 
 ## cleanup of resource manager.
-  - so what we are going to need to know first are the different types of resources needed.
-  - resources can be anything that may only be loaded once and used multiple times later and need to be unloaded.
 
-  - some are textures, fonts, sfx, music, animation. i cant think of any more currently but im sure that others may pop up later .
-  - so as to acomodate all of this using a simple single interface it will have a modular design.
-  - this will allow me to add more resource loader modules later on if needed without much effort.
+- so what we are going to need to know first are the different types of resources needed.
+- resources can be anything that may only be loaded once and used multiple times later and need to be unloaded.
 
-  - shaders
-  - images
-  - textures
-  - fonts
-  - sound
-  - music
-  - animation
+- some are textures, fonts, sfx, music, animation. i cant think of any more currently but im sure that others may pop up later .
+- so as to acomodate all of this using a simple single interface it will have a modular design.
+- this will allow me to add more resource loader modules later on if needed without much effort.
 
-  - these are the basic resources that i came up with once i went through the docs and animation while development
-  - i am only going to make a texture resource module for now.
-  - since once the system is made the other modules can be made when they are necessary
-  - since my engine is still just coming up music sound fonts and other stuff dont seem that important as being able to see something move and interact on the screen
-  - so the texture module is the only one that is really necessary as of now
+- shaders
+- images
+- textures
+- fonts
+- sound
+- music
+- animation
 
-  - ### this is the specification for the new resource handling
-    - each module will be a self contained loader.
-    - a texture module will load a texture, a font module will load fonts etc.
-    - what these modules will do is have functions for loading of the resource.
-    - there are currently 3 main loaders in sfml that i found
-    - load from file
-    - load from memory
-    - load from stream
+- these are the basic resources that i came up with once i went through the docs and animation while development
+- i am only going to make a texture resource module for now.
+- since once the system is made the other modules can be made when they are necessary
+- since my engine is still just coming up music sound fonts and other stuff dont seem that important as being able to see something move and interact on the screen
+- so the texture module is the only one that is really necessary as of now
 
-    - load from file and memory i can understand. but need to check out how stream works and whether it is actually needed and/or widely used.
-    - if not widely used it can be moved to a later release cycle.
+- ### this is the specification for the new resource handling
 
-    - currently we will only have method in module to load from file as that is what is really needed.
-    - now that i look at it loading an animation resource does not load from a file.
-    - so i dont think base classing these modules from a resourceLoader is a good idea as different resource may have different methods and signature for loading of the resource
-    - the only odd one out currently is only the animation module which will have a different signature for loading of the resource.
+  - each module will be a self contained loader.
+  - a texture module will load a texture, a font module will load fonts etc.
+  - what these modules will do is have functions for loading of the resource.
+  - there are currently 3 main loaders in sfml that i found
+  - load from file
+  - load from memory
+  - load from stream
 
-    - so now lets talk about what these modules are going to do.
-    - off the top of my head they will only contain function to load the resource and return a reference to the resource loaded
-    - maybe also a function to unload it memory when a reference to the resource is passed to it?
-    - or should it be part of the resourceManager class. maybe its better to be part of the resource manager class.
+  - load from file and memory i can understand. but need to check out how stream works and whether it is actually needed and/or widely used.
+  - if not widely used it can be moved to a later release cycle.
 
-    - so what is the resource manager
-    - the resource manager is what calls the respective modules' loaders and stores the reference.
-    - what i want is that any object entity in the game can call the resource to get the reference to that resource
-    - which is why i want it to be static .
+  - currently we will only have method in module to load from file as that is what is really needed.
+  - now that i look at it loading an animation resource does not load from a file.
+  - so i dont think base classing these modules from a resourceLoader is a good idea as different resource may have different methods and signature for loading of the resource
+  - the only odd one out currently is only the animation module which will have a different signature for loading of the resource.
 
-    - all of these resource will be associated with a handle so they can be referenced via this handle
-    - but the entity themselves may not know what the handle for that resource may be
-    - ive been thinking of loading screens where these resources are loaded. 
-    - so i thought there could be a loader class which told which all resources need to be loaded. and just calling the loader instaces' load method would just load all those resources immedietly or clear them when needed. 
-    - but i dont know if that is needed. as some resources may be shared between sections and the resources will be unloaded atomically with all other unwanted resources.
-    - also i dont know of a proper method to implement these loaders too.
+  - so now lets talk about what these modules are going to do.
+  - off the top of my head they will only contain function to load the resource and return a reference to the resource loaded
+  - maybe also a function to unload it memory when a reference to the resource is passed to it?
+  - or should it be part of the resourceManager class. maybe its better to be part of the resource manager class.
 
-    - also these modules also can be static as they do not store any information, but just simply encapsulate the related functions for that resource together.
-    - since the modules may have their own signature for function to load the resources, they will have to be called directly.
-    - so maybe we can have these loaders itself store the references to the handles.
-    - so then what is the purpose of the resource manager? if we are directly calling these individual classes.?
-    - i wanted the resource manager to hold the references and handles map. so the user only needs to ping resource manager with what type of resource and the handle to that resource
-    - then resource manager will return that resource.
-    - but for each type of resource there will be a need funtion to load and get the resource.
-    - so basically it will simply be an aggregate getter and loader for all the modules. although that is useless and we can simly directly call the modules.
-    - hmmmmm? ?  ? ?
-    - so if we added another module we will need to add the getter and setter to it also keep a reference to the acutal loader class. which is just a waste i feel
-    - but i wanted a central hub to be able to call whatever resource type we needed.
-    - hmmmmm?????????????????
-    - let me think a bit
+  - so what is the resource manager
+  - the resource manager is what calls the respective modules' loaders and stores the reference.
+  - what i want is that any object entity in the game can call the resource to get the reference to that resource
+  - which is why i want it to be static .
 
-    - one idea that pops into my head is to ditch the module design. and just implement the needed loader getter function in resource manager itself.
-    - when a new "module" needs to be implemented just make their functions defined in resourceamanger
-    - this one will not need to have any reference to moudle as the loader and getter fucntions will differ automatically
-    - and have unordered map for each differen type of resource 
-    - this method actually does not cause thatmuch problems anyways.
-    - i think this is good
+  - all of these resource will be associated with a handle so they can be referenced via this handle
+  - but the entity themselves may not know what the handle for that resource may be
+  - ive been thinking of loading screens where these resources are loaded.
+  - so i thought there could be a loader class which told which all resources need to be loaded. and just calling the loader instaces' load method would just load all those resources immedietly or clear them when needed.
+  - but i dont know if that is needed. as some resources may be shared between sections and the resources will be unloaded atomically with all other unwanted resources.
+  - also i dont know of a proper method to implement these loaders too.
 
-    - ultimately no change form the current way except for the feature of user defined handles
-    - ok. i have thought about it.
-    - the current method is still better.
-    - we are going to allow custom handles and implement animation loaders and getters too for this iteration.
-    - so lets get coding
-    - wait. hmmmm. there are 3 loaders as mentioned above. so for each module we will have to have 3 loaders if we wanted support for all and 1 getter.
-    - but since the interface is different, it sucks. we can make animation as load from memory buuutttt....? not really sure.
-    - nah. fuck it. 3 laoders for whoever needs it. for now load from file and loader for animation.
-    - so lets actually get to coding now.
-    - lets make the loader function recieve the handle value as template so it needs to be constant and is not a variable.
-    - why not let it be a variable. what if they have a list of handle and file paths or something which they want to load by simply looping through it.
-    - ok let it be a variable.
+  - also these modules also can be static as they do not store any information, but just simply encapsulate the related functions for that resource together.
+  - since the modules may have their own signature for function to load the resources, they will have to be called directly.
+  - so maybe we can have these loaders itself store the references to the handles.
+  - so then what is the purpose of the resource manager? if we are directly calling these individual classes.?
+  - i wanted the resource manager to hold the references and handles map. so the user only needs to ping resource manager with what type of resource and the handle to that resource
+  - then resource manager will return that resource.
+  - but for each type of resource there will be a need funtion to load and get the resource.
+  - so basically it will simply be an aggregate getter and loader for all the modules. although that is useless and we can simly directly call the modules.
+  - hmmmmm? ? ? ?
+  - so if we added another module we will need to add the getter and setter to it also keep a reference to the acutal loader class. which is just a waste i feel
+  - but i wanted a central hub to be able to call whatever resource type we needed.
+  - hmmmmm?????????????????
+  - let me think a bit
 
+  - one idea that pops into my head is to ditch the module design. and just implement the needed loader getter function in resource manager itself.
+  - when a new "module" needs to be implemented just make their functions defined in resourceamanger
+  - this one will not need to have any reference to moudle as the loader and getter fucntions will differ automatically
+  - and have unordered map for each differen type of resource
+  - this method actually does not cause thatmuch problems anyways.
+  - i think this is good
+
+  - ultimately no change form the current way except for the feature of user defined handles
+  - ok. i have thought about it.
+  - the current method is still better.
+  - we are going to allow custom handles and implement animation loaders and getters too for this iteration.
+  - so lets get coding
+  - wait. hmmmm. there are 3 loaders as mentioned above. so for each module we will have to have 3 loaders if we wanted support for all and 1 getter.
+  - but since the interface is different, it sucks. we can make animation as load from memory buuutttt....? not really sure.
+  - nah. fuck it. 3 laoders for whoever needs it. for now load from file and loader for animation.
+  - so lets actually get to coding now.
+  - lets make the loader function recieve the handle value as template so it needs to be constant and is not a variable.
+  - why not let it be a variable. what if they have a list of handle and file paths or something which they want to load by simply looping through it.
+  - ok let it be a variable.
+
+  - one issue that has come into the light is that if an entity variable is dwclared insdewclared in the game object and the netity needs to load a resource in the constructor that can cause a problem
+  - as the loading of resources has not been set yet andin the ggame class but the entity constructor was called first.
+  - whihc will cause it to try and access an unloaded resource.
+  - that could be mitigated by simoply havinf the entityh be a pointer and then initialize after game conmstrcutor has been loaded but that is not a proper solution as thois forces the programmer to use pointers.
+  - one way around thatg is to just have a function in that entity to set the resource and af ter the resource is loaded in game just call that entoty resourcce loading functioun
+
+  - truth be told now i have no idea what direction i should take this forward in anymore.
+
+  - i think im gonna make a game. not exactly a game but a simple grid based structre.
+  - the details will be available in the readme for that project.

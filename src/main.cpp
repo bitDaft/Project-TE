@@ -165,7 +165,7 @@ public:
 	void disabledUpdate(const sf::Time &t)
 	{
 		ttime += t;
-		if (ttime.asSeconds() > 5.f)
+		if (ttime.asSeconds() > 2.f)
 		{
 			enableUpdate();
 			ttime = sf::seconds(0.f);
@@ -300,10 +300,6 @@ public:
 		ResourceManager::loadAnimation(25, testani);
 		pl.setAnimation(ResourceManager::getAnimation(25));
 		pl2.setAnimation(ResourceManager::getAnimation(25));
-
-		// TODO: change it so that diff key same action when pressed twice does not trigger twice
-		// ^we cannot handle that, the programmer will have to think of a way
-		// ^if we handle it, it may cause problems for developers
 
 		_reactionMapper->bindActionToReaction<&Test::mld>(Actions::MOUSE_LEFT);
 		_reactionMapper->bindActionToReaction<&Test::mlu>(Actions::MOUSE_LEFT_RELEASE);
