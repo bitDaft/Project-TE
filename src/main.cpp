@@ -287,10 +287,10 @@ public:
 	void init()
 	{
 
-		const unsigned int playerHandle = ResourceManager::loadTexture(24, "assets/player.png");
+		ResourceManager::loadTexture(24, "assets/player.png");
 		pl.settexture(ResourceManager::getTexture(24));
 
-		const unsigned int sheetHandle = ResourceManager::loadTexture(23, "assets/sheet2.png");
+		ResourceManager::loadTexture(23, "assets/sheet2.png");
 		Animation *testani = new Animation();
 		testani->setTexture(ResourceManager::getTexture(23));
 		testani->addFrame(new sf::IntRect(32, 0, 32, 32));
