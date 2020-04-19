@@ -60,7 +60,7 @@ clean:
 	$(RM) .\$(INCLUDE)\*.gch
 
 run: all
-	.\$(BIN)\$(EXECUTABLE)
+	cd $(BIN)  &&  $(EXECUTABLE)
 
 lib: $(OBJS)
 	ar crf $(BIN)\$(LIBEXEC) $^

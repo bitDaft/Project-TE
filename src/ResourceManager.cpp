@@ -29,7 +29,7 @@ void ResourceManager::init()
     ResourceManager::_animMap.reserve(30);
 }
 
-bool ResourceManager::loadTexture(const int handle, const char *path)
+bool ResourceManager::loadTextureFromFile(const int handle, const char *path)
 {
     _texPtr tex(new sf::Texture());
     if (tex->loadFromFile(path))
@@ -39,6 +39,13 @@ bool ResourceManager::loadTexture(const int handle, const char *path)
         return status.second;
     }
     return false;
+}
+bool ResourceManager::loadTexture(const int handle, const sf::Texture *texture)
+{
+    _texPtr tex(new sf::Texture(*texture));
+    const auto status = ResourceManager::_resourceMap.emplace(handle, std::move(tex));
+    assert(status.second);
+    return status.second;
 }
 sf::Texture &ResourceManager::getTexture(const int ID)
 {

@@ -221,9 +221,9 @@ private:
 		std::cout << "Released right\n";
 		return false;
 	}
-	bool mm(sf::Event &)
+	bool mm(sf::Event &e)
 	{
-		// std::cout << "Moving : " << e.mouseMove.x << " " << e.mouseMove.y << "\n";
+		std::cout << "Moving : " << e.mouseMove.x << " " << e.mouseMove.y << "\n";
 		return false;
 	}
 	bool ms(sf::Event &)
@@ -287,10 +287,10 @@ public:
 	void init()
 	{
 
-		ResourceManager::loadTexture(24, "assets/player.png");
+		ResourceManager::loadTextureFromFile(24, "assets/player.png");
 		pl.settexture(ResourceManager::getTexture(24));
 
-		ResourceManager::loadTexture(23, "assets/sheet2.png");
+		ResourceManager::loadTextureFromFile(23, "assets/sheet2.png");
 		Animation *testani = new Animation();
 		testani->setTexture(ResourceManager::getTexture(23));
 		testani->addFrame(new sf::IntRect(32, 0, 32, 32));

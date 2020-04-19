@@ -27,7 +27,8 @@ public:
     static void init();
 
     static sf::Texture &getTexture(const int);
-    static bool loadTexture(const int, const char *);
+    static bool loadTextureFromFile(const int, const char *);
+    static bool loadTexture(const int, const sf::Texture *);
     static void unloadTexture(const int);
 
     static Animation &getAnimation(const int);
