@@ -15,7 +15,7 @@
 
 InputHandler::InputHandler()
     : _reactionMapper(new ReactionMapper(this)),
-      isHandling(false),
+      isHandling(true),
       _2(-1)
 {
 }
@@ -34,7 +34,7 @@ void InputHandler::enableInputHandling()
 }
 void InputHandler::disableInputHandling()
 {
-  isHandling = true;
+  isHandling = false;
 }
 void InputHandler::removeInputHandling()
 {

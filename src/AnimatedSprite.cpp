@@ -112,7 +112,10 @@ void AnimatedSprite::setAnimation(const Animation &animation)
 
 void AnimatedSprite::setAnimationTime(const sf::Time &totalTime)
 {
-  perFrameTime = totalTime / (sf::Int64)anim->getFrameCount();
+  if (anim)
+  {
+    perFrameTime = totalTime / (sf::Int64)anim->getFrameCount();
+  }
 }
 
 void AnimatedSprite::play()

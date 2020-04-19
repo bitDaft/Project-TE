@@ -948,3 +948,6 @@ _Issue_ - no object other than the game can currently issue new events. change i
 
   - i think im gonna make a game. not exactly a game but a simple grid based structre.
   - the details will be available in the readme for that project.
+
+
+  - TODO make input handling on by defualt
