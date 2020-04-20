@@ -950,4 +950,19 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - the details will be available in the readme for that project.
 
 
-  - TODO make input handling on by defualt
+  ~~- TODO make input handling on by defualt~~
+
+  - one of the things that came up while i was working on grid selector was the need to have tranforms on the grid.
+  - once we transform a grid, the cursor will also needto be transformed appropriatly
+  - so i thought that if we had a parent object then whatever transform was appiled to the parent will also be aplied to itxs children.
+  - so maybe i should look into scene graph next.
+
+  - during thew making of grid selection i have realized that i need a tilemap system before i need the scene graph.
+  - it is so i can easily make worlds that i can interact with
+  - in fact im next going to work on the grid system to actually make a usable system like in advance wars.
+  - i have downloaded the sprite sheet for advance wars and ill start using them to build a mini game once i have the tilemap system in place.
+  - but now that i think about it i have no idea what or hoq exactly a tiolemap system is supposed to work.
+  - so i will need to spend a couple of time to learn on it.
+
+
+
