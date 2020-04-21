@@ -964,5 +964,22 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - but now that i think about it i have no idea what or hoq exactly a tiolemap system is supposed to work.
   - so i will need to spend a couple of time to learn on it.
 
+  - there will be no development today.
+  - today i went through tutorials on tilemap engines and what not.
+  - i feel i have understoodit fairly well
+  - i have found 2 editors for tilemaps. 1st is obvious tiles. then the other one is ogmo.
+  - i am going to use them both and see how they function. how they export and whatnot.
+  - but i have been thinking that they may not be the most ideal
+  - and i might want to write my own tilemap software
+  - ive been thinking of using vue and electron to write it as writing one with qt or something is going to be much more trouble on a good looking app
+  - since i am a web dev making UI and functionality will be much quicker using electron and a ui framework.
+  - from what i have seen of the xported data of tiled i think the tilemap as a resource will be useless as it might only load the tilemap. generate the tilemap from the texture.
+  - then it will load that texture into resourcemanager.
+  - this will then make the tilemap obj useless other than a tilemap file loader.
+  - hmmmmm?? so we might need to redesign somethings over here.
+  - for tomorrow and maybe after that i will be playing around with these software and see how they work. what functionalities they offer and make notes.
+  - and once i have better understanding of that i will see how i shoud redesign the tilemap obj or bring something new to the table. so there will not be much development for few days maybe.
+  - but all the updates for every day will be recorded here.  
+
 
 
