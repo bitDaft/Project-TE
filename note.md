@@ -981,5 +981,27 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - and once i have better understanding of that i will see how i shoud redesign the tilemap obj or bring something new to the table. so there will not be much development for few days maybe.
   - but all the updates for every day will be recorded here.  
 
+  - i have been thinking about the tile map editing feature.
+  - irrespective of if i use tiled or ogo or any other tile editor i will have to have multiple layer support in that software
+  - but if i want to load each layer separately into the resource manager it will havbe to be exported out as separate files
+  - but that is not good, but instead export in single file.
+  - that means whenever we load a tilemap file it will have all the layer.
+  - the obj that will load that tilemap layer will then need to create all the separate layers into textures for it.
+  - then the obj that loads the textures will be useless once the tilemap has been loaded.
+  - if we load make a function for it all the required handles will need to be passed to it while loading, but different tilemaps may have different layers.so that is not feasable;
+  - so we would still need an object which can parse the exported file and generate the textures. once generated we will have to manually assign it to a handle in resource manager.
+  - then we will have to create a object to load the tilemaps
+  - this is making the notion of having a loader object be available. such that this loadder object can be called in loading screens to auto load the resources with the correct handles.
+  - this should eleiminate any loading of objects or resources in the game calss and a special loader instance can be called to load the needed resources.
+  - so in the game class we should just load the loader obj
+  - so there shoudl eb a new file format for loading of resources.
+  - maybe we can have a loader to load the loaders lol.
+  - yeah with that we can have dynamic loaders
+  - i think this is a necessary addition as this will allow us to load a lot of stuff in a batch as well as provide a progress bar or something of the sort
+  - maybe this can be called in a separate thread too. but lets leacve that for now.
+  - what we need to do now is to create a format for the loader class to laod and actually design the loader class itslef
+  - so first lets design the loader class itself
 
+  ### loader
+    - 
 
