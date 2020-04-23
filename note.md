@@ -1002,6 +1002,8 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - what we need to do now is to create a format for the loader class to laod and actually design the loader class itslef
   - so first lets design the loader class itself
 
-  ### loader
-    - 
-
+  # MAJOR UPDATE
+    - since my current situation in life has hit a shit point i am going to put this project into haitus, until situation improves
+    - since i need to work on other factors regarding my job and what not i will not have time to concentrate on this project. so i will not work on this project for some time till i can get into a better situation with my job.
+    - so there wont be any updates for the foreseeable future as i have no idea when the situation might improve.
+    - once it improvesi will immedietly pick it back up.
