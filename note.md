@@ -1007,3 +1007,56 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - since i need to work on other factors regarding my job and what not i will not have time to concentrate on this project. so i will not work on this project for some time till i can get into a better situation with my job.
     - so there wont be any updates for the foreseeable future as i have no idea when the situation might improve.
     - once it improvesi will immedietly pick it back up.
+
+  # Update 
+    - i have been looking to improve my skills these past one month approx.
+    - now i see that i dont really study continuosly for days on stretch, so i think i should utilize these times to work on the engine to not be burnt out and to keep myself productive or motivated
+    - i have read the last few paragraphs to get the gist of what i have been working on .
+    - so here are the things that are needed work on. scene graph. tile editor, import export etc. and resource loaders.
+    - so the main concern i saw was that a loader will be needed. so i am going to work on designing the loader file format.
+
+    - so first lets get a grasp of the resources that can be loaded.
+
+    - fonts
+    - music
+    - textures
+    - sfx
+    - shaders
+
+    - these are the default resources.
+    - but i have custom resource like animation curently. should that also be part of the loader.
+    - it could be then we could just simply load a texture and it will load all the animations for us as defined in the loader file
+    - so no new code to be written specific to the game to be able to load these animation per game
+    - just write the loader class and and it will load according to the loader file
+    - they will only need to write the loader file which is going to be much more straightforward to write.
+
+    - so for the loader file we need to able to load sfml and our custom resources.
+    - i just thought about unloaders , if we pass the same loader handle trhen it should unload qall the resource loaded in that file
+    - this means that we will need to split the loadersinto multiple  file for those that persist or are needed in multiple loaders.
+    - currently lets just assume it will unload everything in a loader file and continue dev on that idea.
+
+    - ok i have come up with a format for the loader file. this may change in the future as i am not convinced by it.
+    - any way here is a sample format for texture and animation
+
+```
+:TEXTURE              // Texture block
+1 C:/.../text1.png    // handle file_path
+2 C:/.../text1.png
+3 C:/.../text1.png
+
+:ANIM                 // Animation block
+4 2 4                 // handle texture_handle num_of_frames // makes sure the texture referenced has already been loaded
+32, 0, 32, 32         // coordinates of 1st frame
+64, 0, 32, 32         // coordinates of 2st frame
+32, 0, 32, 32         // coordinates of 3st frame
+0, 0, 32, 32          // coordinates of 4st frame
+```
+
+
+    - as you an see im not too pleased by it since it has to be readc line by line or some shit for now
+    - what i want to do is parse it to get a data structure like json and be able to query for the needed sections in order and check for syntax error or whatever.
+    - for now we will just have to do with this incomplete albeit working structure
+    - the format for fonts and the other will follow for that of texture as they all have the same load signatures.
+    - animation has special signature as it is unique and has a different way of loading.
+    - so now lets get to making the loader instance to be able to load these two resources for now
+    
