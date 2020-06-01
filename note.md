@@ -1059,4 +1059,12 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - the format for fonts and the other will follow for that of texture as they all have the same load signatures.
     - animation has special signature as it is unique and has a different way of loading.
     - so now lets get to making the loader instance to be able to load these two resources for now
-    
+
+    - i am thinking making the loader also be considered as a resource.
+    - then the loader can be called from anywhere at any time as needed
+    - this will also allow us to load other loaders from a loader
+    - so we can have a single file which will load all the other resource loaders.
+    - this way we will only need to write code for that one file. 
+    - and we can call load on the other loaders as needed
+    - i think this is a good idea.
+    - for now lets just get a working loader for texture and animation

@@ -19,6 +19,7 @@
 #include "IDrawable.hpp"
 #include "Animation.hpp"
 #include "AnimatedSprite.hpp"
+#include "ResourceLoader.hpp"
 
 enum EventType
 {
@@ -180,24 +181,10 @@ public:
 		// tex.draw(player);
 	}
 };
-// class A : IUpdatable
-// {
-// public:
-// 	A() : IUpdatable(1)
-// 	{
-// 	}
-// 	~A()
-// 	{
-// 	}
-// 	void update(const sf::Time &t)
-// 	{
-// 	}
-// };
 
 class Test : public Game, private IUpdatable
 {
 private:
-	TestPlayer pl;
 	TestPlayer pl2;
 	sf::Time tt;
 
@@ -239,7 +226,6 @@ public:
 	Test(const int wndWidth, const int wndHeight, const char *wndName)
 			: Game(wndWidth, wndHeight, wndName),
 				IUpdatable(1),
-				pl(),
 				pl2(),
 				tt(sf::Time::Zero)
 	{
@@ -286,19 +272,10 @@ public:
 
 	void init()
 	{
+		ResourceLoader rs("./test.txt");
+		rs.load();
 
 		ResourceManager::loadTextureFromFile(24, "assets/player.png");
-		pl.settexture(ResourceManager::getTexture(24));
-
-		ResourceManager::loadTextureFromFile(23, "assets/sheet2.png");
-		Animation *testani = new Animation();
-		testani->setTexture(ResourceManager::getTexture(23));
-		testani->addFrame(new sf::IntRect(32, 0, 32, 32));
-		testani->addFrame(new sf::IntRect(64, 0, 32, 32));
-		testani->addFrame(new sf::IntRect(32, 0, 32, 32));
-		testani->addFrame(new sf::IntRect(0, 0, 32, 32));
-		ResourceManager::loadAnimation(25, testani);
-		pl.setAnimation(ResourceManager::getAnimation(25));
 		pl2.setAnimation(ResourceManager::getAnimation(25));
 
 		_reactionMapper->bindActionToReaction<&Test::mld>(Actions::MOUSE_LEFT);
@@ -312,7 +289,7 @@ public:
 		// testData *t = new testData();
 		// gameWindow.triggerEvent(EventType::testNum, t);
 		// gameWindow.triggerEvent(EventType::testNum2, new int(200));
-	}
+		}
 	void processCustomEvents(Event &event)
 	{
 		switch (event.type)
