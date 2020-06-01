@@ -10,21 +10,16 @@
 #include <sstream>
 
 ResourceLoader::ResourceLoader(const char *path)
+    : file_path(path)
 {
-  file.open(path);
 }
 ResourceLoader::~ResourceLoader()
 {
-  file.close();
 }
 
 void ResourceLoader::load()
 {
-  // read line by line
-  // set  mode based on lines starting with colon
-  // if mode is texture  read twice call resource manager to load the texture
-  // if mode is animation read 3 values , then loop for the frames and call resource amanger to load
-
+  file.open(file_path);
   std::string str;
   std::stringstream ss;
   int mode = 0;
@@ -33,7 +28,6 @@ void ResourceLoader::load()
   {
     while (getline(file, str))
     {
-      // std::cout << str << " 333\n";
       if (str[0] == ':')
       {
         if (!str.compare(":TEXTURE"))
@@ -43,6 +37,10 @@ void ResourceLoader::load()
         else if (!str.compare(":ANIM"))
         {
           mode = 2;
+        }
+        else if (!str.compare(":LOADER"))
+        {
+          mode = 3;
         }
         continue;
       }
@@ -55,7 +53,6 @@ void ResourceLoader::load()
       case 1: //texture
       {
         ss << str;
-
         int handle;
         std::string pp;
         ss >> handle >> pp;
@@ -78,7 +75,6 @@ void ResourceLoader::load()
         while (frames-- > 0)
         {
           getline(file, str1);
-          std::cout << str1 << "\n";
           ss1.clear();
           ss1 << str1;
           ss1 >> f1 >> f2 >> f3 >> f4;
@@ -87,12 +83,23 @@ void ResourceLoader::load()
         ResourceManager::loadAnimation(handle, testani);
         break;
       }
+      case 3:
+      {
+        ss << str;
+        int handle;
+        std::string pp;
+        ss >> handle >> pp;
+        ResourceLoader *ldr = new ResourceLoader(pp.c_str());
+        ResourceManager::loadLoader(handle, ldr);
+        break;
+      }
       default:
         break;
       }
       ss.clear();
     }
   }
+  file.close();
 }
 void ResourceLoader::unload()
 {

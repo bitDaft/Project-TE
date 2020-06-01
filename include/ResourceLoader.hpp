@@ -3,8 +3,9 @@
 #ifndef RESOURCELOADER_HPP
 #define RESOURCELOADER_HPP
 
-#include <iostream> 
-#include <fstream> 
+#include <iostream>
+#include <string>
+#include <fstream>
 
 class ResourceLoader
 {
@@ -16,8 +17,8 @@ public:
   void unload();
 
 private:
+  const std::string file_path;
   std::ifstream file;
 };
-
 
 #endif

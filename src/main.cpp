@@ -104,7 +104,6 @@ private:
 
 public:
 	sf::Vector2f plVelocity;
-	Animation testani;
 	AnimatedSprite test;
 	sf::Sprite sheet;
 	sf::Time ttime;
@@ -274,9 +273,9 @@ public:
 	{
 		ResourceLoader rs("./test.txt");
 		rs.load();
+		ResourceManager::getLoader(1).load();
 
-		ResourceManager::loadTextureFromFile(24, "assets/player.png");
-		pl2.setAnimation(ResourceManager::getAnimation(25));
+		pl2.setAnimation(ResourceManager::getAnimation(1));
 
 		_reactionMapper->bindActionToReaction<&Test::mld>(Actions::MOUSE_LEFT);
 		_reactionMapper->bindActionToReaction<&Test::mlu>(Actions::MOUSE_LEFT_RELEASE);
@@ -289,7 +288,7 @@ public:
 		// testData *t = new testData();
 		// gameWindow.triggerEvent(EventType::testNum, t);
 		// gameWindow.triggerEvent(EventType::testNum2, new int(200));
-		}
+	}
 	void processCustomEvents(Event &event)
 	{
 		switch (event.type)
