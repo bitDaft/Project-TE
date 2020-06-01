@@ -17,6 +17,7 @@
 #include <unordered_map>
 
 #include "Animation.hpp"
+#include "ResourceLoader.hpp"
 
 class ResourceManager
 {
@@ -35,6 +36,10 @@ public:
     static bool loadAnimation(const int, Animation *);
     static void unloadAnimation(const int);
 
+    static ResourceLoader &getLoader(const int);
+    static bool loadLoader(const int, ResourceLoader *);
+    static void unloadLoader(const int);
+
 private:
     typedef std::unique_ptr<sf::Texture> _texPtr;
     // typedef std::unique_ptr<Animation> _animPtr;
@@ -42,5 +47,6 @@ private:
     // ^Using unordered map as it provides 'near' O(1) lookup albeit memory hog
     static std::unordered_map<int, _texPtr> _resourceMap;
     static std::unordered_map<int, Animation *> _animMap;
+    static std::unordered_map<int, ResourceLoader *> _loaderMap;
 };
 #endif
