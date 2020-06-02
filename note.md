@@ -1068,3 +1068,9 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - and we can call load on the other loaders as needed
     - i think this is a good idea.
     - for now lets just get a working loader for texture and animation
+
+    - now  we have completed a simple not great loader
+    - next lets see what was needed.
+    - so the next thing that is needed is tile editor
+    - so now lets use tiled and ogmo to see how those work and see if we should make our own or just use those.
+    
