@@ -1068,3 +1068,30 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - and we can call load on the other loaders as needed
     - i think this is a good idea.
     - for now lets just get a working loader for texture and animation
+
+    - now  we have completed a simple not great loader
+    - next lets see what was needed.
+    - so the next thing that is needed is tile editor
+    - so now lets use tiled and ogmo to see how those work and see if we should make our own or just use those.
+    
+
+
+    - now we are just going to improve upon the loader system.
+    - it will have a list of texture, animation, font etc array of details parsed from a loader file
+    - so the file reading will be done at the beginning and stored in memory
+    - this will give us control of loading and unloading of resources.
+    - also will not need to parse the file to understand what resources are loaded where at the time of unloading.
+    - it is also helpfull because we will then be able to define the loader sections without any ordering and the loading order can be done in code
+    - so i have thought of a basic structure for this.
+    - it may change later on
+    - so what we are going to do is that we will have structs to store the information for the resources.
+    - then inside the loader class we will have array of these struct objects.
+    - these objects will contain the data that has been parsed from the file.
+    - so now we can easily load these resources by simply looping across these arrays in the correct order without worry it was written out of order in the file
+    - and the same goes for unloading. simply need to loop through these arrays and call the respective unload function with the correct handle for the resource.
+    
+    - so lets create a file for the definitions of these structs.
+    - then add array of these struct to loader.
+    - the loader will immedietly parse the file in the constructor and store the information in memory.
+    - although all of the data will be stored in memory, i dont think it will impact much
+    - if there are loads of resources that need to be loaded, we can simply load the the necessary loader file as and when needed.
