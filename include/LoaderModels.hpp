@@ -24,7 +24,7 @@ struct AnimationModel
 struct LoaderModel
 {
   int handle;
-  char *path;
+  std::string path;
 };
 
 #endif

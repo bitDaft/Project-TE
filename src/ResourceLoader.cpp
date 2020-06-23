@@ -150,6 +150,6 @@ void ResourceLoader::unload()
   }
   for (auto loader : loaders)
   {
-    ResourceManager::unloadLoader(loader.handle)
+    ResourceManager::unloadLoader(loader.handle);
   }
 }
