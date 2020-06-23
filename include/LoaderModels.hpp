@@ -4,14 +4,14 @@
 #define LOADER_MODELS
 
 #include <vector>
+#include <string>
 
 #include <SFML/Graphics/Rect.hpp>
-
 
 struct TextureModel
 {
   int handle;
-  char *path;
+  std::string path;
 };
 struct AnimationModel
 {
