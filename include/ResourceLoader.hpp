@@ -3,9 +3,9 @@
 #ifndef RESOURCELOADER_HPP
 #define RESOURCELOADER_HPP
 
-#include <iostream>
-#include <string>
-#include <fstream>
+#include <vector>
+
+#include "LoaderModels.hpp"
 
 class ResourceLoader
 {
@@ -17,8 +17,9 @@ public:
   void unload();
 
 private:
-  const std::string file_path;
-  std::ifstream file;
+  std::vector<TextureModel> textures;
+  std::vector<AnimationModel> animations;
+  std::vector<LoaderModel> loaders;
 };
 
 #endif
