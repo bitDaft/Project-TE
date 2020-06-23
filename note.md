@@ -1095,3 +1095,9 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - the loader will immedietly parse the file in the constructor and store the information in memory.
     - although all of the data will be stored in memory, i dont think it will impact much
     - if there are loads of resources that need to be loaded, we can simply load the the necessary loader file as and when needed.
+
+    - the new loader system has been implement.
+    - now i want to see if instead of reading a text file for loading the resource maybe we can have a binary file that will be easier to parse.
+    - so to create those binary files we are going to create an application for it
+    - i think i may want to use C++ and Qt for it. so that i can learn using Qt too.
+    - so i will learn how to develop UI for C++ applications.
