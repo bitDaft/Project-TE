@@ -110,7 +110,7 @@ public:
 	~TestPlayer()
 	{
 	}
-	TestPlayer() : IUpdatable(1), IDrawable(1), playerMoveSpeed(50.f), plVelocity(0, 0), testani(6)
+	TestPlayer() : IUpdatable(1), IDrawable(1), playerMoveSpeed(50.f), plVelocity(0, 0)
 	{
 		ttime = sf::seconds(0.f);
 		enableInputHandling();
