@@ -324,9 +324,53 @@ public:
 	}
 };
 
+#include <TELDR/Loader.hpp>
+#include <TELDR/LoaderModels.hpp>
+
 int main()
 {
-	Game *testGame = new Test(480, 320, "Hello, World!");
-	testGame->run();
+	// Game *testGame = new Test(480, 320, "Hello, World!");
+	// testGame->run();
+	Loader *ldr = new Loader("test.teldr");
+	std::cout << "\nprinting files";
+	std::cout << "\nTextures:\n";
+	if (ldr->flags < 0)
+	{
+		std::cout << "An error occured while reading file";
+	}
+	else
+	{
+		for (auto &i : ldr->getTexture())
+		{
+			std::cout << i->handle << " ";
+			std::cout << i->path;
+			std::cout << "\n";
+		}
+		std::cout << "\nAnimations:\n";
+		for (auto &i : ldr->getAnimation())
+		{
+			std::cout << i->handle << " ";
+			std::cout << i->texHandle << " ";
+			std::cout << i->frames.size();
+			std::cout << "\n";
+			for (auto &j : i->frames)
+			{
+				std::cout << j->top << " ";
+				std::cout << j->left << " ";
+				std::cout << j->width << " ";
+				std::cout << j->height << " ";
+				std::cout << "\n";
+			}
+			std::cout << "\n";
+		}
+		std::cout << "\nLoaders:\n";
+		for (auto &i : ldr->getLoader())
+		{
+			std::cout << i->handle << " ";
+			std::cout << i->path;
+			std::cout << "\n";
+		}
+	}
+
 	return 0;
 }

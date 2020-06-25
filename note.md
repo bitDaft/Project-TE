@@ -1108,3 +1108,6 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - so the game engine and the new application can reference the same library to both create and parse it.
     - in case the format or so changes then we only need to link to the new lib version and have minor changes to actual code.
     - yeah. so i think i will first make that library. the have it link to this and the other application which will need to be created.
+
+    - ok the lib for loading teldr has been done andit has been integrated.
+    - now we need to remove the previous code that was used to load the resources and use this new lib.

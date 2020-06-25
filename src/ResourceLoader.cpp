@@ -53,7 +53,7 @@ ResourceLoader::ResourceLoader(const char *path)
       {
       case 1: //texture
       {
-        TextureModel texture;
+        TextureModels texture;
         ss << str;
         int handle;
         std::string file_path;
@@ -66,7 +66,7 @@ ResourceLoader::ResourceLoader(const char *path)
       case 2: //animation
       {
 
-        AnimationModel animation;
+        AnimationModels animation;
         int handle;
         int texHandle;
         int frames;
@@ -91,7 +91,7 @@ ResourceLoader::ResourceLoader(const char *path)
       }
       case 3:
       {
-        LoaderModel loader;
+        LoaderModels loader;
         ss << str;
         int handle;
         std::string file_path;

@@ -1,27 +1,25 @@
 
 
-#ifndef LOADER_MODEL_HPP
-#define LOADER_MODEL_HPP
+#ifndef LOADER_MODELS_HPP
+#define LOADER_MODELS_HPP
 
 #include <vector>
 #include <string>
 
 #include <SFML/Graphics/Rect.hpp>
 
-struct TextureModels
+struct TextureModel
 {
   int handle;
   std::string path;
 };
-struct AnimationModels
+struct AnimationModel
 {
   int handle;
   int texHandle;
-  int frameCount;
-
-  std::vector<const sf::IntRect *> frames;
+  std::vector<sf::IntRect *> frames;
 };
-struct LoaderModels
+struct LoaderModel
 {
   int handle;
   std::string path;

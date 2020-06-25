@@ -17,9 +17,9 @@ public:
   void unload();
 
 private:
-  std::vector<TextureModel> textures;
-  std::vector<AnimationModel> animations;
-  std::vector<LoaderModel> loaders;
+  std::vector<TextureModels> textures;
+  std::vector<AnimationModels> animations;
+  std::vector<LoaderModels> loaders;
 };
 
 #endif
