@@ -5,6 +5,8 @@
 
 #include <vector>
 
+#include <TELDR/Loader.hpp>
+
 #include "LoaderModels.hpp"
 
 class ResourceLoader
@@ -13,13 +15,13 @@ public:
   ResourceLoader(const char *);
   virtual ~ResourceLoader();
 
+  bool loadFile(const char *);
+
   void load();
   void unload();
 
 private:
-  std::vector<TextureModels> textures;
-  std::vector<AnimationModels> animations;
-  std::vector<LoaderModels> loaders;
+  Loader *ldr;
 };
 
 #endif

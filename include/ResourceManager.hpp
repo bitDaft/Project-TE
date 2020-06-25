@@ -15,6 +15,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
+#include <vector>
 
 #include "Animation.hpp"
 #include "ResourceLoader.hpp"
@@ -33,11 +34,11 @@ public:
     static void unloadTexture(const int);
 
     static Animation &getAnimation(const int);
-    static bool loadAnimation(const int, Animation *);
+    static bool loadAnimation(const int, const int, const std::vector<sf::IntRect *> &);
     static void unloadAnimation(const int);
 
     static ResourceLoader &getLoader(const int);
-    static bool loadLoader(const int, ResourceLoader *);
+    static bool loadLoader(const int, const char *path);
     static void unloadLoader(const int);
 
 private:

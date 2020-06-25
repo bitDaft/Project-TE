@@ -49,43 +49,50 @@ bool ResourceManager::loadTexture(const int handle, const sf::Texture *texture)
     assert(status.second);
     return status.second;
 }
-sf::Texture &ResourceManager::getTexture(const int ID)
+sf::Texture &ResourceManager::getTexture(const int handle)
 {
-    return *ResourceManager::_resourceMap.at(ID);
+    return *ResourceManager::_resourceMap.at(handle);
 }
-void ResourceManager::unloadTexture(const int ID)
+void ResourceManager::unloadTexture(const int handle)
 {
-    ResourceManager::_resourceMap.erase(ID);
+    ResourceManager::_resourceMap.erase(handle);
 }
 
-Animation &ResourceManager::getAnimation(const int ID)
+Animation &ResourceManager::getAnimation(const int handle)
 {
-    return *ResourceManager::_animMap.at(ID);
+    return *ResourceManager::_animMap.at(handle);
 }
-bool ResourceManager::loadAnimation(const int handle, Animation *anim)
+bool ResourceManager::loadAnimation(const int handle, const int texHandle, const std::vector<sf::IntRect *> &frames)
 {
-    const auto status = ResourceManager::_animMap.emplace(handle, anim);
+    Animation *animation = new Animation();
+    animation->setTexture(ResourceManager::getTexture(texHandle));
+    for (auto &frame : frames)
+    {
+        animation->addFrame(new sf::IntRect(frame->left, frame->top, frame->width, frame->height));
+    }
+    const auto status = ResourceManager::_animMap.emplace(handle, animation);
     assert(status.second);
     return status.second;
 }
-void ResourceManager::unloadAnimation(const int ID)
+void ResourceManager::unloadAnimation(const int handle)
 {
-    delete ResourceManager::_animMap.at(ID);
-    ResourceManager::_animMap.erase(ID);
+    delete ResourceManager::_animMap.at(handle);
+    ResourceManager::_animMap.erase(handle);
 }
 
-ResourceLoader &ResourceManager::getLoader(const int ID)
+ResourceLoader &ResourceManager::getLoader(const int handle)
 {
-    return *ResourceManager::_loaderMap.at(ID);
+    return *ResourceManager::_loaderMap.at(handle);
 }
-bool ResourceManager::loadLoader(const int handle, ResourceLoader *ldr)
+bool ResourceManager::loadLoader(const int handle, const char *path)
 {
-    const auto status = ResourceManager::_loaderMap.emplace(handle, ldr);
+    ResourceLoader *newLdr = new ResourceLoader(path);
+    const auto status = ResourceManager::_loaderMap.emplace(handle, newLdr);
     assert(status.second);
     return status.second;
 }
-void ResourceManager::unloadLoader(const int ID)
+void ResourceManager::unloadLoader(const int handle)
 {
-    delete ResourceManager::_loaderMap.at(ID);
-    ResourceManager::_loaderMap.erase(ID);
+    delete ResourceManager::_loaderMap.at(handle);
+    ResourceManager::_loaderMap.erase(handle);
 }
