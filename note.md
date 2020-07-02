@@ -1282,3 +1282,20 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - the next thing to work on this is the tile system.
     - so now i will need to check out tiled and ogmo editor.
     - i will first check up on the ogmo editor.
+
+    - i checked out the data format of tiled map. it is base64b encoded. 
+    - decoding it will give array of bytes, which is to be taken as 32 bit unsigned int.
+    - this num that we get is the global tile id. 
+
+    - ive been thinking about the rendering of this tile set.
+    - we cant just willy nilly just render this crap as this will require a butt ton of draw calls, which will lead to lag,
+    - so what we need to do is batch these vertices for the sprites and then do a single draw call.
+    - since every layer may have multiple textures ascociated with it we will need to create a map of what texture to what sprite.
+    - now we will have to make a draw call for every texture for every layer.
+    - although it might seem like a lot of draw calls, it is much better than the num of sprites.
+    - so we will need to implement this first to have efficient rendering of tile map.
+    - so this is what we need to work on.
+    - so i will need to get the texture, the vertices, the tranforms and any other shit needed.
+    - then i will need to return that from the sprite, and then store it somewhere.
+    - i will also need to keep lookout for the latest version or so of SFML as batch rending is in the works.
+    -for now lets go see the tutorial on vertexarrays
