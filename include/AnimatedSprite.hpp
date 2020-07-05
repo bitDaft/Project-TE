@@ -30,7 +30,6 @@
 /** 
  * this class replaces the default sprite object to show an animation
  * TODO: need to implement functions used in sprite
- * TODO: Change from quads to triangles 
 */
 class AnimatedSprite : public sf::Drawable, public sf::Transformable
 {
@@ -118,6 +117,7 @@ public:
   void setColor(const sf::Color &color);
 
   // TODO: need to implement
+  // TODO : implement getting the vertex data too
   // sf::FloatRect getLocalBounds() const;
   // sf::FloatRect getGlobalBounds() const;
 

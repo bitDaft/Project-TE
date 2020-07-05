@@ -1298,4 +1298,71 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - so i will need to get the texture, the vertices, the tranforms and any other shit needed.
     - then i will need to return that from the sprite, and then store it somewhere.
     - i will also need to keep lookout for the latest version or so of SFML as batch rending is in the works.
-    -for now lets go see the tutorial on vertexarrays
+    - for now lets go see the tutorial on vertexarrays
+
+    - I have taken a look at the vertexarray tutorial, it has a example on tilesets.
+    - but it is so that the entire tileset is based on a single layer.
+    - also there is the issue of multiple layers and animated sprites.
+    - each loop we will have to do an update on the animated sprite to update on to the next animation frame.
+    - and for each layer, it can be done with different layer system built into the drawing system already built.
+    - so we will need to split the layers into the correct drawing layers.
+    - also for the animated sprite we cannot just store the vertexes but need to store the actual animated sprite object.
+    - so we may need to generate all the verteces for each loop.
+    - that is not acceptable.
+    - so what we need to actually store those vertices that does not change and only update the verteces for animated sprite.
+    - can the vertex array store references to the actual vertices.?
+    - if that is the case then we can simply update the animated sprite and it will also update in the array.
+    - then we will not need to generate the vertexarray. it will be automatically be updated.
+    - ok. we can look it into doing that. lets see if we can do that by storing the references to the vertices.
+
+    - i just googled array of references and apparantly it is illegal. welp.
+    - so we may need to create the array of verteces every loop. dont think that is gonna be much of an issue. lets just leave it as that now.
+    - so for the tilemap object it will generate the entire vertex arrays.
+    - since it is generated each loop we can also update the animated sprite without much trouble.
+    - the next issue with this is the animated sprite itself.
+    - how do we know that the sprite there needs to create a new sprite for animations.
+    - shouldn't it automatically create the animated sprite as needed. yes it should. then we will need to generate the method to do that also.
+    - let me take a look at the class of animatedsprite.
+    - so the defaults for the animated sprite is enough.
+    - the animation will have to be specified in the tilemap file that we are going to be loaded.
+    - so the tilemap object will know that the current tile is an animation tile.
+    - we will also need to set the time for animation in the tilemap file for each of the animation. with a default of 1 sec or something if not specified in the file.
+
+    - so lets say in the tilemap file we will define that global tile id of 3 or so will have animation handle id of 5 or something. so the animation will need to be loaded before the tilemap file is loaded.
+    - this will allow us to not define the animation in the tilemap file itself and use the loader as intended. also this reduces the information to be stored in the tilemap file.
+    - since the animation data will not be stored in the tilemap file we will have to define the animations in the loader file separately. 
+    - i think this is good as this will allow the tilemap to not dictate what the animation needed are, and can be changed without changing the tilemap file itself.
+    - the purpose of the tilemap is to only tell what tiles go where and whether that particular tile is an animated one or not, and what the animation handle might be.
+    - so we will only need to implement a function in the animated sprite to return the vertices that it has.
+
+    - even though i have said that we have to generate the array, we only technically need to generate it once.
+    - once it has generated we can simply store the positions in the array that contain the animatedsprites and simply update those positions with the new vertices.
+    - so only the animated sprites vertices will be generated. so we will not need to loop through the entire tilemap, but only the indexes that contain the vertex for an animated sprite.
+    - another simple matter is that we only need to create a single animated sprite object for each animation there will be and simply use that very sprite multiple times.
+    - hmmmmmm....
+    - if we only had a single animated sprite for many of the same animated tile in the tilemap then we will need to only call the update once every loop for that animated sprite and not multiple times for each animatedsprite which contains the same animation.
+    - an issue with this approach is that it will have to change tehe position of the animated sprite every time which is not possible...
+    - ok. we will create the animated sprite object only once. 
+    - let me try to explain what i though here now.
+    - first we will generate the entire tilemap array with simply vertices.
+    - then whichever tile is animated we will keep track of its index and such and create an animated sprite for those tiles. so only 1 animated sprite for the same animated tiles everywhere
+    - so during the first creation we only need to set the position of the tiles, and the textures locations.
+    - and during every loop we just go through all the animated sprites and update it, then we will go to the respective index and update only the texture coordinates of the existing verteces.
+    - so we will only need one set of animated sprites and can simply update it, and only need to update the texture coords of verteces every loop.
+    - so that means we will have to have a mapping of all the index in the vertex array to the correct texture. how can we do that efficiently.
+    - instead of storing the indexes in an array we will simply store it in a map to a reference of the animatedsprite.
+    - so each index will have a reference to an animated sprite even if the animated sprite is the same.
+    - the animated sprites and the indexes can be stored in their own arrays.
+
+    - so to recap. we will have two arrays.
+    - 1 for indexes of animated tiles, another for pointer to the created animatedsprites.
+    - on loading we will create the default vertex arrays. then set its positions and its texture coordinates.
+    - then on every loop we will update the animated sprites and and then loop through the indexes, for each index find the reference to the animated sprite in the map and apply its texture coordinates.
+    - thus we will have updated all the textures and everything of the tilemap.
+    - then we can simply draw the tilemap.
+
+    - so for the first issue a solution has been found.
+    - now the issues are of multiple textures and multiple layers.
+
+    - multiple textures is an issue that cannot be solved with the current tileset class method.
+    - as different tilemaps may use different textures. 

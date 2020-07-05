@@ -66,7 +66,7 @@ void AnimatedSprite::setCurrentFrame(int frame)
     _v[2].position = sf::Vector2f(static_cast<float>(rect.width), static_cast<float>(rect.height));
     _v[3].position = sf::Vector2f(static_cast<float>(rect.width), 0.f);
 
-    float left = static_cast<float>(rect.left) + 0.0001f;
+    float left = static_cast<float>(rect.left);// + 0.0001f;
     float right = left + static_cast<float>(rect.width);
     float top = static_cast<float>(rect.top);
     float bottom = top + static_cast<float>(rect.height);
