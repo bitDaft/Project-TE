@@ -1366,3 +1366,51 @@ _Issue_ - no object other than the game can currently issue new events. change i
 
     - multiple textures is an issue that cannot be solved with the current tileset class method.
     - as different tilemaps may use different textures. 
+
+    - lets first tackle the issue of the layers first.
+    - if anything is there in the tileset where one tile is on top of another but it comes in the array index earlier than the below one then due to painters algorithm this will draw it the other way around.
+    - a simple solution to this is to not have tiles overlap each other in the same layer.
+    - if they overlap then just move it to another layer instead.
+    - so now the overlap problem with drawing is solved in the tileset itself.
+    - each of these layers will then be a tilemap object in its own layer in the drawing system.
+    - they will be in the appropriate layer given by the exported tilemap file. maybe add a custom property which tells which layer in the drawing system will this layer in the tilemap will it go to.
+    - for simplicity sake we will have it just go from 1 to n as default. it may be overriden by manually specifying it.
+    - now this solves the problem of layers and overlapping tiles in the tilemap with how it will be drawn using the drawing system.
+
+    - now the last obvioud solution is the trickiest of all, the multiple texture per tilemap issue.
+    - the issue is that we can only draw a set of vertices with a single texture in a single draw call.
+    - so when there is multiple texture we will have to split up the texture into multiple draw calls.
+    - each tilemap may also have n number of textures used. so we cannot hardcode it or anything.
+    - the best possible method with a tilemap object way is to simply have separate tilemaps for separate textures.
+    - but this in itself poses problems. like we will to figure out which global tileid refers to which texture and will need to split them up properly.
+    - so a single layer in a drawing layer will have multiple tilemap objects which will store the vertices for their respective textures.
+    - so implementing that will lead to the structure of the exported tilemap and the ease of parsing it whether we can actually parse it properly to make enough tilemap obejcts out of it as necessary.
+    - one another way is to simply return the vertecesand textures and create a map of it in the drawing routine and the at the end draw it all.
+    - this method will also allow use to collate other layers also into it like the sprites of players or entities or so if they use the same texture.
+    - now another issue that arises with the texture is the ordering of it again. now we might have do like tex 1, 2 ,1 in can arise so the ordering is preserved.
+    - this allows us to reduce the number of call to draw too but implementing is not that easy as of now, as not much thought has been put into handling all of its edge cases.
+    - so what we will go here is to have multiple tilemap objects and then each have their respective textures and their verteces stores and just drawn in order.
+    - the issue of generating these tilemap objects will arise if parsing of the exported file is not proper.
+    - so we either need to set a standard for the format we are going to use so that all the other formats need to only convert into that format for its functioning, or we create separate handlers for each of the different formats.
+    - the most popular and common tileset is most probably going to be tiled as it is used widely. it has both the xml and json format parser
+    - for understanding it we can use an already existing lib for parsing the file. which is tmx or json parser.
+
+    - so i also like the idea of defining our own format for the creation of the tilemaps as this will allow us to standardise and integrate it easily onto the engine
+    - like for example be able to create multiple tilemap objects incase of different textures for a tilemap.
+    - if we were using tiled or any other format then we will have to do special processing for each.
+    - if we have a standar format then all we need to worry is about that format and we only need to work on it.
+    - if anyone wants to use tiled format, then all they need to do will be to convert that into our used format and it should work without any issue.
+    - also we can also make converters from our format to other format too.
+    - this method is more extensible and standardised, and less work to do in the long run in case people want to use other formats, the overhead is that they will need to convert it into the standard format. 
+    - on the other hand we can could simply use native format for tiled, but it will be very specific to tiled, and if any other formats are used we will have to write code to handle that format too.
+    - distributing the standard format for this engine is little tricky as it will have to be converted to tiled or some other format for other engines to use, while using tiled we can simply send the tiled format which they probably already support.
+    - so the issue is locking it in our engine ecosystem standard vs having a common standard that everyone can develop to.
+    - the main trade of ease of implementation and integration, and distribution of the tilemap file.
+    - to ease this problem we should also create a lib to convert between from and to the standard that we will make.
+    - this will allow use to directly load tiled files and store it as standard defintions and will also allow us to export standard defined files to tiled or any other.
+
+    - so lets recap on the tasks.
+    - first is to create a standard format for the tilemap file. so we need to consider what all features are currently there in the engine and see how that all can be used in the tilemap.
+    - second is to create the tilemap class which holds the vertexarray and the texture. it should store the needed arrays and indexes and what not for animated sprited and all.
+    - then we need to have a parser for this tilemap file to be able properly create this tilemap objects, animated sprite and etc as needed.
+     
