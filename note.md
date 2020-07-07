@@ -1413,4 +1413,23 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - first is to create a standard format for the tilemap file. so we need to consider what all features are currently there in the engine and see how that all can be used in the tilemap.
     - second is to create the tilemap class which holds the vertexarray and the texture. it should store the needed arrays and indexes and what not for animated sprited and all.
     - then we need to have a parser for this tilemap file to be able properly create this tilemap objects, animated sprite and etc as needed.
-     
+
+    - now we need to define the format and the content of the tilemap file.
+    - so i need to look at different markups for storing daata like xml or json.
+    - im not gonna simply use json or something as this is very specific to my engine i probably can simply store it in binary format or some shit.
+    - but storing it in binary format will not alloow us to edit it quickly if needed.
+    - so we will allow for oth text and binary storage of these files.
+    - once a production tilemap has been created we can store it efficiently in binary format inst3ead of text and waste memory.
+    - also we will allow it to be stored and exported in text format for debugging or dev purposes so that it can easily be modified directly for quick changes if needed.
+    - so this is going to work like the lib for loader but it will allow to export the data in binary and text formats.
+    - so we will need to be able to both load and store in both binary and text formats.
+    - so a total of 4 functions for loading and exporting.
+
+    - now comes the data that needs to be stored.
+    - we can consult the tiled format to see what all it supports and that will allow us to chalk up what all we might need.
+    - there will be some features of tiled that we may have not implemented yet, so will skip those for now and add it as it goes along.
+    - so the first is to identify what all data is there in tiled. then find out what all other data we might need while rendering the tilemaps. eg the arrays of indexes.
+    - once we have that we can both find the common ground of data that will absolutely be needed.
+    - then we can find out what data can be computed but can be usefull if included so another computation need not occur. so memory vs execution.
+    - so we need to find a sweet spot for it.
+    - so now let me go have a look and take notes on the data exported by tiled.
