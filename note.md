@@ -1433,3 +1433,36 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - then we can find out what data can be computed but can be usefull if included so another computation need not occur. so memory vs execution.
     - so we need to find a sweet spot for it.
     - so now let me go have a look and take notes on the data exported by tiled.
+
+    - the details of the tiled map exported file will now be listed below
+    - only those properties that are deemed to be important as of now will be noted here.
+    - anything else will be discarded like hex or staggered or isometric details. etc.
+
+    #### Map
+
+      - orientation - orthogonal, hexagonal, isometric, staggered. currently we only have orhtogonal to work on.
+      - renderorder - rendering order of the tiles. right-down, right-up etc. currently only supported for orthogonal maps.
+      - compressionlevel - the level of compression. -1 is default algorithm compression.\
+      - width - the map width in tiles.
+      - height - the map height in tiles.
+      - tilewidth - the width of a tile.
+      - tileheight - the height of a tile.
+      - backgroundcolor - default is fully transparent.
+      - nextlayerid - stores the next available id for layers. (dont think this is that important as entire layering will be done at developer discretion).
+      - nextobjectid - same as above for objects. again may be needed as dev needs to be allocate the ids manually accordingly.
+      - infinite - whether the map is infinite map or not. may not be usefull currently as we will force it to have fixed size initiallly.
+
+      this can contain max 1 property section, and any number of tileset, layer, objectgroup, imagelayer, group, editorsettings.
+
+    #### editorsettigns
+      
+      - chunksize - the chunksize for infinite maps default to 16. contains the width and the height of the chunks
+      - export - details about last exported file and the format of ot.
+
+      these are generally not needed for reading a map, conatins editor specific settings.
+
+    #### tileset
+
+      - 
+      
+
