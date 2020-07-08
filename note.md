@@ -1438,7 +1438,7 @@ _Issue_ - no object other than the game can currently issue new events. change i
     - only those properties that are deemed to be important as of now will be noted here.
     - anything else will be discarded like hex or staggered or isometric details. etc.
 
-    #### Map
+    ### Map
 
       - orientation - orthogonal, hexagonal, isometric, staggered. currently we only have orhtogonal to work on.
       - renderorder - rendering order of the tiles. right-down, right-up etc. currently only supported for orthogonal maps.
@@ -1454,15 +1454,98 @@ _Issue_ - no object other than the game can currently issue new events. change i
 
       this can contain max 1 property section, and any number of tileset, layer, objectgroup, imagelayer, group, editorsettings.
 
-    #### editorsettigns
-      
-      - chunksize - the chunksize for infinite maps default to 16. contains the width and the height of the chunks
-      - export - details about last exported file and the format of ot.
+      #### editorsettigns
+        
+        - chunksize - the chunksize for infinite maps default to 16. contains the width and the height of the chunks
+        - export - details about last exported file and the format of ot.
 
-      these are generally not needed for reading a map, conatins editor specific settings.
+        these are generally not needed for reading a map, conatins editor specific settings.
 
-    #### tileset
+      #### tileset
 
-      - 
+        - firstgid - so every tile is marked by a gid which tells the tilemap which tile go at a spot. so even if there are multiple tilemaps the gids allocated to them is in order. so once a tileset gid are allocated the next one will continue with next gid instead of starting at 1 again. so it can basically be considered that it is a continuous tileset where the gid are continuous but the texture files have been split. so this tells us what the gid of the first tile in this tileset is. so we can find the right tileset when needed to from the tilemap.
+        - source - basically the texture being used as a tileset. if it is another tiled file then this will point to that. we cahn simply have this point to the texture handle as needed. since the texture will be loaded using the resource loader.
+        - name - a name for this tileset. although i dont find any need to do this. could be usefull. but cant find any reason as of now. so pretty useless for now.
+        - tilewidth - the maximum width of the tiles in the tileset. we are just gonna have uniform tile sizes for all the tiles in the tilemap.
+        - tileheight - same as above but for height.
+        - spacing - the amount of space in the tileset between the tiles. could be due to that the tilemap was made with some spacing to distinguish the tiles or so. but we wont be using it. we will require the tileset to not have any spacing in between them as i consider it as a waste for the texture size.
+        - margin - the same as above but for margins. this too will be useless. this and the previous properties are good as they allow the tiled editor to automatically detect the tiles properly if there are any spacing or margins between them. but if we dont allow any spacing or such then we will force them to modify the texture file to fit. if we took the spacing and sch into consideration this will allow them to use the tilemap as needed without any issues. but we are going to force them to remove the spacings or so. since i feel it is just a waste of gfx memory to have it loaded. the lesser the space needed the better. so let them have it modified. i think we can use the tiled itself to create the tilesets as needed. 
+        - columns - the number of columns in the tileset. it could be usefull when trying to find the correct tile to render. but then i think wont we need a count of rows as well. since it has not been specified, we could add it as we see fit.
+        - objectalignment - controls the aligment of tile objects. i have no idea what this is so probs gonna ignore it.
+
+        for all intents and purposes this reference to our tiles texture files. so basically the details of what all texture files for the tiles are used, how many, the dimesions and such details are specified in this section.
+        so we can know the number of textures used in this tileset from this section.
+
+        can contain at most 1 tileoffset, image, grid, properties, terraintypes, wangsets
+
+        ##### tileoffset
+
+          - x, y - offset to be applied when drawing a tile.
+
+        ##### grid
+          this is only used for isometric shit. so ignoring for now.
+
+        ##### image
+          this contains the actual texture file details such as its path, the supported file type etc
+          - format, source, transparency color(like magenta or shit that used to be before alpha images), width, height
+
+        ##### terraintypes
+          contains different types of terrains that can be obtained from the tiles terrain attribute. terrain is prbably that automatic drawing of edges and shit for continuos crap. but we dont need to worry about it since once the tiles are exported terrain or not every tile id will be obtained, so simply drqaw as usual. i dont think knowing the terrain details other than for any other code or trigger kind of purposes has any use in rendering the actual tilemap.
+
+        ##### tile
+          this contains the actual details of a tile in a tilemap.
+          - id, type such as object or what not, terrain if it is the represting tile of a terrain tile, some probablity shit.
+          can contain some shit within like image , property, animation
+          we dont need to actually worry about it for now. the animation will also be defined in another place as animation is loaded by the loader and is not part of a tilemap. 
+
+        ignoring everything about wangsets as i have no idea about it.
+
+        ##### layer
+
+          - id, name, x y coords probably to set offset of layer from another. mostly not needed i guess,width height pretty much duplication of above data of map, visible or not which i think is useless as controlling of visibility will be from code and not reliant on the data of the tilemap, offsetx offsety whaaa. no make sense. but whatever. 
+
+        ##### data
+          contains the actual data of tiles in the tilemap
+          - encoding, compression. pretty self explanatory.
+
+          the highest 3 bits store the flipping infor for a tile. check the exmaple in the doc to know how to parse it.
+
+        ##### object group
+          contains different object shapes and their properties.
+          You generally use objects to add custom information to your tile map, such as spawn points, warps, exits, etc.
+          so there can be things like points, or regions of interests, like trigger region or spawn point.
+          it can also define collision areas. but since some collision may need more fine grained collision detection that AABB so we may need to hold back on this aspect for a while until the details of the collision and spawn point and such information is understood better
+          since objects help us define custom properties we cant really automate that part of it. so we will need to think of some other way to be able to handle those aspects too
+          it can contain many different shapes of objects within it. for more info on the objects check the docs.
+
+    - so this is basically the bulk of the actually needed info on tiled that we may be interested in. there are other shit too but i dont consider them to be that important to us currently
+    - so we are gonna ignore some of the information in the tiled map file.
+    - there is also the issue of having custom properties for tiles which may be needed but since it is custom i dont really know how to best handle. 
+    - since what we are trying to do now is to automate quite a bit of the common gruelling work of rendering and other game enginey stuff. 
+    - so the custom properties cant really be automated. if the custom properties define whether the rendering should be affected then that is even more of a problem if it is not a standard change to the rendering like simply having the feature to flip a tile or so.like maybe draw a specific tile scaled to 2 for eg. that eg is very rare but whatever.
+    - so first answer to consider is whether we should even allow the addition o9f custom properties. next if we are going to add custom properties how are we going to give the dev access to it and if the property is to affect the rendering then we cannot handle it. so then what should we do at that time
+    - the rendering itself is a great issue which means if rendering is to be affected then we will have to hand over the control of rendering to dev. but that is exactly what we are trying to avoid.
+    - so we wont allow the dev to gain control of rendering, so any tile needed to modify rendering will have to be a standard rendering change like tile flipping which will be implemented into the rendering system of the tilemap.
+    - so basically any properties that may be related to rendering is off limits.
+    - so now what other kinds of properties would they want. i cant currently think of anything. so we will leave custom properties out of it for now.
+    - the only custom properties that would need are the ones that may be related to objects points regions and such. since those need to be accessed by code to do stuff.
+    - object layers may be drawn. but i dont think they will always be draw stuff. they are more coding related. like collision box. so for that aspect we may need to devise an entirely new mehtod, or if we use that method we will need to expose it probably via a resource or something. which i do not know as of now. 
+    - so we will assume for the time being that tilemaps will only contain the tiledata that will need to be rendered on to the screen and will not have any information that will need to do or help additional calculation such as collision or such. any other information that it uses will be for purely redering purposes.
+    - for eg we could have custom property on a layer which sayas that its parallax speed is gonna be x so a parallax effect takes place. hmmmmm.. this is very confuising. since that is coding aspect but since the layer is automatically created we have no access to it with code too. dammmnn... what a bind.
+    - also there is the issue of tile culling so that entire tilemap is rendered even if it is outside the regions of camera. 
+    - i dont see a good way with the current system. we might have to pass in a camera or view object to restrict its rendering array, so onyl the required vertecews are rendered. other than that this we can forget about for the time being. this is not a major concern as of now.
+    - the major concern is the custom propertieds section.
+    - so we may need to create a new layer class and be abkle to set some properties on it like the offset it is drawn at and all. then we can simply have a controller object chenge the ofset speed and any other properties. 
+    - or we could even make the layer object updateable as needed if needed.
+    - daammnn. now this is a problem. i have arrived at making the updatable layer updateable. shit.
+    - ohhhh. what will i do for custom properties ...... hheeelppppp. shit. this engine may have very well reached a roadblock or i just cant think of a solution for it currently.
+
+        
+        
+           
+
+
+
+
       
 
