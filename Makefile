@@ -7,12 +7,12 @@ LIBEXEC			:= libte.a
 
 # debug or release
 COMPILE_ENV	:= debug
-BIN		:= bin\$(COMPILE_ENV)
+BIN		:= bin/$(COMPILE_ENV)
 INCLUDE		:= include
-LIB		:= lib\$(COMPILE_ENV)
+LIB		:= lib/$(COMPILE_ENV)
 SRC		:= src
 SRCS		:= $(wildcard $(SRC)/*.cpp)
-OBJ		:= obj\$(COMPILE_ENV)
+OBJ		:= obj/$(COMPILE_ENV)
 OBJS		:= $(addprefix $(OBJ)/, $(notdir $(SRCS:.cpp=.o)))
 
 ifeq ($(COMPILE_ENV),debug)
@@ -35,7 +35,7 @@ all: dirwin $(BIN)/$(EXECUTABLE)
 else
 MKDIR_P 		:= mkdir -p
 MODE_FLAG 	+= -Ddebug\(x\)='do{if(_DEBUG_)std::cerr<<"\n"<<__FILE__<<":"<<__LINE__<<":"<<__func__<<": "<<x<<"\n";}while(false)'
-LIBRARIES	:= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+LIBRARIES	:= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -lteldr
 EXECUTABLE	:= main
 all: dirlinux $(BIN)/$(EXECUTABLE)
 endif
@@ -54,10 +54,10 @@ dirwin:
 	${MKDIR_P} obj\release 
 
 clean:
-	$(RM) .\$(BIN)\$(EXECUTABLE)
-	$(RM) .\$(BIN)\$(LIBEXEC)
-	$(RM) .\$(OBJ)\*.o
-	$(RM) .\$(INCLUDE)\*.gch
+	$(RM) ./$(BIN)/$(EXECUTABLE)
+	$(RM) ./$(BIN)/$(LIBEXEC)
+	$(RM) ./$(OBJ)/*.o
+	$(RM) ./$(INCLUDE)/*.gch
 
 run: all
 	cd $(BIN)  &&  $(EXECUTABLE)
