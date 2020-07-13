@@ -1548,6 +1548,16 @@ _Issue_ - no object other than the game can currently issue new events. change i
 
     - ok for the tileset information we can look at the tileset info in tiled and how they might be used. 
            
+  - ok i have thought up on how the tileset class is going to look like.
+  - 1 it will have 2 constructors.
+  - 1st one will take teture handle, region, and the tilesizes.
+  - this will then calculate the verteces that will fall with that range and will be stored in an array
+  - the 2nd will take in the texture handle and will also take in an array of rects for the verteces that will be free form defined.
+  - and then it will be stored in the same array
+  - the 2nd methos is simpler to implement as it is a simple copy to the built in array with just some constrain checks.
+  - this will force that the mixing of these two sections will not be possible. one will be of free form and the other type will be region defined.
+  - i dont think separating the two of them is that much of a problem.
+  - so now lets get onto defining the tileset class. 
 
 
 

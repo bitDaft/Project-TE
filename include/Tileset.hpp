@@ -1,15 +1,14 @@
 #ifndef TILESET_HPP
 #define TILESET_HPP
 
-#include<SFML/System/Vector2.hpp>
+#include <SFML/System/Vector2.hpp>
 
 class Tileset
 {
 public:
-Tileset();
+    Tileset();
 
 private:
-
 };
 
 #endif
