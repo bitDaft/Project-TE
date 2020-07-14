@@ -18,14 +18,17 @@ public:
   bool saveToFile(const char *);
 
   bool addTexture(TextureModel *);
+  bool addTileset(TilesetModel *);
   bool addAnimation(AnimationModel *);
   bool addLoader(LoaderModel *);
 
   const std::vector<TextureModel *> &getTexture();
+  const std::vector<TilesetModel *> &getTileset();
   const std::vector<AnimationModel *> &getAnimation();
   const std::vector<LoaderModel *> &getLoader();
 
   bool removeTexture(const int);
+  bool removeTileset(const int);
   bool removeAnimation(const int);
   bool removeLoader(const int);
 
@@ -34,6 +37,7 @@ public:
 private:
   void clearData();
   std::vector<TextureModel *> textures;
+  std::vector<TilesetModel *> tilesets;
   std::vector<AnimationModel *> animations;
   std::vector<LoaderModel *> loaders;
 };

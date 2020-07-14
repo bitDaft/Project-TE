@@ -24,5 +24,14 @@ struct LoaderModel
   int handle;
   std::string path;
 };
+struct TilesetModel
+{
+  int handle;
+  int texHandle;
+  bool regionBased;
+  sf::IntRect region;
+  sf::Vector2i tileSize;
+  std::vector<sf::IntRect *> tiles;
+};
 
 #endif
