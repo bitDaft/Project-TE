@@ -6,15 +6,23 @@
 
 #include "ResourceManager.hpp"
 
-Tileset::Tileset(int texHandle, std::vector<sf::IntRect> rects)
+// Tileset::Tileset(const int texHandle, const std::vector<sf::IntRect *> &tiles)
+Tileset::Tileset(const std::vector<sf::IntRect *> &tiles)
 {
-    for (sf::IntRect &rect : rects)
+    // TODO : firgure out whether we need the texture to limit the tiles dimensions
+    // sf::Vector2u texSize = ResourceManager::getTexture(texHandle).getSize();
+    for (auto &tile : tiles)
     {
-        coords.push_back(new sf::IntRect(rect));
+        // if (tile->left < 0 || tile->top < 0 || tile->left + tile->width > texSize.x || tile->top + tile->height > texSize.y)
+        // {
+        //     coords.clear();
+        //     return;
+        // }
+        tiles.push_back(new sf::IntRect(*tile));
     }
 }
 
-Tileset::Tileset(int texHandle, sf::IntRect region, sf::Vector2i tileSize)
+Tileset::Tileset(const int texHandle, sf::IntRect &region, const sf::Vector2i &tileSize)
 {
     sf::Vector2u texSize = ResourceManager::getTexture(texHandle).getSize();
 
@@ -38,21 +46,21 @@ Tileset::Tileset(int texHandle, sf::IntRect region, sf::Vector2i tileSize)
         {
             position.x = region.+ (tileSize.x * i);
             position.y = region.top + (tileSize.y * j);
-            coords.push_back(new sf::IntRect(position, tileSize));
+            tiles.push_back(new sf::IntRect(position, tileSize));
         }
     }
 }
 
 Tileset::~Tileset()
 {
-    for (sf::IntRect *item : coords)
+    for (sf::IntRect *&item : tiles)
     {
         delete item;
     }
-    coords.clear();
+    tiles.clear();
 }
 
 const sf::IntRect &Tileset::getTileCoords(const int tileId) const
 {
-    return *(coords.at(tileId));
+    return *(tiles.at(tileId));
 }

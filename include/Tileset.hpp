@@ -9,15 +9,15 @@
 class Tileset
 {
 public:
-    Tileset(int texHandle, std::vector<sf::IntRect> rects);
-    Tileset(int texHandle, sf::IntRect region, sf::Vector2f tileSize);
+    Tileset(const std::vector<sf::IntRect *> &tiles);
+    Tileset(const int texHandle, sf::IntRect &region, const sf::Vector2i &tileSize);
 
     virtual ~Tileset();
 
     const sf::IntRect &getTileCoords(const int tileId) const;
 
 private:
-    std::vector<sf::IntRect *> coords;
+    std::vector<sf::IntRect *> tiles;
 };
 
 #endif
