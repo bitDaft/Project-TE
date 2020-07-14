@@ -1557,7 +1557,12 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - the 2nd methos is simpler to implement as it is a simple copy to the built in array with just some constrain checks.
   - this will force that the mixing of these two sections will not be possible. one will be of free form and the other type will be region defined.
   - i dont think separating the two of them is that much of a problem.
-  - so now lets get onto defining the tileset class. 
+  - so now lets get onto defining the tileset class.
+  
+  - the tileset class has been defined.
+  - now lets see how we cam implement this in the loader file.
+  - for the loader file we will need to create a new struct with the data to be passed in the constructor.
+  - lets go to the TE-loader and define this new resource and integrate it into this.
 
 
 
