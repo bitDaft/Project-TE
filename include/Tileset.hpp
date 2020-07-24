@@ -9,6 +9,7 @@
 class Tileset
 {
 public:
+    // TODO : check why making this const is an error -fpermissive
     Tileset(const std::vector<sf::IntRect *> &tiles);
     Tileset(const int texHandle, sf::IntRect &region, const sf::Vector2i &tileSize);
 

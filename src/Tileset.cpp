@@ -6,12 +6,11 @@
 
 #include "ResourceManager.hpp"
 
-// Tileset::Tileset(const int texHandle, const std::vector<sf::IntRect *> &tiles)
-Tileset::Tileset(const std::vector<sf::IntRect *> &tiles)
+Tileset::Tileset(const std::vector<sf::IntRect *> &newTiles)
 {
     // TODO : firgure out whether we need the texture to limit the tiles dimensions
     // sf::Vector2u texSize = ResourceManager::getTexture(texHandle).getSize();
-    for (auto &tile : tiles)
+    for (auto &tile : newTiles)
     {
         // if (tile->left < 0 || tile->top < 0 || tile->left + tile->width > texSize.x || tile->top + tile->height > texSize.y)
         // {
@@ -30,10 +29,10 @@ Tileset::Tileset(const int texHandle, sf::IntRect &region, const sf::Vector2i &t
         region.left = 0;
     if (region.top < 0)
         region.top = 0;
-    if (region.width < 0 || (region.width + region.left) > texSize.x)
+    if (region.width < 0 || (region.width + region.left) > static_cast<int>(texSize.x))
         region.width = texSize.x - region.left;
     if (region.height < 0 ||
-        (region.height + region.top) > texSize.y)
+        (region.height + region.top) > static_cast<int>(texSize.y))
         region.height = texSize.y - region.top;
 
     const int columns = region.width / tileSize.x;
@@ -44,7 +43,7 @@ Tileset::Tileset(const int texHandle, sf::IntRect &region, const sf::Vector2i &t
     {
         for (int j = 0; j < columns; j++)
         {
-            position.x = region.+ (tileSize.x * i);
+            position.x = region.left + (tileSize.x * i);
             position.y = region.top + (tileSize.y * j);
             tiles.push_back(new sf::IntRect(position, tileSize));
         }
