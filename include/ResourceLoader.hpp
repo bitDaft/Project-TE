@@ -12,6 +12,7 @@
 class ResourceLoader
 {
 public:
+  ResourceLoader();
   ResourceLoader(const char *);
   virtual ~ResourceLoader();
 

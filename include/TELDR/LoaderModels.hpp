@@ -17,6 +17,8 @@ struct AnimationModel
 {
   int handle;
   int texHandle;
+  bool tileBased;
+  std::vector<int> tileids;
   std::vector<sf::IntRect *> frames;
 };
 struct LoaderModel

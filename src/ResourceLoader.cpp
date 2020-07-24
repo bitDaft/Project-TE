@@ -10,6 +10,10 @@
 #include <cstring>
 #include <fstream>
 
+ResourceLoader::ResourceLoader()
+    : ldr(new Loader())
+{
+}
 ResourceLoader::ResourceLoader(const char *path)
     : ldr(new Loader())
 {
@@ -32,9 +36,36 @@ void ResourceLoader::load()
   {
     ResourceManager::loadTextureFromFile(texture->handle, texture->path.c_str());
   }
+  for (auto &tileset : ldr->getTileset())
+  {
+    if (tileset->regionBased)
+    {
+      ResourceManager::loadTileset(tileset->handle, tileset->texHandle, tileset->region, tileset->tileSize);
+    }
+    else
+    {
+      ResourceManager::loadTileset(tileset->handle, tileset->tiles);
+    }
+  }
   for (auto &animation : ldr->getAnimation())
   {
-    ResourceManager::loadAnimation(animation->handle, animation->texHandle, animation->frames);
+    if (animation->tileBased)
+    {
+      // TODO : loop through the tilemap and find the rects for it
+      // TODO : add tileid to animation struct
+      // std::vector<sf::IntRect *> tiles;
+      // Tileset ts = ResourceManager::getTileset(animation->tileid); // !this field does not exist as of now in AnimationModel nor is it saved to ldr file.
+      // for (auto &i : animation->tileids)
+      // {
+      //   const sf::IntRect &tile = ts.getTileCoords(i);
+      //   tiles.push_back(new sf::IntRect(tile.left, tile.top, tile.width, tile.height));
+      // }
+      // ResourceManager::loadAnimation(animation->handle, animation->texHandle, tiles);
+    }
+    else
+    {
+      ResourceManager::loadAnimation(animation->handle, animation->texHandle, animation->frames);
+    }
   }
   for (auto &loader : ldr->getLoader())
   {
