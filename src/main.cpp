@@ -105,6 +105,7 @@ private:
 public:
 	sf::Vector2f plVelocity;
 	AnimatedSprite test;
+	sf::Sprite test2;
 	sf::Sprite sheet;
 	sf::Time ttime;
 	~TestPlayer()
@@ -127,8 +128,12 @@ public:
 	void setAnimation(Animation &anim)
 	{
 		test.setAnimation(anim);
+		// test.setAnimation(ResourceManager::getAnimation(1));
 		test.setAnimationTime(sf::seconds(1.f));
 		test.setScale(2.f, 2.f);
+		// test.setPosition(0.f, 0.f);
+		// test2.setTexture(ResourceManager::getTexture(1));
+		// test2.setPosition(0, 0);
 	}
 	void settexture(sf::Texture &tex)
 	{
@@ -177,6 +182,7 @@ public:
 		// we dont really want a draw here
 		// what we want is to send the vertices so that they may all be drawn at the same time
 		tex.draw(test);
+		// tex.draw(test2);
 		// tex.draw(player);
 	}
 };
@@ -271,10 +277,18 @@ public:
 
 	void init()
 	{
-		ResourceLoader rs("./boot.teldr");
-		rs.load();
-		ResourceManager::getLoader(1).load();
-
+		ResourceLoader rs;
+		bool t = rs.loadFile("./boot.teldr");
+		if (t)
+		{
+			rs.load();
+			ResourceManager::getLoader(1).load();
+			auto t1 = ResourceManager::getAnimation(1);
+		}
+		else
+		{
+			std::cout << "failed loading boot file";
+		}
 		pl2.setAnimation(ResourceManager::getAnimation(1));
 
 		_reactionMapper->bindActionToReaction<&Test::mld>(Actions::MOUSE_LEFT);
