@@ -15,6 +15,7 @@
 
 std::unordered_map<int, ResourceManager::_texPtr> ResourceManager::_resourceMap;
 std::unordered_map<int, Animation *> ResourceManager::_animMap;
+std::unordered_map<int, Tileset *> ResourceManager::_tilesetMap;
 std::unordered_map<int, ResourceLoader *> ResourceManager::_loaderMap;
 
 ResourceManager::ResourceManager()
@@ -27,6 +28,7 @@ ResourceManager::~ResourceManager()
 void ResourceManager::init()
 {
     ResourceManager::_resourceMap.reserve(30);
+    ResourceManager::_tilesetMap.reserve(30);
     ResourceManager::_animMap.reserve(30);
     ResourceManager::_loaderMap.reserve(30);
 }
@@ -79,25 +81,25 @@ void ResourceManager::unloadAnimation(const int handle)
     delete ResourceManager::_animMap.at(handle);
     ResourceManager::_animMap.erase(handle);
 }
-static Tileset &ResourceManager::getTileset(const int handle)
+Tileset &ResourceManager::getTileset(const int handle)
 {
     return *ResourceManager::_tilesetMap.at(handle);
 }
-static bool ResourceManager::loadTileset(const int handle, const std::vector<sf::IntRect *> &tiles)
+bool ResourceManager::loadTileset(const int handle, const std::vector<sf::IntRect *> &tiles)
 {
     const auto status = ResourceManager::_tilesetMap.emplace(handle, new Tileset(tiles));
     assert(status.second);
     return status.second;
 }
-static bool ResourceManager::loadTileset(const int handle, const int texHandle, sf::IntRect &region, const sf::Vector2i &tileSize)
+bool ResourceManager::loadTileset(const int handle, const int texHandle, sf::IntRect &region, const sf::Vector2i &tileSize)
 {
     const auto status = ResourceManager::_tilesetMap.emplace(handle, new Tileset(texHandle, region, tileSize));
     assert(status.second);
     return status.second;
 }
-static void ResourceManager::unloadTileset(const int handle)
+void ResourceManager::unloadTileset(const int handle)
 {
-    delete ResourceManager::_tilesetMap(handle);
+    delete ResourceManager::_tilesetMap.at(handle);
     ResourceManager::_tilesetMap.erase(handle);
 }
 
