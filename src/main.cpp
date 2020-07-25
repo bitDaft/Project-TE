@@ -340,7 +340,7 @@ public:
 
 int main()
 {
-	Game *testGame = new Test(480, 320, "Hello, World!");
+	Game *testGame = new Test(480, 320, "Untitled 1");
 	testGame->run();
 
 	return 0;
