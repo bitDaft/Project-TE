@@ -36,6 +36,7 @@ public:
 
     static Animation &getAnimation(const int);
     static bool loadAnimation(const int, const int, const std::vector<sf::IntRect *> &);
+    static bool loadAnimation(const int, const int, const int, const std::vector<int> &);
     static void unloadAnimation(const int);
 
     static Tileset &getTileset(const int);

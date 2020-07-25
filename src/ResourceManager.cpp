@@ -76,6 +76,21 @@ bool ResourceManager::loadAnimation(const int handle, const int texHandle, const
     assert(status.second);
     return status.second;
 }
+bool ResourceManager::loadAnimation(const int handle, const int texHandle, const int tilesetHandle, const std::vector<int> &tiles)
+{
+    Animation *animation = new Animation();
+    animation->setTexture(ResourceManager::getTexture(texHandle));
+    Tileset ts = ResourceManager::getTileset(tilesetHandle);
+    for (auto &i : tiles)
+    {
+        // const sf::IntRect &tile = ts.getTileCoords(i);
+        // animation->addFrame(new sf::IntRect(tile.left, tile.top, tile.width, tile.height));
+        animation->addFrame(new sf::IntRect(ts.getTileCoords(i)));
+    }
+    const auto status = ResourceManager::_animMap.emplace(handle, animation);
+    assert(status.second);
+    return status.second;
+}
 void ResourceManager::unloadAnimation(const int handle)
 {
     delete ResourceManager::_animMap.at(handle);
