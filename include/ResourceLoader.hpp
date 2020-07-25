@@ -7,8 +7,6 @@
 
 #include <TELDR/Loader.hpp>
 
-#include "LoaderModels.hpp"
-
 class ResourceLoader
 {
 public:
