@@ -23,6 +23,13 @@ Tileset::Tileset(const std::vector<sf::IntRect *> &newTiles)
 
 Tileset::Tileset(const int texHandle, sf::IntRect &region, const sf::Vector2i &tileSize)
 {
+    // ? Should the regions be bound by the texture.
+    // ? or should we just accept that as the region
+    // ^ since tilesets are basically useless on their own and their only purpose is to get the intrect
+    // ^ which will then be used as texture coordinates
+    // ^ but while the actual drawing we can just use any old texture as needed by passing that in
+    // ^ so i wonder whether tying it down to textures has any merit and why not just let it be its own regions?
+    // *for now we will leave it as it is and see if it actually works or not
     sf::Vector2u texSize = ResourceManager::getTexture(texHandle).getSize();
 
     if (region.left < 0)
@@ -43,8 +50,8 @@ Tileset::Tileset(const int texHandle, sf::IntRect &region, const sf::Vector2i &t
     {
         for (int j = 0; j < columns; j++)
         {
-            position.x = region.left + (tileSize.x * i);
-            position.y = region.top + (tileSize.y * j);
+            position.x = region.left + (tileSize.x * j);
+            position.y = region.top + (tileSize.y * i);
             tiles.push_back(new sf::IntRect(position, tileSize));
         }
     }

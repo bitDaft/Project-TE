@@ -85,7 +85,8 @@ bool ResourceManager::loadAnimation(const int handle, const int texHandle, const
     {
         // const sf::IntRect &tile = ts.getTileCoords(i);
         // animation->addFrame(new sf::IntRect(tile.left, tile.top, tile.width, tile.height));
-        animation->addFrame(new sf::IntRect(ts.getTileCoords(i)));
+        assert(i > 0 && "tileid for loading is less than 1");
+        animation->addFrame(new sf::IntRect(ts.getTileCoords(i - 1)));
     }
     const auto status = ResourceManager::_animMap.emplace(handle, animation);
     assert(status.second);
