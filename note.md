@@ -1564,6 +1564,91 @@ _Issue_ - no object other than the game can currently issue new events. change i
   - for the loader file we will need to create a new struct with the data to be passed in the constructor.
   - lets go to the TE-loader and define this new resource and integrate it into this.
 
+  - ok the tileset functionality has been added
+  - the animation kloader also has been integrated into using tilesets. also a new loader function for loading animation with tilesets has been added.
+  - now lets go back and read what needs to be done.u 
+
+  - ok let me just try to recap what we are trying to do here.
+  - we are trying to make a tilemap .
+  - so we need to be able to render the tilemaps
+  - some of the features that we are looking for are layers, multiple textures and animations in a tilemap.
+  - so these are the main features that we are trying to get.
+  - let see what all issue has been listed out before for each of these.
+
+  - for the animated tiles we are going to store the tileid (gid) and the animation handle along with the time for the animation of the tile. (3 params)
+  - and then there will be the same data for each of the different animation tiles that are being used.
+  - so basically for these we will have an array of these data structure
+  - so this is how we are going to store the data for the animated tiles.
+
+  - for the layers we are basically going to store the tileids in an array, the tile ids can have ids from multiple textures.
+  - this is how we are going to store the gid for every tile for every layer. then we are going to have an array of these layers in order to be able to render in order of the array.
+  - this is how the layers are going to be stored in the texture file
+
+  - so we will also need to define the textures that are going to be used and the starting gids for each of the tiles.  
+  - so for each texture file that is being used will be stored in an array.
+  - we will store for the texture we will store the starting tileid for each texture.
+  - hmm. this will break since we use tilesets but for textures we can have multiple tilesets for a single textures. so there can be issues there.
+  - for this we can also store the handle ids for the tilesets too. then we will store the starting gid. so then the tile ids will be offset from that starting id plus the length of the tiles in the previous tilesets length.
+  - but lets take the texture files too. in tiled the entire tileset texture will have a tileset spanning the entire. 
+  - so either we can have the tilesets created separately and loaded, and then we refer to that or we can it embedded in the tilemap file.
+  - but writing it in the tilemap itself is shit. but the gids put in the tilemaps probably refers to the entire texture as a tileset.
+  - nah we are going to have separate tileset made and then loaded into the resourcemanager. then it will be references in the tilemap just like animation.
+  - if we want to have an entire texture tileset we will have to make a separate one for it.
+  - so for tilemaps let it will probably an texture tileset. so we will just make an entire tileset.
+  - and for any other purpose we can the tinier tilesets as needed.
+  - so we will not store the tileset in the tilemap file itself. 
+
+```xml
+  <tilemap-animations>
+    <animation>
+      <gid>1</gid>
+      <animation-handle>5</animation-handle>
+      <animation-time>1</animation-time>
+      <!-- instead of writing the texture data we will have it be looped and auto figure out which texture it is by the gid -->
+      <!-- ok we will not need to generate this data since animation has reference to the texture and the coords for the animation. -->
+      <!-- so basically the gid only has use to show where the animated sprite will be drawn in the tiledata -->
+      <!-- yep. so this section needs no changes. this will work on its own -->
+      <!-- this is just to represent the data, in actuality this data will be taken to create the tile animation map object for reference holding of animated sprites -->
+    </animation>
+    <animation>
+      <gid>2</gid>
+      <animation-handle>3</animation-handle>
+      <animation-time>1</animation-time>
+    </animation>
+    .
+    .
+    .
+  </tilemap-animations>
+  <tiledata>
+    <layer>
+      asdasdadsaqd3d3qrqr3qedf==
+    </layer>
+    <layer>
+      adq3a3d3dwqd=
+    </layer>
+    .
+    .
+    .
+  </tiledata>
+  <tilemap-textures>
+    <texture>
+      <texture-handle>1</texture-handle>
+      <tileset-handle>5</tileset-handle>
+      <tileset-handle>6</tileset-handle>
+      <!-- instead of writing the writing the starting gid we will auto gen it in the lib by loading the tileset and finding the length and the previous starting gid -->
+      <!-- so these gen part will be done in the game engine instead of the actual lib since the lib wont be able to load these and find the length -->
+    </texture>
+    <texture>
+      <texture-handle>3</texture-handle>
+      <tileset-handle>12</tileset-handle>
+    </texture>
+  </tilemap-textures>
+  <!-- for all the gened data a field should be present to add that value to it -->
+```
+
+  - hmm but making it have the fields is basically coupling both the libs together
+
+
 
 
 
