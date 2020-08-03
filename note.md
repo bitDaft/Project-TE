@@ -1621,10 +1621,17 @@ _Issue_ - no object other than the game can currently issue new events. change i
   </tilemap-animations>
   <tiledata>
     <layer>
-      asdasdadsaqd3d3qrqr3qedf==
+      <texture>0</texture>
+      <texture>1</texture>
+      <data>
+        asdasdadsaqd3d3qrqr3qedf==
+      </data>
     </layer>
     <layer>
-      adq3a3d3dwqd=
+      <texture>1</texture>
+      <data>
+        asdasdadsaqd3d3qrqr3qedf==
+      </data>
     </layer>
     .
     .
@@ -1632,21 +1639,129 @@ _Issue_ - no object other than the game can currently issue new events. change i
   </tiledata>
   <tilemap-textures>
     <texture>
-      <texture-handle>1</texture-handle>
-      <tileset-handle>5</tileset-handle>
-      <tileset-handle>6</tileset-handle>
+      <texture-handle>1
+        <starting-gid>0</starting-gid>
+        <length>12</length>
+      </texture-handle>
+      <tileset-handle>5
+        <starting-gid>0</starting-gid>
+        <length>12</length>
+      </tileset-handle>
+      <tileset-handle>6...</tileset-handle>
       <!-- instead of writing the writing the starting gid we will auto gen it in the lib by loading the tileset and finding the length and the previous starting gid -->
       <!-- so these gen part will be done in the game engine instead of the actual lib since the lib wont be able to load these and find the length -->
     </texture>
     <texture>
-      <texture-handle>3</texture-handle>
-      <tileset-handle>12</tileset-handle>
+      <texture-handle>3
+        <starting-gid>12</starting-gid>
+        <length>26</length>
+      </texture-handle>
+      <tileset-handle>12...</tileset-handle>
     </texture>
   </tilemap-textures>
   <!-- for all the gened data a field should be present to add that value to it -->
 ```
 
   - hmm but making it have the fields is basically coupling both the libs together
+
+  - ok now that we have defined the basic data that will be stored in the tilemap file, lets see how it going to be actually used in the engine itself
+  - i have given it some thought and i think i have a good working of it.
+
+  - on the load function first it will create a temp map of the tilegid and the animation references.
+
+  - it will loop through all the layers first
+  - for every layer it will loop through all the textures
+  - for each texture used in that layer we will create a new tilemap object.
+  - then we will loop through the data
+  - for each data then we will first check if is part of the current texture looping using the tilegid then calculate the position vertex for it
+  - now we need to get the texure verteces for it.
+  - so we will check if the gid is in the temp animation map created earlier
+  - is it is in the map then we should get the verteces for the current animation frame
+  - if it not an animation we cal call the tileset and then get the coords from the respective tileset found using the tileid
+  - we will also need a controller object to be created so that the stored animation can be updated first before all together.
+
+  - we have a problem with the calculation of gids since we do not know for that layer whether the textures are starting from 0
+  - so that becomes a problem
+  - we should instead have to store the starting gid and the length of the tilesets in the tilemap file. but it cannot be done since the tilemap file has no access to the tileset or any knowledge about it
+  - so should we probably leave a field for it in the tilemap file itself so we can loop through all the textures and calculate the tilegids and store it back into the tilemap file.
+  - this is the same issue as coupling of the libs. but without knowing the tileset starting gid we cannot be sure of the starting tileid.
+  - damn. shit. what do we do now.
+  - now that i think about it this file format is only useful for my engine and it will not be used by other engines
+  - if it was to be used by other engines then they will also need to implment this starting information that will be needed to be calculated.
+  - so we can just use it without any problems and continue with it.
+
+  - now that i think about it creating utility programs for this separately would be a pain as it is interdependant. 
+  - but if we create a program which manages all of these together like including tilemap and the loader shit then all would have all the information necessary and there will be no issues.
+  - so the only way to make utility for this is to use all of this together. as when making tilemaps we will need to define the textures and the tilesets also.
+  - but if we make the same functionality in that program separate from the loader then there could be conflict as it may not match, so it will always need to be exact
+  - but if we create the tilemap along with the loader then all the utilities needed can be made in a single program which will not only make the tilemap but also allow us to structure the loader file also.
+  - so it will a all in one utility for creating the resources need for my game engine and also i can use them all together without causing any conflicts.
+  - since they will all be in a single app then the tilemap will have access to the tilesets that being used and can also calculate the starting and the ending gids and all that good stuff automatically and store that info on the tilemap
+  - then the extra calculation in the engine will not be needed as it will already be defined in the tilemap file
+  - and the tilemap file can be loaded independantly.
+  - but this also poses the problem that we will not be able to create tilemaps without knowing the limits of the tilesets.
+  - so those that do not want to rely on these and only use the base features will have problems then.
+  - shit. what do we do now.
+
+  - ok, there is not much way out of this other than combining it but not combining the libraries and still get the gids.
+  - so the onyl way is to allow the manual definitions of gids in the tilemap file.
+  - the only issue that appears here is of that of consistency, that is if the numbering is not correct the drawing will be screwed. but if the data is mentioned properly then there is no issue.
+  - now that i think about it these resources are not automatically created, but it has to be manually done by the programmer. so they should know how much this count will be by simply plugging these numbers into a calculator.
+  - so if they are manually defining it there is a certain risk of inconsistency if they make a mistake, but otherwise it should work correctly.
+  - once we actually make the unified utility then there will be no issues as this will be handled by the utility.
+  - so for those that want to use it separately can and for those that use the utility it will be handled.
+
+  - ok this seems like a proper working method.
+  - ok we will have to store this info actually in the tileset as each tileset may have a different number of tiles.
+  - then from this info we can calculate it for the texture as a whole. so this can be done in the tilemap lib itself.
+  - ok this method is fine and working in my head for now.
+
+  // READ FROM HERE FOR NEXT CHECK
+
+  - ok so lets go through a bit more detailed working now
+
+  - first it enters the load function
+  - it will create a controller object to manage the updations of the animation required in this tilemap file
+  - all of the controller can go on the updation layer. so it can be hard coded.
+  - then it will go through the animation and add it to the animation map in the controller.
+  - now it will loop through the layers available.
+  - for each layer it will go through it textures defined
+  - for each texture create a new tilemap object and pass in the layer id of the current looping layer, currently there is no use to making it updatable also. so we'll leave it as simply drawable.
+  - then we will go through the data in that layer.
+  - for each tileid we will figure out whether it is part of that texture by looking at the starting gid in the respective texture block
+  - if it is not in that texture this data will be skipped.
+  - if it is in this block then we will need to calculate the position vertex by using the index.
+  - then we should check whether the tileid is an animation or not, and accordingly get the textures coords.
+  - first we check whether it is a animated tile by looking into its controller and check whether the animation has already been defined. if it then it is an animated tile.
+  - if it is an animated tile then we will get the texture coords from the respective animated sprite.
+  - also we will pass the reference to the animated sprite to the tilemap to store it in an internal map so that everytime it will have to draw we will need to fetch the new coords of the animated sprite.
+  - this is an updation function so tilemap will also need to be updated. in the update function it will call the animated sprite and get their texture coords and update the respective indexes with the new texture coords.
+  - if it is not the animated tile then we will look into the tilesets in the texture block and figure out which tileset it is by the checking the starting gid and the length of the tileset.
+  - upon finding the tileset id we can query that tileset with the tileid by removing the offset of that tileid which is obtained by subtracting the tileid from the starting gid for that tileset.
+  - then we send that tileid and get the texture vertices from that tileset.
+  - once we have obtained the verteces we will then assign the texture coords to that vertex.
+  - then once this information has been added we will simply push this vertex into the vertexarray in the tilemap.
+  - now we will also pass in the texture reference to the tilemap which will be used while drawing.
+
+  - so now the tilemap has the coords for the correct positions and textures and the textures for the animated tiles will be updated in the update function of it.
+  - if there are no tiles in the tilemap which are animated tiles then we will have noupdate called .
+  - we will call the no update the constructor in the upon finding a an animated tile we will set enableupdate().
+  
+  - so now for the tilemap 
+  - it will need to store the information on the tiles that will need animation.
+  - one is the reference of the gid and the reference to the animated sprite
+  - for now we are skipping on the implementation details of the tilemap
+
+  - some new classes that will be needed
+    - we wont need animated tile controller since they are updatable they will be auto called in the updation loop
+    - we will need a new class called animatedTile to be same as animated sprite but there will be no data on transforms or drawing, it will be purely updatable. so no need for drawing methods, those can be removed. 
+    - the only thing is that it will work in the same way as animated sprite and it will have a function to return the current frames texture coords.
+    - we will need an tilemap class which will contain all the data required for drawing that tilemap with the respective texture.
+
+  - lets now focus on making the tilemap lib to load and store data.
+  - so we will have to put a hold to this one and work on the tilemap lib
+  - brefore that we will clean up the loader lib by moving the funcs needed for loading and saving into its own functions so it is more manageable.
+  
 
 
 
