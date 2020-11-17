@@ -10,12 +10,21 @@
       },
       "windows": {
         "command": "powershell",
-        "args": ["-c", "mingw32-make"]
+        "args": [
+          "-c",
+          "mingw32-make"
+        ]
       },
       "linux": {
         "command": "bash",
-        "args": ["-c", "make"]
-      }
+        "args": [
+          "-c",
+          "make"
+        ]
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
     },
     {
       "label": "build lib",
@@ -26,11 +35,17 @@
       },
       "windows": {
         "command": "powershell",
-        "args": ["-c", "mingw32-make lib"]
+        "args": [
+          "-c",
+          "mingw32-make lib"
+        ]
       },
       "linux": {
         "command": "bash",
-        "args": ["-c", "make lib"]
+        "args": [
+          "-c",
+          "make lib"
+        ]
       }
     },
     {
@@ -42,11 +57,17 @@
       },
       "windows": {
         "command": "powershell",
-        "args": ["-c", "mingw32-make run "]
+        "args": [
+          "-c",
+          "mingw32-make run "
+        ]
       },
       "linux": {
         "command": "bash",
-        "args": ["-c", "make run"]
+        "args": [
+          "-c",
+          "make run"
+        ]
       }
     },
     {
@@ -54,11 +75,17 @@
       "type": "shell",
       "windows": {
         "command": "powershell",
-        "args": ["-c", "mingw32-make clean"]
+        "args": [
+          "-c",
+          "mingw32-make clean"
+        ]
       },
       "linux": {
         "command": "bash",
-        "args": ["-c", "make clean"]
+        "args": [
+          "-c",
+          "make clean"
+        ]
       }
     }
   ]

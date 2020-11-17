@@ -4,7 +4,7 @@
 /obj/*/*
 !/obj/*/README
 !/bin/*/assets
-/.vscode
+# /.vscode
 *.o
 *.a
 *.gch

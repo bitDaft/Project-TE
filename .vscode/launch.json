@@ -11,6 +11,7 @@
             "environment": [],
             "externalConsole": false,
             "preLaunchTask": "build",
+            "program": "${workspaceFolder}/bin/debug/main",
             "linux": {
                 "miDebuggerPath": "/usr/bin/gdb",
                 "program": "${workspaceFolder}/bin/debug/main",
